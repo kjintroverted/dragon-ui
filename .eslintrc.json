@@ -10,7 +10,7 @@
     },
     "parserOptions": {
         "ecmaFeatures": {
-            "jsx": true
+            "jsx": false
         },
         "ecmaVersion": 2018,
         "sourceType": "module"
@@ -19,5 +19,6 @@
         "react"
     ],
     "rules": {
+        "react/jsx-filename-extension": false
     }
 }
