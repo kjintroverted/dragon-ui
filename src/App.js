@@ -3,6 +3,7 @@ import logo from './logo.svg';
 
 import Welcome from './components/Welcome';
 import './App.css';
+import CharacterBackground from './components/CharacterBackground';
 
 function App() {
   return (
@@ -10,6 +11,7 @@ function App() {
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         <Welcome />
+        <CharacterBackground />
       </header>
     </div>
   );
