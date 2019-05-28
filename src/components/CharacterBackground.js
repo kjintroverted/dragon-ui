@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 
 import DungeonService from '../services/dungeonService';
 
+import './CharacterBackground.css';
+
 export default class CharacterBackground extends Component {
   constructor() {
     super();
@@ -25,6 +27,7 @@ export default class CharacterBackground extends Component {
       return (
             <div className="container">
                 {this.state.characterInfo && <div className="name">{this.state.characterInfo.name}</div>}
+                {this.state.characterInfo && <div className="name">{`${this.state.characterInfo.name} test`}</div>}
             </div>
       );
     }
