@@ -18,9 +18,7 @@ export default class CharacterBackground extends Component {
 
     getCharacterInfo = async (characterId) => {
       const characterInfo = await DungeonService.getCharacter(characterId);
-      console.log(JSON.parse(characterInfo));
-      // TODO: need to figure out way to do the parsing on the service layer
-      this.setState({ characterInfo: JSON.parse(characterInfo) });
+      this.setState({ characterInfo });
     }
 
     render() {

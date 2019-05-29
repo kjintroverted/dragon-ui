@@ -7,7 +7,7 @@ const getWelcome = async () => {
 // TODO: Convert getCharacters to conditionally add the characterId
 const getCharacter = async (characterId) => {
   const result = await fetch(`/api/characters/${characterId}`);
-  return result.text();
+  return result.json();
 };
 
 const getCharacters = async () => {
