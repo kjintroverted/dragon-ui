@@ -19,7 +19,7 @@ function CharacterBackground() {
         console.error(error);
       }
     }());
-  }, []);
+  }, [characterId]);
 
   return (
       <Container>
