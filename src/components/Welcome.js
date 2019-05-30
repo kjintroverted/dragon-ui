@@ -6,7 +6,7 @@ import DungeonService from '../services/dungeonService';
 function Welcome() {
   // [Variable in State, Setter of Variable]
   // hooks are indicated by the word `use` (linter looks for use keyword)
-  const [ welcome, setWelcome ] = useState('Just a moment...');
+  const [welcome, setWelcome] = useState('Just a moment...');
 
   // Effects run immediately after render (including the first render)
   // Don't be tempted to make useEffect async console will scream at you
