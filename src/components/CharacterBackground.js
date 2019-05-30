@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
+import styled from 'styled-components';
 
 import DungeonService from '../services/dungeonService';
-
-import './CharacterBackground.css';
 
 export default class CharacterBackground extends Component {
   constructor() {
@@ -16,17 +15,24 @@ export default class CharacterBackground extends Component {
     this.getCharacterInfo(this.state.characterId);
   }
 
-    getCharacterInfo = async (characterId) => {
-      const characterInfo = await DungeonService.getCharacter(characterId);
-      this.setState({ characterInfo });
-    }
+  getCharacterInfo = async (characterId) => {
+    const characterInfo = await DungeonService.getCharacter(characterId);
+    this.setState({ characterInfo });
+  }
 
-    render() {
-      return (
-            <div className="container">
-                {this.state.characterInfo && <div className="name">{this.state.characterInfo.name}</div>}
-                {this.state.characterInfo && <div className="name">{`${this.state.characterInfo.name} test`}</div>}
-            </div>
-      );
-    }
+  render() {
+    return (
+      <Container>
+        { this.state.characterInfo && <div className="name">{ this.state.characterInfo.name }</div> }
+        { this.state.characterInfo && <div className="name">{ `${this.state.characterInfo.name} test` }</div> }
+      </Container>
+    );
+  }
 }
+
+const Container = styled.div`
+  display: flex;
+  & .name {
+    padding: 1em;
+  }
+`;
