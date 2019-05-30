@@ -1,34 +1,35 @@
-import React, { Component } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 
 import DungeonService from '../services/dungeonService';
 
-export default class CharacterBackground extends Component {
-  constructor() {
-    super();
-    // Hard Coded for quick development
-    const characterId = '6oHp62hgG0zeFPjwa8RB';
-    this.state = { characterId };
-  }
+function CharacterBackground() {
+  // Hard Coded for quick development
+  // Also linting disabled until we add a way to grab the ID
+  // eslint-disable-next-line
+  const [characterId, updateCharacterId] = useState('6oHp62hgG0zeFPjwa8RB');
+  const [characterInfo, updateCharacterInfo] = useState({});
 
-  componentWillMount() {
-    this.getCharacterInfo(this.state.characterId);
-  }
+  useEffect(() => {
+    (async function getCharacterData() {
+      try {
+        const characterData = await DungeonService.getCharacter(characterId);
+        updateCharacterInfo(characterData);
+      } catch (error) {
+        console.error(error);
+      }
+    }());
+  }, []);
 
-  getCharacterInfo = async (characterId) => {
-    const characterInfo = await DungeonService.getCharacter(characterId);
-    this.setState({ characterInfo });
-  }
-
-  render() {
-    return (
+  return (
       <Container>
-        { this.state.characterInfo && <div className="name">{ this.state.characterInfo.name }</div> }
-        { this.state.characterInfo && <div className="name">{ `${this.state.characterInfo.name} test` }</div> }
+        { characterInfo && <div className="name">{ characterInfo.name }</div> }
+        { characterInfo && <div className="name">{ `${characterInfo.name} test` }</div> }
       </Container>
-    );
-  }
+  );
 }
+
+export default CharacterBackground;
 
 const Container = styled.div`
   display: flex;
