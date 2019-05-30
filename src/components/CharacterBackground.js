@@ -23,8 +23,9 @@ function CharacterBackground() {
 
   return (
       <Container>
-        { characterInfo && <div className="name">{ characterInfo.name }</div> }
-        { characterInfo && <div className="name">{ `${characterInfo.name} test` }</div> }
+          { characterInfo.name && <div className="attribute">{ `Name: ${characterInfo.name}` }</div> }
+          { characterInfo.race && <div className="attribute">{ `Race: ${characterInfo.race}` }</div> }
+          { characterInfo.class && <div className="attribute">{ `Class: ${characterInfo.class}` }</div> }
       </Container>
   );
 }
@@ -32,8 +33,11 @@ function CharacterBackground() {
 export default CharacterBackground;
 
 const Container = styled.div`
+  border-style: solid;
+  border-radius: 5px;
   display: flex;
-  & .name {
+  margin: 1em;
+  & .attribute {
     padding: 1em;
   }
 `;
