@@ -1,7 +1,8 @@
 {
     "extends": [
         "airbnb",
-        "plugin:react/recommended"
+        "plugin:react/recommended",
+        "react-hooks"
     ],
 
     "globals": { 
@@ -28,6 +29,8 @@
         "implicit-arrow-linebreak":0,
         "react/prefer-stateless-function":0,
         "react/jsx-indent":0,
-        "react/jsx-one-expression-per-line": 0
+        "react/jsx-one-expression-per-line": 0,
+        "react-hooks/rules-of-hooks": "error",
+        "react-hooks/exhaustive-deps": "warn"
     }
 }
