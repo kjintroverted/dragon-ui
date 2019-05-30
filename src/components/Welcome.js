@@ -8,9 +8,8 @@ function Welcome() {
 
   useEffect(()=>{
    const getWelcome = async ()=>{
-      let taco = await DungeonService.getWelcome();
-       console.log(taco)
-       setWelcome(taco);
+      let welcomeServer = await DungeonService.getWelcome();
+       setWelcome(welcomeServer);
       };
       getWelcome();
   },[])
