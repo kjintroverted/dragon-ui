@@ -12,11 +12,14 @@ function Welcome() {
   // Don't be tempted to make useEffect async console will scream at you
   useEffect(() => {
     // Async calls are to be made inside useEffect then immediately called below
-    const getWelcome = async () => {
-      const welcomeServer = await DungeonService.getWelcome();
-      setWelcome(welcomeServer);
-    };
-    getWelcome();
+    (async function getWelcome() {
+      try {
+        const welcomeServer = await DungeonService.getWelcome();
+        setWelcome(welcomeServer);
+      } catch (error) {
+        console.error(error);
+      }
+    }());
     // Array at the end is requried to avoid looping
     // indicates that this is only triggered on mount
     // if we put [propVariable] inside it would trigger again on propVariable change
