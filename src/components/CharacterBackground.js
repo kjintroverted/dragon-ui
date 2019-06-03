@@ -34,7 +34,6 @@ export default CharacterBackground;
 
 const Container = styled.div`
   & .attribute {
-    color:black;
     padding: 1em;
   }
 `;
