@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import styled from 'styled-components';
 
 import DungeonService from '../services/dungeonService';
 
@@ -27,9 +28,14 @@ function Welcome() {
   }, []);
 
   return (
-    <div>
+    <Title>
       { welcome }
-    </div>
+    </Title>
   );
 }
 export default Welcome;
+
+const Title = styled.h1`
+    padding: 20px;
+    margin: 0px;
+    `;
