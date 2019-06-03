@@ -23,9 +23,9 @@ function CharacterBackground() {
 
   return (
       <Container>
-          { characterInfo.name && <div className="attribute">{ `Name: ${characterInfo.name}` }</div> }
-          { characterInfo.race && <div className="attribute">{ `Race: ${characterInfo.race}` }</div> }
-          { characterInfo.class && <div className="attribute">{ `Class: ${characterInfo.class}` }</div> }
+          { characterInfo.name && <div className="attribute"> Name: <h4> {characterInfo.name} </h4> </div> }
+          { characterInfo.race && <div className="attribute">Race: <h4> {characterInfo.race} </h4></div> }
+          { characterInfo.class && <div className="attribute"> Class: <h4> {characterInfo.class} </h4></div> }
       </Container>
   );
 }
@@ -33,11 +33,17 @@ function CharacterBackground() {
 export default CharacterBackground;
 
 const Container = styled.div`
-  border-style: solid;
+  background: white;
   border-radius: 5px;
+  border-style: solid;
+  box-shadow: rgba(0, 0, 0, 0.2) 1px 1px 8px;
+  color: grey;
   display: flex;
   margin: 1em;
+  padding: 10px;
+  position: relative;
   & .attribute {
+    color:black;
     padding: 1em;
   }
 `;
