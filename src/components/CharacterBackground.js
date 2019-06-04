@@ -8,7 +8,7 @@ function CharacterBackground() {
   // Also linting disabled until we add a way to grab the ID
   // eslint-disable-next-line
   const [ characterId, updateCharacterId ] = useState('6oHp62hgG0zeFPjwa8RB');
-  const [characterInfo, updateCharacterInfo] = useState({});
+  const [characterInfo, updateCharacterInfo] = useState(null);
 
   useEffect(() => {
     (async function getCharacterData() {
@@ -21,6 +21,10 @@ function CharacterBackground() {
     }());
   }, [characterId]);
 
+  // To get rid of the tiny card rendered before data is returned
+  if (!characterInfo) {
+    return null;
+  }
   return (
     <Container className="card">
       { characterInfo.name && <div className="attribute"> Name: <h4> { characterInfo.name } </h4> </div> }
