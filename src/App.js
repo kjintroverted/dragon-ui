@@ -10,6 +10,12 @@ import './App.css';
 function App() {
   const [user, updateUser] = useState();
 
+  async function login() {
+    const provider = new firebase.auth.GoogleAuthProvider();
+    const { user } = await firebase.auth().signInWithPopup(provider);
+    return { name: user.displayName, email: user.email, photo: user.photoURL };
+  }
+
   useEffect(() => {
     (async function getUser() {
       const info = await login();
@@ -19,11 +25,11 @@ function App() {
 
   return (
     <div className="App ">
-      <NavBar user={ user } />
+      <NavBar user={user} />
       { user
         && <Content>
           <CharacterBackground />
-        </Content>
+           </Content>
       }
     </div>
   );
@@ -34,9 +40,3 @@ export default App;
 const Content = styled.div`
   display: flex;
 `;
-
-async function login() {
-  const provider = new firebase.auth.GoogleAuthProvider();
-  const { user } = await firebase.auth().signInWithPopup(provider);
-  return { name: user.displayName, email: user.email, photo: user.photoURL };
-}
