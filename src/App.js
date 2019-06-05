@@ -30,7 +30,8 @@ function login() {
   console.log(provider);
   firebase.auth().signInWithPopup(provider).then((result) => {
     const { user } = result;
-    console.warn(user);
+    console.debug('Logged in as', user.displayName);
+    console.debug(user.email);
   }).catch((error) => {
     alert(error.message);
   });
