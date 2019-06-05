@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import firebase from 'firebase';
 
-import Welcome from './components/Welcome';
+import NavBar from './components/NavBar';
 import CharacterBackground from './components/CharacterBackground';
 
 import './App.css';
@@ -19,11 +19,11 @@ function App() {
 
   return (
     <div className="App ">
-      <Welcome />
+      <NavBar user={ user } />
       { user
         && <Content>
           <CharacterBackground />
-           </Content>
+        </Content>
       }
     </div>
   );
@@ -38,5 +38,5 @@ const Content = styled.div`
 async function login() {
   const provider = new firebase.auth.GoogleAuthProvider();
   const { user } = await firebase.auth().signInWithPopup(provider);
-  return { name: user.displayName, email: user.email };
+  return { name: user.displayName, email: user.email, photo: user.photoURL };
 }
