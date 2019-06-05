@@ -1,18 +1,17 @@
 import React from 'react';
-
 import styled from 'styled-components';
 
 import Welcome from './components/Welcome';
-import CharacterBackground from './components/CharacterBackground';
 
 import './App.css';
+import OwnerView from './components/OwnerView';
 
 function App() {
   return (
     <div className="App ">
       <Welcome />
       <Content>
-        <CharacterBackground />
+        <OwnerView />
       </Content>
     </div>
   );

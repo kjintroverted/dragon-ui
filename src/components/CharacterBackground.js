@@ -1,40 +1,28 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
+
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
-import DungeonService from '../services/dungeonService';
 
-function CharacterBackground() {
-  // Hard Coded for quick development
-  // Also linting disabled until we add a way to grab the ID
-  // eslint-disable-next-line
-  const [ characterId, updateCharacterId ] = useState('6oHp62hgG0zeFPjwa8RB');
-  const [characterInfo, updateCharacterInfo] = useState(null);
-
-  useEffect(() => {
-    (async function getCharacterData() {
-      try {
-        const characterData = await DungeonService.getCharacter(characterId);
-        updateCharacterInfo(characterData);
-      } catch (error) {
-        console.error(error);
-      }
-    }());
-  }, [characterId]);
-
-  // To get rid of the tiny card rendered before data is returned
-  if (!characterInfo) {
-    return null;
-  }
+function CharacterBackground(props) {
   return (
     <Container className="card">
-      { characterInfo.name && <div className="attribute"> Name: <h4> { characterInfo.name } </h4> </div> }
-      { characterInfo.race && <div className="attribute">Race: <h4> { characterInfo.race } </h4></div> }
-      { characterInfo.class && <div className="attribute"> Class: <h4> { characterInfo.class } </h4></div> }
+      { props.character.name && <div className="attribute"> Name: <h4> { props.character.name } </h4> </div> }
+      { props.character.race && <div className="attribute">Race: <h4> { props.character.race } </h4></div> }
+      { props.character.class && <div className="attribute"> Class: <h4> { props.character.class } </h4></div> }
     </Container>
   );
 }
 
 export default CharacterBackground;
+
+CharacterBackground.propTypes = {
+  character: PropTypes.shape({
+    name: PropTypes.string,
+    race: PropTypes.string,
+    class: PropTypes.string,
+  }).isRequired,
+};
 
 const Container = styled.div`
   & .attribute {
