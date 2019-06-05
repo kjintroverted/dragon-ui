@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import firebase from 'firebase';
 
@@ -8,13 +8,23 @@ import CharacterBackground from './components/CharacterBackground';
 import './App.css';
 
 function App() {
-  login();
+  const [user, updateUser] = useState();
+
+  useEffect(() => {
+    (async function getUser() {
+      const info = await login();
+      updateUser(info);
+    }());
+  }, []);
+
   return (
     <div className="App ">
       <Welcome />
-      <Content>
-        <CharacterBackground />
-      </Content>
+      { user
+        && <Content>
+          <CharacterBackground />
+           </Content>
+      }
     </div>
   );
 }
@@ -25,14 +35,8 @@ const Content = styled.div`
   display: flex;
 `;
 
-function login() {
+async function login() {
   const provider = new firebase.auth.GoogleAuthProvider();
-  console.log(provider);
-  firebase.auth().signInWithPopup(provider).then((result) => {
-    const { user } = result;
-    console.debug('Logged in as', user.displayName);
-    console.debug(user.email);
-  }).catch((error) => {
-    alert(error.message);
-  });
+  const { user } = await firebase.auth().signInWithPopup(provider);
+  return { name: user.displayName, email: user.email };
 }
