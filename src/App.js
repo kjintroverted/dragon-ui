@@ -1,20 +1,25 @@
 import React from 'react';
-import logo from './logo.svg';
+
+import styled from 'styled-components';
 
 import Welcome from './components/Welcome';
-import './App.css';
 import CharacterBackground from './components/CharacterBackground';
+
+import './App.css';
 
 function App() {
   return (
     <div className="App ">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <Welcome />
+      <Welcome />
+      <Content>
         <CharacterBackground />
-      </header>
+      </Content>
     </div>
   );
 }
 
 export default App;
+
+const Content = styled.div`
+  display: flex;
+`;
