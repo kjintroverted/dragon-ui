@@ -2,9 +2,9 @@ import React from 'react';
 import styled from 'styled-components';
 
 import Welcome from './components/Welcome';
+import OwnerView from './components/OwnerView';
 
 import './App.css';
-import OwnerView from './components/OwnerView';
 
 function App() {
   return (

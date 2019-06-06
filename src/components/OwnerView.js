@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import styled from 'styled-components';
 
 import DungeonService from '../services/dungeonService';
 import CharacterBackground from './CharacterBackground';
@@ -20,12 +21,14 @@ function OwnerView() {
   });
 
   return (
-      <div>
+      <Container>
           {characterCards}
-      </div>
+      </Container>
   );
 }
 
 export default OwnerView;
 
-// TODO: Add styling
+const Container = styled.div`
+    display:flex;
+`;
