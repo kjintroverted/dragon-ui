@@ -6,7 +6,7 @@ html {
 
 .App {
   display: grid;
-  grid-template-rows: 50px 1fr;
+  grid-template-rows: 65px 1fr;
 }
 
 .card {
@@ -17,4 +17,8 @@ html {
   box-shadow: rgba(0, 0, 0, 0.2) 1px 1px 8px;
   margin: 1em;
   padding: 10px;
+}
+
+.spacer {
+  flex: 1;
 }
