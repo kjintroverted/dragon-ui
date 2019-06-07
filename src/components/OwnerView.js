@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
 import DungeonService from '../services/dungeonService';
@@ -27,6 +28,10 @@ function OwnerView({ owner }) {
 }
 
 export default OwnerView;
+
+OwnerView.propTypes = {
+  owner: PropTypes.string.isRequired,
+};
 
 const Container = styled.div`
     display:flex;
