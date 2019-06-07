@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import styled from 'styled-components';
+import AppBar from '@material-ui/core/AppBar';
+import Toolbar from '@material-ui/core/Toolbar';
 
+import { Avatar, IconButton } from '@material-ui/core';
 import DungeonService from '../services/dungeonService';
 
 
-function Welcome() {
+function NavBar({ user }) {
   // [Variable in State, Setter of Variable]
   // hooks are indicated by the word `use` (linter looks for use keyword)
   const [welcome, setWelcome] = useState('Just a moment...');
@@ -28,14 +30,13 @@ function Welcome() {
   }, []);
 
   return (
-    <Title>
-      { welcome }
-    </Title>
+    <AppBar position="static">
+      <Toolbar>
+        <h3>{ welcome }</h3>
+        <span className="spacer" />
+        { user && <IconButton><Avatar alt={user.name} src={user.photo} /></IconButton> }
+      </Toolbar>
+    </AppBar>
   );
 }
-export default Welcome;
-
-const Title = styled.h1`
-    padding: 20px;
-    margin: 0px;
-    `;
+export default NavBar;
