@@ -28,7 +28,7 @@ function App() {
       <NavBar user={user} />
       { user
         && <Content>
-          <OwnerView />
+          <OwnerView owner={user.email} />
            </Content>
       }
     </div>
