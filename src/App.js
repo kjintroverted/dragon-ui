@@ -12,8 +12,8 @@ function App() {
 
   async function login() {
     const provider = new firebase.auth.GoogleAuthProvider();
-    const { user } = await firebase.auth().signInWithPopup(provider);
-    return { name: user.displayName, email: user.email, photo: user.photoURL };
+    const { user: info } = await firebase.auth().signInWithPopup(provider);
+    return { name: info.displayName, email: info.email, photo: info.photoURL };
   }
 
   useEffect(() => {
@@ -25,11 +25,11 @@ function App() {
 
   return (
     <div className="App ">
-      <NavBar user={ user } />
+      <NavBar user={user} />
       { user
         && <Content>
           <OwnerView />
-        </Content>
+           </Content>
       }
     </div>
   );
