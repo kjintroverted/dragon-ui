@@ -1,19 +1,19 @@
 import React, { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
 import DungeonService from '../services/dungeonService';
 import CharacterBackground from './CharacterBackground';
 
-function OwnerView() {
+function OwnerView({ owner }) {
   const [characters, updateCharacters] = useState([]);
-  // needs to be passed in later
-  const [owner, updateOwner] = useState();
+
   useEffect(() => {
     (async function getCharactersByOwner() {
       const characterList = await DungeonService.getCharactersByOwner(owner);
       updateCharacters(characterList);
     }());
-  }, [owner]);
+  }, []);
 
   const characterCards = [];
   characters.forEach((character) => {
@@ -21,13 +21,17 @@ function OwnerView() {
   });
 
   return (
-      <Container>
-          {characterCards}
-      </Container>
+    <Container>
+      { characterCards }
+    </Container>
   );
 }
 
 export default OwnerView;
+
+OwnerView.propTypes = {
+  owner: PropTypes.string.isRequired,
+};
 
 const Container = styled.div`
     display:flex;
