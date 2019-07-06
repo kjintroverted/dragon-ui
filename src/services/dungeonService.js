@@ -12,6 +12,7 @@ const getCharacter = async (characterId = '') => {
 
 const getCharactersByOwner = async (owner = 'clayton.yarborough@gmail.com') => {
   const result = await fetch(`/api/characters?owner=${owner}`);
+  console.log(result);
   return result.json();
 };
 

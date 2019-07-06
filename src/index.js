@@ -1,8 +1,13 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
+import * as firebase from 'firebase/app';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
+
+const firebaseConfig = require('./secret_auth_config.json');
+
+firebase.initializeApp(firebaseConfig);
 
 ReactDOM.render(<App />, document.getElementById('root'));
 
