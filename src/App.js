@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import firebase from 'firebase';
 
 import NavBar from './components/NavBar';
-import CharacterBackground from './components/CharacterBackground';
+import OwnerView from './components/OwnerView';
 
 import './App.css';
 
@@ -12,8 +12,8 @@ function App() {
 
   async function login() {
     const provider = new firebase.auth.GoogleAuthProvider();
-    const { user } = await firebase.auth().signInWithPopup(provider);
-    return { name: user.displayName, email: user.email, photo: user.photoURL };
+    const { user: info } = await firebase.auth().signInWithPopup(provider);
+    return { name: info.displayName, email: info.email, photo: info.photoURL };
   }
 
   useEffect(() => {
@@ -28,7 +28,7 @@ function App() {
       <NavBar user={user} />
       { user
         && <Content>
-          <CharacterBackground />
+          <OwnerView owner={user.email} />
            </Content>
       }
     </div>
