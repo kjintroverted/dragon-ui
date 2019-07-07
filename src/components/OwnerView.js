@@ -23,8 +23,7 @@ function OwnerView({ owner }) {
 
   return (
     <Container>
-{ characters.length > 0 && <CharacterView character={characters[0]} />
-}
+    { characters.length > 0 && <CharacterView character={characters[1]} />}
       {/* { characterCards } */}
     </Container>
   );
