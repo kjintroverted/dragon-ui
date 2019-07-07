@@ -2,8 +2,9 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
-import DungeonService from '../services/dungeonService';
 import CharacterBackground from './CharacterBackground';
+import CharacterView from './CharacterView';
+import DungeonService from '../services/dungeonService';
 
 function OwnerView({ owner }) {
   const [characters, updateCharacters] = useState([]);
@@ -17,12 +18,14 @@ function OwnerView({ owner }) {
 
   const characterCards = [];
   characters.forEach((character) => {
-    characterCards.push(<CharacterBackground character={character} key={character.id} />);
+    // characterCards.push(<CharacterBackground character={character} key={character.id} />);
   });
 
   return (
     <Container>
-      { characterCards }
+{ characters.length > 0 && <CharacterView character={characters[0]} />
+}
+      {/* { characterCards } */}
     </Container>
   );
 }
