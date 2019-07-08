@@ -22,3 +22,8 @@ html {
 .spacer {
   flex: 1;
 }
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
