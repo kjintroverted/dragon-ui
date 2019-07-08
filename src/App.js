@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import firebase from 'firebase';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
 
 import NavBar from './components/NavBar';
 import OwnerView from './components/OwnerView';
+import CharacterView from './components/CharacterView';
 
 import './App.css';
 
@@ -24,14 +26,17 @@ function App() {
   }, []);
 
   return (
-    <div className="App ">
-      <NavBar user={user} />
-      { user
-        && <Content>
-          <OwnerView owner={user.email} />
-           </Content>
-      }
-    </div>
+    <Router>
+      <div className="App ">
+        <NavBar user={user} />
+        { user
+          && <Content>
+            <Route path="/" exact render={() => <OwnerView owner={user.email} />} />
+            <Route path="/character" exact render={() => <CharacterView />} />
+             </Content>
+        }
+      </div>
+    </Router>
   );
 }
 
