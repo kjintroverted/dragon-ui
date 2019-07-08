@@ -31,8 +31,8 @@ function App() {
         <NavBar user={user} />
         { user
           && <Content>
-            <Route path="/" exact render={() => <OwnerView owner={user.email} />} />
-            <Route path="/character" exact render={() => <CharacterView />} />
+            <Route path="/" exact component={() => <OwnerView owner={user.email} />} />
+            <Route path="/character" exact component={props => <CharacterView {...props} />} />
              </Content>
         }
       </div>

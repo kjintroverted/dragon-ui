@@ -19,7 +19,12 @@ function OwnerView({ owner }) {
   const characterCards = [];
   characters.forEach((character) => {
     characterCards.push(
-      <Link to="/character">
+      <Link to={{
+        pathname: '/character',
+        search: `?id=${character.id}`,
+        state: character,
+      }}
+      >
         <CharacterBackground character={character} key={character.id} />
       </Link>,
     );
