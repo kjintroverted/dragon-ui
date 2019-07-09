@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
+import { Link } from 'react-router-dom';
 
 import { Avatar, IconButton } from '@material-ui/core';
 import DungeonService from '../services/dungeonService';
@@ -32,7 +33,9 @@ function NavBar({ user }) {
   return (
     <AppBar position="static">
       <Toolbar>
-        <h3>{ welcome }</h3>
+        <Link to="/">
+          <h3>{ welcome }</h3>
+        </Link>
         <span className="spacer" />
         { user && <IconButton><Avatar alt={user.name} src={user.photo} /></IconButton> }
       </Toolbar>
