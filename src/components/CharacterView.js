@@ -3,20 +3,16 @@ import React, { useState, useEffect } from 'react';
 import dungeonService from '../services/dungeonService';
 
 function CharacterView({ location }) {
-  const [character, setCharacter] = useState(location.state || {});
+  const [character, setCharacter] = useState({});
 
   useEffect(() => {
-    if (!character.name) {
-      console.log('No character provided. Loading character from ID.');
-      (async function loadCharacter() {
-        const id = location.search.split('id=')[1];
-        const c = await dungeonService.getCharacter(id);
-        setCharacter(c);
-      }());
-    }
+    const id = location.search.split('id=')[1];
+    const socket = dungeonService.watchCharacter(id);
+    socket.onopen = () => console.log('Socket open');
+    socket.onmessage = event => setCharacter(JSON.parse(event.data));
   }, []);
 
-  return <p>{ character.name }</p>;
+  return <p>{ character.name } has { character.hp } hit points</p>;
 }
 
 export default CharacterView;
