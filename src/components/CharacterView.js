@@ -8,8 +8,11 @@ function CharacterView({ location }) {
   useEffect(() => {
     const id = location.search.split('id=')[1];
     const socket = dungeonService.watchCharacter(id);
-    socket.onopen = () => console.log('Socket open');
     socket.onmessage = event => setCharacter(JSON.parse(event.data));
+
+    return () => {
+      socket.close();
+    };
   }, []);
 
   return <p>{ character.name } has { character.hp } hit points</p>;
