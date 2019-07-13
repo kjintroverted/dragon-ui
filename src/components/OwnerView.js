@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 
 import CharacterBackground from './CharacterBackground';
-import CharacterView from './CharacterView';
 import DungeonService from '../services/dungeonService';
 
 function OwnerView({ owner }) {
@@ -18,13 +18,21 @@ function OwnerView({ owner }) {
 
   const characterCards = [];
   characters.forEach((character) => {
-    // characterCards.push(<CharacterBackground character={character} key={character.id} />);
+    characterCards.push(
+      <Link to={{
+        pathname: '/character',
+        search: `?id=${character.id}`,
+        state: character,
+      }}
+      >
+        <CharacterBackground character={character} key={character.id} />
+      </Link>,
+    );
   });
 
   return (
     <Container>
-    { characters.length > 0 && <CharacterView character={characters[1]} />}
-      {/* { characterCards } */}
+      { characterCards }
     </Container>
   );
 }

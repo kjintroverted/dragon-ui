@@ -21,6 +21,7 @@
       },
 
     "rules": {
+        "react/forbid-prop-types": false,
         "react/jsx-filename-extension":false,
         "react/jsx-wrap-multilines": false,
         "react/destructuring-assignment":false,
