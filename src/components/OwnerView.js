@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 
-import DungeonService from '../services/dungeonService';
 import CharacterBackground from './CharacterBackground';
+import DungeonService from '../services/dungeonService';
 
 function OwnerView({ owner }) {
   const [characters, updateCharacters] = useState([]);
