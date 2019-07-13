@@ -16,7 +16,6 @@ const watchCharacter = characterId => new WebSocket(`ws://${serverDomain}/api/ch
 
 const getCharactersByOwner = async (owner = 'clayton.yarborough@gmail.com') => {
   const result = await fetch(`/api/characters?owner=${owner}`);
-  console.log(result);
   return result.json();
 };
 
