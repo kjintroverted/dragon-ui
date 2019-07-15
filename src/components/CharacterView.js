@@ -8,31 +8,33 @@ import CharacterBackground from './CharacterBackground';
 import Vitals from './Vitals';
 
 function CharacterView({ location }) {
-  const [character, setCharacter] = useState(location.state || {});
+  const [character, setCharacter] = useState({});
 
   useEffect(() => {
-    if (!character.name) {
-      console.error('No character provided. Loading character from ID.');
-      (async function loadCharacter() {
-        const id = location.search.split('id=')[1];
-        const c = await DungeonService.getCharacter(id);
-        setCharacter(c);
-      }());
-    }
+    const id = location.search.split('id=')[1];
+    const socket = DungeonService.watchCharacter(id);
+    socket.onmessage = event => setCharacter(JSON.parse(event.data));
+
+    return () => {
+      socket.close();
+    };
   }, []);
+
   if (!character) {
     return null;
   }
+
   return (
     <div>
-        <CharacterBackground character={character} />
-        <CharacterSheet>
-            <Attributes character={character} />
-            <Vitals character={character} />
-        </CharacterSheet>
+      <CharacterBackground character={character} />
+      <CharacterSheet>
+        <Attributes character={character} />
+        <Vitals character={character} />
+      </CharacterSheet>
     </div>
   );
 }
+
 CharacterView.propTypes = {
   location: PropTypes.object.isRequired,
 };
