@@ -18,6 +18,12 @@ export const HeaderBar = styled.div`
   display: flex;
   align-items: center;
   border-bottom: lightgray solid 1px;
+  & h1, h2, h3, h4, p {
+    margin: 0px;
+  }
+  & p {
+    font-size: .8em;
+  }
 `;
 
 export const ActionBar = styled.span`
@@ -26,5 +32,10 @@ export const ActionBar = styled.span`
 `;
 
 export const Row = styled.div`
-display: flex
+  display: flex;
+`;
+
+export const Column = styled.div`
+  display: flex;
+  flex-direction: column;
 `;

@@ -11,7 +11,11 @@ function OwnerView({ owner }) {
 
   useEffect(() => {
     (async function getCharactersByOwner() {
-      const characterList = await DungeonService.getCharactersByOwner(owner);
+      let characterList = await DungeonService.getCharactersByOwner(owner);
+      characterList = await Promise.all(characterList.map(async (character) => {
+        const level = await DungeonService.getLevelInfo(character.xp);
+        return { ...character, ...level };
+      }));
       updateCharacters(characterList);
     }());
   }, []);
@@ -48,7 +52,7 @@ OwnerView.propTypes = {
 const Container = styled.div`
     width: 100vw;
     display: grid;
-    grid-template-columns: repeat(auto-fill, 150px);
+    grid-template-columns: repeat(auto-fill, 300px);
     grid-gap: 10px;
     justify-content: center;
 `;

@@ -19,9 +19,15 @@ const getCharactersByOwner = async (owner = 'clayton.yarborough@gmail.com') => {
   return result.json();
 };
 
+const getLevelInfo = async (xp) => {
+  const result = await fetch(`/api/level?xp=${xp}`);
+  return result.json();
+};
+
 export default {
   getCharacter,
   watchCharacter,
   getCharactersByOwner,
   getWelcome,
+  getLevelInfo,
 };
