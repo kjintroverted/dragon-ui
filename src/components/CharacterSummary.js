@@ -2,12 +2,15 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { IconButton, TextField } from '@material-ui/core';
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 import {
   Card, HeaderBar, Spacer, ActionBar, Column, Row,
 } from './CustomStyled';
 
 
-function CharacterSummary({ character }) {
+function CharacterSummary({
+  character, save, add, linkTo,
+}) {
   return (
     <Card>
       <HeaderBar>
@@ -17,9 +20,23 @@ function CharacterSummary({ character }) {
         </Column>
         <Spacer />
         <ActionBar>
-          <IconButton>
-            <i className="material-icons">group_add</i>
-          </IconButton>
+          { linkTo
+            && <Link to={linkTo}>
+              <IconButton>
+                <i className="material-icons">fullscreen</i>
+              </IconButton>
+               </Link>
+          }
+          { add
+            && <IconButton onClick={add}>
+              <i className="material-icons">group_add</i>
+               </IconButton>
+          }
+          { save
+            && <IconButton onClick={save}>
+              <i className="material-icons">save</i>
+               </IconButton>
+          }
         </ActionBar>
       </HeaderBar>
       <InfoRow>
@@ -39,9 +56,18 @@ CharacterSummary.propTypes = {
     race: PropTypes.string,
     class: PropTypes.string,
   }).isRequired,
+  save: PropTypes.func,
+  add: PropTypes.func,
+  linkTo: PropTypes.string,
+};
+
+CharacterSummary.defaultProps = {
+  save: null,
+  add: null,
+  linkTo: null,
 };
 
 const InfoRow = styled.div`
-  display: flex;
-  margin-top: 10px;
-`;
+      display: flex;
+      margin-top: 10px;
+    `;

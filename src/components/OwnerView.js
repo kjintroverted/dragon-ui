@@ -1,13 +1,21 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { Link } from 'react-router-dom';
 
+import { Fab } from '@material-ui/core';
+import { Link } from 'react-router-dom';
 import CharacterSummary from './CharacterSummary';
 import DungeonService from '../services/dungeonService';
 
 function OwnerView({ owner }) {
   const [characters, updateCharacters] = useState([]);
+  const [party, updateParty] = useState([]);
+
+  function toggleCharacter(id) {
+    const i = party.indexOf(id);
+    if (i !== -1) updateParty([...party.slice(0, i), ...party.slice(i + 1)]);
+    else updateParty([...party, id]);
+  }
 
   useEffect(() => {
     (async function getCharactersByOwner() {
@@ -23,22 +31,27 @@ function OwnerView({ owner }) {
   const characterCards = [];
   characters.forEach((character) => {
     characterCards.push(
-      <Link
-        to={{
-          pathname: '/character',
-          search: `?id=${character.id}`,
-          state: character,
-        }}
+      <CharacterSummary
         key={character.id}
-      >
-        <CharacterSummary character={character} />
-      </Link>,
+        character={character}
+        add={() => toggleCharacter(character.id)}
+        linkTo={`/character?id=${character.id}`}
+      />,
     );
   });
 
   return (
     <Container>
       { characterCards }
+      { !!party.length
+        && <BottomAnchor>
+          <Link to={`/character?id=${party.join()}`} style={{ zIndex: 10 }}>
+            <Fab color="secondary">
+              <i className="material-icons">group</i>
+            </Fab>
+          </Link>
+           </BottomAnchor>
+      }
     </Container>
   );
 }
@@ -55,4 +68,10 @@ const Container = styled.div`
     grid-template-columns: repeat(auto-fill, 300px);
     grid-gap: 10px;
     justify-content: center;
+`;
+
+const BottomAnchor = styled.span`
+  position: fixed;
+  bottom: 5px;
+  right: 5px;
 `;
