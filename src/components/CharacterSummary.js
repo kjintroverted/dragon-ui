@@ -23,7 +23,9 @@ function CharacterSummary({ character }) {
         </ActionBar>
       </HeaderBar>
       <InfoRow>
-        { character.level && <TextField variant="outlined" disabled label="Level" value={character.level} /> }
+        <TextField variant="outlined" disabled type="number" label="Level" value={character.level} />
+        <TextField variant="outlined" disabled type="number" label="Hit Points" value={character.hp} />
+        <TextField variant="outlined" disabled type="number" label="Initiative" value={character.initiative} />
       </InfoRow>
     </Card>
   );

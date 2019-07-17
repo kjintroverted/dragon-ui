@@ -20,6 +20,7 @@ html {
   margin: 1em;
   padding: 10px;
 }
+
 .verticle{
   flex-direction: column;
 }
@@ -31,4 +32,8 @@ html {
 a {
   text-decoration: none;
   color: inherit;
+}
+
+input[type="number"] {
+  text-align: right;
 }
