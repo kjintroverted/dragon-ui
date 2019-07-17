@@ -34,6 +34,7 @@ function OwnerView({ owner }) {
       <CharacterSummary
         key={character.id}
         character={character}
+        highlight={party.indexOf(character.id) != -1}
         add={() => toggleCharacter(character.id)}
         linkTo={`/character?id=${character.id}`}
       />,

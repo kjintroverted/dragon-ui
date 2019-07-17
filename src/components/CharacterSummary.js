@@ -4,15 +4,15 @@ import { IconButton, TextField } from '@material-ui/core';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import {
-  Card, HeaderBar, Spacer, ActionBar, Column, Row,
+  Card, HeaderBar, Spacer, ActionBar, Column,
 } from './CustomStyled';
 
 
 function CharacterSummary({
-  character, save, add, linkTo,
+  character, save, add, linkTo, highlight,
 }) {
   return (
-    <Card>
+    <Card style={highlight ? { background: 'lightblue' } : {}}>
       <HeaderBar>
         <Column>
           <h4>{ character.name }</h4>
@@ -59,12 +59,14 @@ CharacterSummary.propTypes = {
   save: PropTypes.func,
   add: PropTypes.func,
   linkTo: PropTypes.string,
+  highlight: PropTypes.bool,
 };
 
 CharacterSummary.defaultProps = {
   save: null,
   add: null,
   linkTo: null,
+  highlight: false,
 };
 
 const InfoRow = styled.div`
