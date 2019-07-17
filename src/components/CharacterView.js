@@ -4,7 +4,6 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import DungeonService from '../services/dungeonService';
 import Attributes from './Attributes';
-import CharacterBackground from './CharacterBackground';
 import Vitals from './Vitals';
 
 function CharacterView({ location }) {
@@ -26,7 +25,8 @@ function CharacterView({ location }) {
 
   return (
     <div>
-      <CharacterBackground character={character} />
+      <h2>{ character.name }</h2>
+      <p>{ character.race } { character.class }</p>
       <CharacterSheet>
         <Attributes character={character} />
         <Vitals character={character} />

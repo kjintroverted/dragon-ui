@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 
-import CharacterBackground from './CharacterBackground';
+import CharacterSummary from './CharacterSummary';
 import DungeonService from '../services/dungeonService';
 
 function OwnerView({ owner }) {
@@ -19,13 +19,15 @@ function OwnerView({ owner }) {
   const characterCards = [];
   characters.forEach((character) => {
     characterCards.push(
-      <Link to={{
-        pathname: '/character',
-        search: `?id=${character.id}`,
-        state: character,
-      }}
+      <Link
+        to={{
+          pathname: '/character',
+          search: `?id=${character.id}`,
+          state: character,
+        }}
+        key={character.id}
       >
-        <CharacterBackground character={character} key={character.id} />
+        <CharacterSummary character={character} />
       </Link>,
     );
   });
@@ -44,5 +46,9 @@ OwnerView.propTypes = {
 };
 
 const Container = styled.div`
-    display:flex;
+    width: 100vw;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, 150px);
+    grid-gap: 10px;
+    justify-content: center;
 `;

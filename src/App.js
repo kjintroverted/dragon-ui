@@ -28,12 +28,12 @@ function App() {
   return (
     <Router>
       <div className="App ">
-        <NavBar user={user} />
+        <NavBar user={ user } />
         { user
           && <Content>
-            <Route path="/" exact component={() => <OwnerView owner={user.email} />} />
-            <Route path="/character" exact component={props => <CharacterView {...props} />} />
-             </Content>
+            <Route path="/" exact component={ () => <OwnerView owner={ user.email } /> } />
+            <Route path="/character" exact component={ props => <CharacterView { ...props } /> } />
+          </Content>
         }
       </div>
     </Router>
@@ -44,4 +44,5 @@ export default App;
 
 const Content = styled.div`
   display: flex;
+  margin-top: 15px;
 `;

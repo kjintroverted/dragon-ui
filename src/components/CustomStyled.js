@@ -14,15 +14,15 @@ export const Card = styled.div`
   flex-direction: column;
 `;
 
-export const ActionBar = styled.span`
-  display: flex;
-  flex-direction: row-reverse;
-`;
-
 export const HeaderBar = styled.div`
   display: flex;
   align-items: center;
   border-bottom: lightgray solid 1px;
+`;
+
+export const ActionBar = styled.span`
+  display: flex;
+  flex-direction: row-reverse;
 `;
 
 export const Row = styled.div`
