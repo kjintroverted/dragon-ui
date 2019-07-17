@@ -7,29 +7,51 @@ import Attributes from './Attributes';
 import Vitals from './Vitals';
 
 function CharacterView({ location }) {
-  const [character, setCharacter] = useState({});
+  const [idList, setIDList] = useState([]);
+  const [characters, setCharacters] = useState([]);
+  const [focus, setFocus] = useState({});
+
+  function updateCharacter(id) {
+    return (data) => {
+      const i = characters.findIndex(c => c.id === id);
+      setCharacters([...characters.slice(0, i), data, ...characters.slice(i + 1)]);
+    };
+  }
+
+  function getCharacter(id) {
+    return characters.find(c => c.id === id);
+  }
 
   useEffect(() => {
-    const id = location.search.split('id=')[1];
-    const socket = DungeonService.watchCharacter(id);
-    socket.onmessage = event => setCharacter(JSON.parse(event.data));
+    const ids = location.search.split('id=')[1].split(',');
+    setIDList(ids);
+    let sockets = [];
+    ids.forEach((id) => {
+      const socket = DungeonService.watchCharacter(id);
+      const update = updateCharacter(id);
+      socket.onmessage = event => update(JSON.parse(event.data));
+      sockets = [...sockets, socket];
+    });
 
-    return () => {
-      socket.close();
-    };
+    return () => sockets.forEach(s => s.close());
   }, []);
 
-  if (!character) {
-    return null;
-  }
+  useEffect(() => {
+    if (!focus) return;
+    const id = focus.id || idList[0];
+    if (!id) return;
+    setFocus(getCharacter(id));
+  }, [characters]);
+
+  if (!focus || !focus.id) return null;
 
   return (
     <div>
-      <h2>{ character.name }</h2>
-      <p>{ character.race } { character.class }</p>
+      <h2>{ focus.name }</h2>
+      <p>{ focus.race } { focus.class }</p>
       <CharacterSheet>
-        <Attributes character={character} />
-        <Vitals character={character} />
+        <Attributes character={ focus } />
+        <Vitals character={ focus } />
       </CharacterSheet>
     </div>
   );
