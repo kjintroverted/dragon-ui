@@ -5,7 +5,11 @@ import styled from 'styled-components';
 
 const CharacterSheet = ({ character }) => (
   <SheetContainer>
-    <h2>{ character.name }</h2>
+    <Profile />
+    <Stats />
+    <Skills />
+    <Weapons />
+    <Equipment />
   </SheetContainer>
 );
 
@@ -20,5 +24,37 @@ CharacterSheet.propTypes = {
 };
 
 const SheetContainer = styled.div`
+  width: 100%;
+  height: 100vh;
   display: grid;
+  grid-gap: 10px;
+  grid-template-areas:
+    "pro pro pro"
+    "skil stat stat"
+    "skil stat stat"
+    "skil stat stat"
+    "skil stat stat"
+    "skil wpn eqp"
+    "skil wpn eqp";
+`;
+
+const Profile = styled.div`
+  background: black;
+  grid-area: pro;
+`;
+const Stats = styled.div`
+  background: green;
+  grid-area: stat;
+`;
+const Skills = styled.div`
+  background: blue;
+  grid-area: skil
+`;
+const Weapons = styled.div`
+  background: red;
+  grid-area: wpn;
+`;
+const Equipment = styled.div`
+  background: yellow;
+  grid-area: eqp;
 `;

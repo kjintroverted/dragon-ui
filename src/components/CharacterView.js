@@ -1,13 +1,10 @@
 import React, { useState, useEffect } from 'react';
 
 import PropTypes from 'prop-types';
-import styled from 'styled-components';
 import { Fab } from '@material-ui/core';
 import DungeonService from '../services/dungeonService';
-import Attributes from './Attributes';
-import Vitals from './Vitals';
 import {
- SideBar, SideBarToggle, ContentWithSideBar, RowCenter 
+  SideBar, SideBarToggle, ContentWithSideBar, RowCenter,
 } from './CustomStyled';
 import CharacterSummary from './CharacterSummary';
 import CharacterSheet from './CharacterSheet';
