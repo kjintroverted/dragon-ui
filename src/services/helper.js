@@ -1,3 +1,4 @@
 export function calculateModifier(x) {
-  return Math.floor((x - 10) / 2);
+  const y = Math.floor((x - 10) / 2);
+  return y < 0 ? `${y}` : `+${y}`;
 }
