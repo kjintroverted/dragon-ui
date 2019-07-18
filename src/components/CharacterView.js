@@ -2,13 +2,15 @@ import React, { useState, useEffect } from 'react';
 
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
+import { Fab } from '@material-ui/core';
 import DungeonService from '../services/dungeonService';
 import Attributes from './Attributes';
 import Vitals from './Vitals';
-import { SideBar } from './CustomStyled';
+import { SideBar, SideBarToggle } from './CustomStyled';
 import CharacterSummary from './CharacterSummary';
 
 function CharacterView({ location }) {
+  const [sidebar, setSidebar] = useState(false);
   const [idList, setIDList] = useState([]);
   const [characters, setCharacters] = useState([]);
   const [focus, setFocus] = useState({});
@@ -42,7 +44,7 @@ function CharacterView({ location }) {
         <Attributes character={focus} />
         <Vitals character={focus} />
       </CharacterSheet>
-      <SideBar>
+      <SideBar className={sidebar ? 'open' : ''}>
         {
           characters.map(character => (
             <CharacterSummary
@@ -54,6 +56,14 @@ function CharacterView({ location }) {
           ))
         }
       </SideBar>
+      {
+        !!characters.length
+        && <SideBarToggle>
+          <Fab color="secondary" onClick={() => setSidebar(!sidebar)}>
+            <i className="material-icons">{ sidebar ? 'close' : 'group' }</i>
+          </Fab>
+           </SideBarToggle>
+      }
     </div>
   );
 }

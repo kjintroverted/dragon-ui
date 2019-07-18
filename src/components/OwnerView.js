@@ -6,6 +6,7 @@ import { Fab } from '@material-ui/core';
 import { Link } from 'react-router-dom';
 import CharacterSummary from './CharacterSummary';
 import DungeonService from '../services/dungeonService';
+import { BottomAnchor } from './CustomStyled';
 
 function OwnerView({ owner }) {
   const [characters, updateCharacters] = useState([]);
@@ -65,10 +66,4 @@ const Container = styled.div`
     grid-template-columns: repeat(auto-fill, 300px);
     grid-gap: 10px;
     justify-content: center;
-`;
-
-const BottomAnchor = styled.span`
-  position: fixed;
-  bottom: 5px;
-  right: 5px;
 `;

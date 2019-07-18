@@ -4,6 +4,12 @@ export const Spacer = styled.span`
   flex: 1;
 `;
 
+export const BottomAnchor = styled.span`
+  position: fixed;
+  bottom: 5px;
+  right: 5px;
+`;
+
 export const Card = styled.div`
   position: relative;
   background: white;
@@ -49,4 +55,26 @@ export const SideBar = styled.div`
   padding: 15px;
   right: 0px;
   overflow-y: scroll;
+
+  @media screen and (max-width: 1000px){
+    background-color: white;
+    box-shadow: lightgrey 1px 1px 5px;
+    right: -400px;
+    transition: right .3s ease;
+
+    &.open {
+      right: 0px
+    }
+  }
+`;
+
+export const SideBarToggle = styled.div`
+  position: fixed;
+  bottom: 5px;
+  right: 5px;
+  display: none;
+
+  @media screen and (max-width: 1000px){
+    display: initial;
+  }
 `;
