@@ -70,6 +70,7 @@ export const SideBar = styled.div`
   padding: 15px;
   right: 0px;
   overflow-y: scroll;
+  z-index: 100;
 
   @media screen and (max-width: 1000px){
     background-color: white;
@@ -88,6 +89,7 @@ export const SideBarToggle = styled.div`
   bottom: 5px;
   right: 5px;
   display: none;
+  z-index: 101;
 
   @media screen and (max-width: 1000px){
     display: initial;

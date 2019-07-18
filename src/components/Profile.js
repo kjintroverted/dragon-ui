@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Badge, TextField } from '@material-ui/core';
 import {
-  Card, Column, Row, BasicBox, Spacer, RowCenter,
+  Card, Column, Row, BasicBox, Spacer,
 } from './CustomStyled';
 
 const Profile = ({ character }) => (
