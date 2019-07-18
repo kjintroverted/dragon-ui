@@ -9,7 +9,7 @@ import {
 
 
 function CharacterSummary({
-  character, save, add, linkTo, highlight,
+  character, save, add, linkTo, open, highlight,
 }) {
   return (
     <Card style={highlight ? { background: 'lightblue' } : {}}>
@@ -26,6 +26,11 @@ function CharacterSummary({
                 <i className="material-icons">fullscreen</i>
               </IconButton>
                </Link>
+          }
+          { open
+            && <IconButton onClick={open}>
+              <i className="material-icons">fullscreen</i>
+               </IconButton>
           }
           { add
             && <IconButton onClick={add}>
@@ -58,6 +63,7 @@ CharacterSummary.propTypes = {
   }).isRequired,
   save: PropTypes.func,
   add: PropTypes.func,
+  open: PropTypes.func,
   linkTo: PropTypes.string,
   highlight: PropTypes.bool,
 };
@@ -66,6 +72,7 @@ CharacterSummary.defaultProps = {
   save: null,
   add: null,
   linkTo: null,
+  open: null,
   highlight: false,
 };
 

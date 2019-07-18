@@ -48,6 +48,7 @@ function CharacterView({ location }) {
             <CharacterSummary
               key={character.id}
               character={character}
+              open={() => setFocus(character)}
               highlight={focus.id === character.id}
             />
           ))
