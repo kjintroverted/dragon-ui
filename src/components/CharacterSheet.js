@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import Profile from './Profile';
 import Attributes from './Attributes';
+import Skills from './Skills';
 
 
 const CharacterSheet = ({ character }) => (
@@ -13,7 +14,9 @@ const CharacterSheet = ({ character }) => (
     <StatsArea>
       <Attributes character={character} />
     </StatsArea>
-    <Skills />
+    <SkillsArea>
+      <Skills character={character} />
+    </SkillsArea>
     <Weapons />
     <Equipment />
   </SheetContainer>
@@ -30,8 +33,6 @@ CharacterSheet.propTypes = {
 };
 
 const SheetContainer = styled.div`
-  width: 100%;
-  height: 100vh;
   display: grid;
   grid-gap: 10px;
   grid-template-areas:
@@ -55,8 +56,7 @@ const ProfileArea = styled.div`
 const StatsArea = styled.div`
   grid-area: stat;
 `;
-const Skills = styled.div`
-  background: blue;
+const SkillsArea = styled.div`
   grid-area: skill;
 `;
 const Weapons = styled.div`
