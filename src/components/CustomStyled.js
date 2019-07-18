@@ -40,6 +40,7 @@ export const ActionBar = styled.span`
 
 export const Row = styled.div`
   display: flex;
+  flex-wrap: wrap;
 `;
 
 export const RowCenter = styled.div`
@@ -96,4 +97,5 @@ export const SideBarToggle = styled.div`
 export const BasicBox = styled.div`
   width: 75px;
   height: 75px;
+    margin-left: 10px;
 `;
