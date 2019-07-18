@@ -42,9 +42,23 @@ export const Row = styled.div`
   display: flex;
 `;
 
+export const RowCenter = styled.div`
+  display: flex;
+  justify-content: center;
+`;
+
 export const Column = styled.div`
   display: flex;
   flex-direction: column;
+`;
+
+export const ContentWithSideBar = styled.div`
+  flex: 1; 
+  display: grid;
+  grid-template-columns: 1fr 400px;
+  @media screen and (max-width: 1000px){
+    grid-template-columns: 1fr;
+  }
 `;
 
 export const SideBar = styled.div`

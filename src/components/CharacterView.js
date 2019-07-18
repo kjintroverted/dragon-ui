@@ -6,8 +6,11 @@ import { Fab } from '@material-ui/core';
 import DungeonService from '../services/dungeonService';
 import Attributes from './Attributes';
 import Vitals from './Vitals';
-import { SideBar, SideBarToggle } from './CustomStyled';
+import {
+ SideBar, SideBarToggle, ContentWithSideBar, RowCenter 
+} from './CustomStyled';
 import CharacterSummary from './CharacterSummary';
+import CharacterSheet from './CharacterSheet';
 
 function CharacterView({ location }) {
   const [sidebar, setSidebar] = useState(false);
@@ -37,13 +40,10 @@ function CharacterView({ location }) {
   if (!focus) return null;
 
   return (
-    <div>
-      <h2>{ focus.name }</h2>
-      <p>{ focus.race } { focus.class }</p>
-      <CharacterSheet>
-        <Attributes character={focus} />
-        <Vitals character={focus} />
-      </CharacterSheet>
+    <ContentWithSideBar>
+      <RowCenter>
+        <CharacterSheet character={focus} />
+      </RowCenter>
       {
         characters.length > 1
         && <>
@@ -66,7 +66,7 @@ function CharacterView({ location }) {
           </SideBarToggle>
            </>
       }
-    </div>
+    </ContentWithSideBar>
   );
 }
 
@@ -74,8 +74,5 @@ CharacterView.propTypes = {
   location: PropTypes.object.isRequired,
 };
 
-const CharacterSheet = styled.div`
-    display:flex;
-`;
 
 export default CharacterView;
