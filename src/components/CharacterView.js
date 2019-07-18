@@ -44,25 +44,27 @@ function CharacterView({ location }) {
         <Attributes character={focus} />
         <Vitals character={focus} />
       </CharacterSheet>
-      <SideBar className={sidebar ? 'open' : ''}>
-        {
-          characters.map(character => (
-            <CharacterSummary
-              key={character.id}
-              character={character}
-              open={() => setFocus(character)}
-              highlight={focus.id === character.id}
-            />
-          ))
-        }
-      </SideBar>
       {
-        !!characters.length
-        && <SideBarToggle>
-          <Fab color="secondary" onClick={() => setSidebar(!sidebar)}>
-            <i className="material-icons">{ sidebar ? 'close' : 'group' }</i>
-          </Fab>
-           </SideBarToggle>
+        characters.length > 1
+        && <>
+          <SideBar className={sidebar ? 'open' : ''}>
+            {
+              characters.map(character => (
+                <CharacterSummary
+                  key={character.id}
+                  character={character}
+                  open={() => setFocus(character)}
+                  highlight={focus.id === character.id}
+                />
+              ))
+            }
+          </SideBar>
+          <SideBarToggle>
+            <Fab color="secondary" onClick={() => setSidebar(!sidebar)}>
+              <i className="material-icons">{ sidebar ? 'close' : 'group' }</i>
+            </Fab>
+          </SideBarToggle>
+           </>
       }
     </div>
   );
