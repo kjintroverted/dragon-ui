@@ -30,12 +30,17 @@ const SheetContainer = styled.div`
   grid-gap: 10px;
   grid-template-areas:
     "pro pro pro"
-    "skil stat stat"
-    "skil stat stat"
-    "skil stat stat"
-    "skil stat stat"
-    "skil wpn eqp"
-    "skil wpn eqp";
+    "skill stat stat"
+    "skill stat stat"
+    "skill stat stat"
+    "skill stat stat"
+    "skill wpn eqp"
+    "skill wpn eqp";
+
+  @media screen and (max-width: 450px){
+    display: flex;
+    flex-direction: column;
+  }
 `;
 
 const Profile = styled.div`
@@ -48,7 +53,7 @@ const Stats = styled.div`
 `;
 const Skills = styled.div`
   background: blue;
-  grid-area: skil
+  grid-area: skill
 `;
 const Weapons = styled.div`
   background: red;
