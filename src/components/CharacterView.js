@@ -5,18 +5,13 @@ import styled from 'styled-components';
 import DungeonService from '../services/dungeonService';
 import Attributes from './Attributes';
 import Vitals from './Vitals';
+import { SideBar } from './CustomStyled';
+import CharacterSummary from './CharacterSummary';
 
 function CharacterView({ location }) {
   const [idList, setIDList] = useState([]);
   const [characters, setCharacters] = useState([]);
   const [focus, setFocus] = useState({});
-
-  function updateCharacter(id) {
-    return (data) => {
-      const i = characters.findIndex(c => c.id === id);
-      setCharacters([...characters.slice(0, i), data, ...characters.slice(i + 1)]);
-    };
-  }
 
   function getCharacter(id) {
     return characters.find(c => c.id === id);
@@ -25,34 +20,39 @@ function CharacterView({ location }) {
   useEffect(() => {
     const ids = location.search.split('id=')[1].split(',');
     setIDList(ids);
-    let sockets = [];
-    ids.forEach((id) => {
-      const socket = DungeonService.watchCharacter(id);
-      const update = updateCharacter(id);
-      socket.onmessage = event => update(JSON.parse(event.data));
-      sockets = [...sockets, socket];
-    });
+    const socket = DungeonService.watchCharacters(ids);
+    socket.onmessage = event => setCharacters(JSON.parse(event.data));
 
-    return () => sockets.forEach(s => s.close());
+    return () => socket.close();
   }, []);
 
   useEffect(() => {
-    if (!focus) return;
-    const id = focus.id || idList[0];
+    const id = !focus ? idList[0] : focus.id || idList[0];
     if (!id) return;
     setFocus(getCharacter(id));
-  }, [characters]);
+  }, [characters, idList]);
 
-  if (!focus || !focus.id) return null;
+  if (!focus) return null;
 
   return (
     <div>
       <h2>{ focus.name }</h2>
       <p>{ focus.race } { focus.class }</p>
       <CharacterSheet>
-        <Attributes character={ focus } />
-        <Vitals character={ focus } />
+        <Attributes character={focus} />
+        <Vitals character={focus} />
       </CharacterSheet>
+      <SideBar>
+        {
+          characters.map(character => (
+            <CharacterSummary
+              key={character.id}
+              character={character}
+              highlight={focus.id === character.id}
+            />
+          ))
+        }
+      </SideBar>
     </div>
   );
 }
@@ -60,6 +60,7 @@ function CharacterView({ location }) {
 CharacterView.propTypes = {
   location: PropTypes.object.isRequired,
 };
+
 const CharacterSheet = styled.div`
     display:flex;
 `;

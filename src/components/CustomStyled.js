@@ -12,6 +12,7 @@ export const Card = styled.div`
   padding: 10px;
   display: flex;
   flex-direction: column;
+  margin: 5px;
 `;
 
 export const HeaderBar = styled.div`
@@ -38,4 +39,14 @@ export const Row = styled.div`
 export const Column = styled.div`
   display: flex;
   flex-direction: column;
+`;
+
+export const SideBar = styled.div`
+  position: fixed;
+  width: 350px;
+  height: 100vh;
+  top: 60px;
+  padding: 15px;
+  right: 0px;
+  overflow-y: scroll;
 `;
