@@ -19,14 +19,10 @@ function OwnerView({ owner }) {
 
   useEffect(() => {
     (async function getCharactersByOwner() {
-      let characterList = await DungeonService.getCharactersByOwner(owner);
-      characterList = await Promise.all(characterList.map(async (character) => {
-        const level = await DungeonService.getLevelInfo(character.xp);
-        return { ...character, ...level };
-      }));
+      const characterList = await DungeonService.getCharactersByOwner(owner);
       updateCharacters(characterList);
     }());
-  }, []);
+  }, [owner]);
 
   const characterCards = [];
   characters.forEach((character) => {
@@ -34,7 +30,7 @@ function OwnerView({ owner }) {
       <CharacterSummary
         key={character.id}
         character={character}
-        highlight={party.indexOf(character.id) != -1}
+        highlight={party.indexOf(character.id) !== -1}
         add={() => toggleCharacter(character.id)}
         linkTo={`/character?id=${character.id}`}
       />,
