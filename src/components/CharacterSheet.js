@@ -39,8 +39,8 @@ const SheetContainer = styled.div`
     "pro pro pro"
     "skill stat stat"
     "skill stat stat"
-    "skill stat stat"
-    "skill stat stat"
+    "skill wpn eqp"
+    "skill wpn eqp"
     "skill wpn eqp"
     "skill wpn eqp";
 
