@@ -1,11 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
+import Profile from './Profile';
 
 
 const CharacterSheet = ({ character }) => (
   <SheetContainer>
-    <Profile />
+    <ProfileArea>
+      <Profile character={character} />
+    </ProfileArea>
     <Stats />
     <Skills />
     <Weapons />
@@ -43,8 +46,7 @@ const SheetContainer = styled.div`
   }
 `;
 
-const Profile = styled.div`
-  background: black;
+const ProfileArea = styled.div`
   grid-area: pro;
 `;
 const Stats = styled.div`
@@ -53,7 +55,7 @@ const Stats = styled.div`
 `;
 const Skills = styled.div`
   background: blue;
-  grid-area: skill
+  grid-area: skill;
 `;
 const Weapons = styled.div`
   background: red;
