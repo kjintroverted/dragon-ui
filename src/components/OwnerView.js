@@ -1,38 +1,55 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { Link } from 'react-router-dom';
 
-import CharacterBackground from './CharacterBackground';
+import { Fab } from '@material-ui/core';
+import { Link } from 'react-router-dom';
+import CharacterSummary from './CharacterSummary';
 import DungeonService from '../services/dungeonService';
+import { BottomAnchor } from './CustomStyled';
 
 function OwnerView({ owner }) {
   const [characters, updateCharacters] = useState([]);
+  const [party, updateParty] = useState([]);
+
+  function toggleCharacter(id) {
+    const i = party.indexOf(id);
+    if (i !== -1) updateParty([...party.slice(0, i), ...party.slice(i + 1)]);
+    else updateParty([...party, id]);
+  }
 
   useEffect(() => {
     (async function getCharactersByOwner() {
       const characterList = await DungeonService.getCharactersByOwner(owner);
       updateCharacters(characterList);
     }());
-  }, []);
+  }, [owner]);
 
   const characterCards = [];
   characters.forEach((character) => {
     characterCards.push(
-      <Link to={{
-        pathname: '/character',
-        search: `?id=${character.id}`,
-        state: character,
-      }}
-      >
-        <CharacterBackground character={character} key={character.id} />
-      </Link>,
+      <CharacterSummary
+        key={character.id}
+        character={character}
+        highlight={party.indexOf(character.id) !== -1}
+        add={() => toggleCharacter(character.id)}
+        linkTo={`/character?id=${character.id}`}
+      />,
     );
   });
 
   return (
     <Container>
       { characterCards }
+      { !!party.length
+        && <BottomAnchor>
+          <Link to={`/character?id=${party.join()}`} style={{ zIndex: 10 }}>
+            <Fab color="secondary">
+              <i className="material-icons">group</i>
+            </Fab>
+          </Link>
+           </BottomAnchor>
+      }
     </Container>
   );
 }
@@ -44,5 +61,9 @@ OwnerView.propTypes = {
 };
 
 const Container = styled.div`
-    display:flex;
+    width: 100vw;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, 22em);
+    grid-gap: .625em;
+    justify-content: center;
 `;

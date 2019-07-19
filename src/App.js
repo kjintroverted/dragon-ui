@@ -44,4 +44,5 @@ export default App;
 
 const Content = styled.div`
   display: flex;
+  margin-top: 1em;
 `;

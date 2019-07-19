@@ -12,16 +12,22 @@ const getCharacter = async (characterId = '') => {
   return result.json();
 };
 
-const watchCharacter = characterId => new WebSocket(`ws://${serverDomain}/api/characters/${characterId}?watch=true`);
+const watchCharacters = characterIds => new WebSocket(`ws://${serverDomain}/api/characters?id=${characterIds.join()}&watch=true`);
 
 const getCharactersByOwner = async (owner = 'clayton.yarborough@gmail.com') => {
   const result = await fetch(`/api/characters?owner=${owner}`);
   return result.json();
 };
 
+const getLevelInfo = async (xp) => {
+  const result = await fetch(`/api/level?xp=${xp}`);
+  return result.json();
+};
+
 export default {
   getCharacter,
-  watchCharacter,
+  watchCharacters,
   getCharactersByOwner,
   getWelcome,
+  getLevelInfo,
 };
