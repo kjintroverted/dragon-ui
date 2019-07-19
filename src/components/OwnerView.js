@@ -63,7 +63,7 @@ OwnerView.propTypes = {
 const Container = styled.div`
     width: 100vw;
     display: grid;
-    grid-template-columns: repeat(auto-fill, 300px);
-    grid-gap: 10px;
+    grid-template-columns: repeat(auto-fill, 22em);
+    grid-gap: .625em;
     justify-content: center;
 `;
