@@ -78,5 +78,5 @@ CharacterSummary.defaultProps = {
 
 const InfoRow = styled.div`
       display: flex;
-      margin-top: 10px;
+      margin-top: .62em;
     `;

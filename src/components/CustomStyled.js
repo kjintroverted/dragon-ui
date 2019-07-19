@@ -6,19 +6,19 @@ export const Spacer = styled.span`
 
 export const BottomAnchor = styled.span`
   position: fixed;
-  bottom: 5px;
-  right: 5px;
+  bottom: .313em;
+  right: .313em;
 `;
 
 export const Card = styled.div`
   position: relative;
   background: white;
-  box-shadow: lightgray 1px 1px 5px;
-  border-radius: 5px;
-  padding: 10px;
+  box-shadow: lightgray 1px 1px .313em;
+  border-radius: .313em;
+  padding: .625em;
   display: flex;
   flex-direction: column;
-  margin: 5px;
+  margin: .313em;
 `;
 
 export const HeaderBar = styled.div`
@@ -26,7 +26,7 @@ export const HeaderBar = styled.div`
   align-items: center;
   border-bottom: lightgray solid 1px;
   & h1, h2, h3, h4, p {
-    margin: 0px;
+    margin: 0em;
   }
   & p {
     font-size: .8em;
@@ -66,30 +66,30 @@ export const ContentWithSideBar = styled.div`
 
 export const SideBar = styled.div`
   position: fixed;
-  width: 350px;
+  width: 22em;
   height: 100vh;
-  top: 60px;
-  padding: 15px;
-  right: 0px;
+  top: 3.75em;
+  padding: 1em;
+  right: 0em;
   overflow-y: scroll;
   z-index: 100;
 
   @media screen and (max-width: 1000px){
     background-color: white;
-    box-shadow: lightgrey 1px 1px 5px;
-    right: -400px;
+    box-shadow: lightgrey 1px 1px .313em;
+    right: -25em;
     transition: right .3s ease;
 
     &.open {
-      right: 0px
+      right: 0em;
     }
   }
 `;
 
 export const SideBarToggle = styled.div`
   position: fixed;
-  bottom: 5px;
-  right: 5px;
+  bottom: .313em;
+  right: .313em;
   display: none;
   z-index: 101;
 
