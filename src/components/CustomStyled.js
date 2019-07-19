@@ -58,6 +58,7 @@ export const ContentWithSideBar = styled.div`
   flex: 1; 
   display: grid;
   grid-template-columns: 1fr 400px;
+  margin-bottom: 70px;
   @media screen and (max-width: 1000px){
     grid-template-columns: 1fr;
   }
