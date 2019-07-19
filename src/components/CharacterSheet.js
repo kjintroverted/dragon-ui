@@ -17,8 +17,8 @@ const CharacterSheet = ({ character }) => (
     <SkillsArea>
       <Skills character={character} />
     </SkillsArea>
-    <Weapons />
-    <Equipment />
+    <WeaponsArea />
+    <EquipmentArea />
   </SheetContainer>
 );
 
@@ -36,7 +36,7 @@ const SheetContainer = styled.div`
   display: grid;
   grid-gap: 10px;
   grid-template-columns: 300px minmax(auto, 250px) minmax(auto, 200px);
-  grid-template-rows: auto 210px auto;
+  grid-template-rows: auto 210px auto auto;
   grid-template-areas:
     "pro pro pro"
     "skill stat stat"
@@ -57,11 +57,9 @@ const StatsArea = styled.div`
 const SkillsArea = styled.div`
   grid-area: skill;
 `;
-const Weapons = styled.div`
-  background: red;
+const WeaponsArea = styled.div`
   grid-area: wpn;
 `;
-const Equipment = styled.div`
-  background: yellow;
+const EquipmentArea = styled.div`
   grid-area: eqp;
 `;
