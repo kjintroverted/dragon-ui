@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import firebase from 'firebase';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { Fab } from '@material-ui/core';
@@ -12,6 +13,7 @@ import dungeonService from '../services/dungeonService';
 const CharacterSheet = ({ data }) => {
   const [character, updateCharacter] = useState(data);
   const [isDirty, setDirty] = useState(false);
+  const [authorized, setAuthorized] = useState(false);
 
   function update(charUpdates) {
     setDirty(true);
@@ -24,23 +26,33 @@ const CharacterSheet = ({ data }) => {
     if (!success) setDirty(true);
   }
 
+  async function checkAuthorized(user) {
+    const result = await dungeonService.checkUserAuth(character.id, user.email);
+    console.log('authorized:', result.authorized);
+    setAuthorized(result.authorized);
+  }
+
+  useEffect(() => {
+    checkAuthorized(firebase.auth().currentUser);
+  }, [data]);
+
   return (
     <SheetContainer>
       { isDirty
         && <TopAnchor>
-          <Fab color="secondary" size="small" onClick={save}>
+          <Fab color="secondary" size="small" onClick={ save }>
             <i className="material-icons">done</i>
           </Fab>
-           </TopAnchor>
+        </TopAnchor>
       }
       <ProfileArea>
-        <Profile character={character} update={update} />
+        <Profile character={ character } update={ update } />
       </ProfileArea>
       <StatsArea>
-        <Attributes character={character} update={update} />
+        <Attributes character={ character } update={ update } />
       </StatsArea>
       <SkillsArea>
-        <Skills character={character} />
+        <Skills character={ character } />
       </SkillsArea>
       <WeaponsArea />
       <EquipmentArea />

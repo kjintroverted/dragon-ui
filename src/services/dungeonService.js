@@ -12,6 +12,11 @@ const getCharacter = async (characterId = '') => {
   return result.json();
 };
 
+const checkUserAuth = async (characterId, user) => {
+  const result = await fetch(`/api/characters/${characterId}/auth-users?user=${user}`);
+  return result.json();
+};
+
 const saveCharacter = async (character) => {
   try {
     await fetch('/api/characters',
@@ -48,4 +53,5 @@ export default {
   getCharactersByOwner,
   getWelcome,
   getLevelInfo,
+  checkUserAuth,
 };
