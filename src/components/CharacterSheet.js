@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
+import { Fab } from '@material-ui/core';
 import Profile from './Profile';
 import Attributes from './Attributes';
 import Skills from './Skills';
+import { TopAnchor } from './CustomStyled';
 
 
 const CharacterSheet = ({ data }) => {
@@ -17,6 +19,13 @@ const CharacterSheet = ({ data }) => {
 
   return (
     <SheetContainer>
+      { isDirty
+        && <TopAnchor>
+          <Fab color="secondary" size="small">
+            <i className="material-icons">done</i>
+          </Fab>
+           </TopAnchor>
+      }
       <ProfileArea>
         <Profile character={character} update={update} />
       </ProfileArea>
@@ -35,7 +44,7 @@ const CharacterSheet = ({ data }) => {
 export default CharacterSheet;
 
 CharacterSheet.propTypes = {
-  character: PropTypes.shape({
+  data: PropTypes.shape({
     name: PropTypes.string,
     race: PropTypes.string,
     class: PropTypes.string,
@@ -43,6 +52,7 @@ CharacterSheet.propTypes = {
 };
 
 const SheetContainer = styled.div`
+  position: relative;
   display: grid;
   grid-gap: .625em;
   grid-template-columns: 18.75em minmax(auto, 15.625em) minmax(auto, 12.5em);
