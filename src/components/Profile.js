@@ -37,7 +37,7 @@ const Profile = ({ character, update }) => {
           <TextField variant="outlined" type="number" label="Speed" value={character.speed} onChange={onChange('speed')} />
         </BasicBox>
         <BasicBox>
-          <TextField variant="outlined" type="number" label="Init" value={character.initiative} onChange={onChange('initiative')} />
+          <TextField variant="outlined" type="number" label="Init" value={character.initiative || ''} onChange={onChange('initiative')} />
         </BasicBox>
       </Row>
     </Card>
