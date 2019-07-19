@@ -3,13 +3,16 @@ import styled from 'styled-components';
 
 import PropTypes from 'prop-types';
 import { Badge, TextField } from '@material-ui/core';
-import { Card } from './CustomStyled';
+import { Card, HeaderBar } from './CustomStyled';
 import { calculateModifier } from '../services/helper';
 
 
 function Attributes({ character }) {
   return (
     <Card>
+      <HeaderBar>
+        <h2>Stats</h2>
+      </HeaderBar>
       <StatGrid>
         <Badge badgeContent={calculateModifier(character.str)} color="secondary">
           <TextField variant="outlined" disabled type="number" label="Strength" value={character.str} />
@@ -45,6 +48,7 @@ Attributes.propTypes = {
 };
 
 const StatGrid = styled.div`
+  margin-top: 13px;
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   grid-template-rows: 1fr 1fr;

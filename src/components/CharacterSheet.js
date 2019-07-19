@@ -35,8 +35,8 @@ CharacterSheet.propTypes = {
 const SheetContainer = styled.div`
   display: grid;
   grid-gap: 10px;
-  grid-template-columns: 300px 1fr 1fr;
-  grid-template-rows: auto 180px auto;
+  grid-template-columns: 300px minmax(auto, 250px) minmax(auto, 200px);
+  grid-template-rows: auto 210px auto;
   grid-template-areas:
     "pro pro pro"
     "skill stat stat"
