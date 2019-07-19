@@ -34,15 +34,15 @@ CharacterSheet.propTypes = {
 
 const SheetContainer = styled.div`
   display: grid;
-  grid-gap: 10px;
-  grid-template-columns: 300px minmax(auto, 250px) minmax(auto, 200px);
-  grid-template-rows: auto 210px auto auto;
+  grid-gap: .625em;
+  grid-template-columns: 18.75em minmax(auto, 15.625em) minmax(auto, 12.5em);
+  grid-template-rows: auto 13em auto auto;
   grid-template-areas:
     "pro pro pro"
     "skill stat stat"
     "skill wpn eqp";
 
-  @media screen and (max-width: 575px){
+  @media screen and (max-width: 36em){
     display: flex;
     flex-direction: column;
   }

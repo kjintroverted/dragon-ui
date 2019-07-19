@@ -6,27 +6,7 @@ html {
 
 .App {
   display: grid;
-  grid-template-rows: 65px 1fr;
-}
-
-.card {
-  display: flex;
-  position: relative;
-  background: white;
-  text-align: center;
-  justify-content: space-evenly;
-  border-radius: 5px;
-  box-shadow: rgba(0, 0, 0, 0.2) 1px 1px 8px;
-  margin: 1em;
-  padding: 10px;
-}
-
-.verticle{
-  flex-direction: column;
-}
-
-.spacer {
-  flex: 1;
+  grid-template-rows: 4em 1fr;
 }
 
 a {

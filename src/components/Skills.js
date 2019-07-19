@@ -22,7 +22,7 @@ const Skills = ({ character }) => {
       <HeaderBar>
         <h2>Skills</h2>
         <Spacer />
-        <ActionBar style={{ marginBottom: '5px' }}>
+        <ActionBar style={{ marginBottom: '0.3125em' }}>
           <TextField label="Search" value={query} onChange={e => setQuery(e.target.value)} />
         </ActionBar>
       </HeaderBar>
@@ -30,9 +30,9 @@ const Skills = ({ character }) => {
         skillDisplay.map(skill => (
           <div key={skill.label}>
             <Row>
-              <p style={{ margin: '5px' }}>{ skill.label }</p>
+              <p style={{ margin: '0.3125em' }}>{ skill.label }</p>
               <Spacer />
-              <h4 style={{ margin: '5px' }}>{ calculateModifier(character[skill.check]) }</h4>
+              <h4 style={{ margin: '0.3125em' }}>{ calculateModifier(character[skill.check]) }</h4>
             </Row>
             <Divider />
           </div>

@@ -57,9 +57,9 @@ export const Column = styled.div`
 export const ContentWithSideBar = styled.div`
   flex: 1; 
   display: grid;
-  grid-template-columns: 1fr 400px;
-  margin-bottom: 70px;
-  @media screen and (max-width: 1000px){
+  grid-template-columns: 1fr 25em;
+  margin-bottom: 4.3em;
+  @media screen and (max-width: 62.5em){
     grid-template-columns: 1fr;
   }
 `;
@@ -74,7 +74,7 @@ export const SideBar = styled.div`
   overflow-y: scroll;
   z-index: 100;
 
-  @media screen and (max-width: 1000px){
+  @media screen and (max-width: 62.5em){
     background-color: white;
     box-shadow: lightgrey 1px 1px .313em;
     right: -25em;
@@ -93,13 +93,13 @@ export const SideBarToggle = styled.div`
   display: none;
   z-index: 101;
 
-  @media screen and (max-width: 1000px){
+  @media screen and (max-width: 62.5em){
     display: initial;
   }
 `;
 
 export const BasicBox = styled.div`
-  width: 75px;
-  height: 75px;
-    margin-left: 10px;
+  width: 4.6875em;
+  height: 4.6875em;
+    margin-left: .625em;
 `;

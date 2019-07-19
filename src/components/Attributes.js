@@ -48,9 +48,9 @@ Attributes.propTypes = {
 };
 
 const StatGrid = styled.div`
-  margin-top: 13px;
+  margin-top: 1em;
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   grid-template-rows: 1fr 1fr;
-  grid-gap: 10px;
+  grid-gap: .625em;
 `;
