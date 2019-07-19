@@ -12,6 +12,23 @@ const getCharacter = async (characterId = '') => {
   return result.json();
 };
 
+const saveCharacter = async (character) => {
+  try {
+    await fetch('/api/characters',
+      {
+        method: 'POST',
+        body: JSON.stringify(character),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+  } catch (err) {
+    console.error(err);
+    return false;
+  }
+  return true;
+};
+
 const watchCharacters = characterIds => new WebSocket(`ws://${serverDomain}/api/characters?id=${characterIds.join()}&watch=true`);
 
 const getCharactersByOwner = async (owner = 'clayton.yarborough@gmail.com') => {
@@ -26,6 +43,7 @@ const getLevelInfo = async (xp) => {
 
 export default {
   getCharacter,
+  saveCharacter,
   watchCharacters,
   getCharactersByOwner,
   getWelcome,

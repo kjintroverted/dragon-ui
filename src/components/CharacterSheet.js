@@ -6,6 +6,7 @@ import Profile from './Profile';
 import Attributes from './Attributes';
 import Skills from './Skills';
 import { TopAnchor } from './CustomStyled';
+import dungeonService from '../services/dungeonService';
 
 
 const CharacterSheet = ({ data }) => {
@@ -17,11 +18,17 @@ const CharacterSheet = ({ data }) => {
     updateCharacter(charUpdates);
   }
 
+  async function save() {
+    setDirty(false);
+    const success = await dungeonService.saveCharacter(character);
+    if (!success) setDirty(true);
+  }
+
   return (
     <SheetContainer>
       { isDirty
         && <TopAnchor>
-          <Fab color="secondary" size="small">
+          <Fab color="secondary" size="small" onClick={save}>
             <i className="material-icons">done</i>
           </Fab>
            </TopAnchor>
