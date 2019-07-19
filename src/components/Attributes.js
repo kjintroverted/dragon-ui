@@ -7,7 +7,14 @@ import { Card, HeaderBar } from './CustomStyled';
 import { calculateModifier } from '../services/helper';
 
 
-function Attributes({ character }) {
+function Attributes({ character, update }) {
+  function onChange(field) {
+    return (e) => {
+      const val = +e.target.value;
+      update({ ...character, [field]: val });
+    };
+  }
+
   return (
     <Card>
       <HeaderBar>
@@ -15,22 +22,22 @@ function Attributes({ character }) {
       </HeaderBar>
       <StatGrid>
         <Badge badgeContent={calculateModifier(character.str)} color="secondary">
-          <TextField variant="outlined" disabled type="number" label="Strength" value={character.str} />
+          <TextField variant="outlined" type="number" label="Strength" value={character.str} onChange={onChange('str')} />
         </Badge>
         <Badge badgeContent={calculateModifier(character.dex)} color="secondary">
-          <TextField variant="outlined" disabled type="number" label="Dexterity" value={character.dex} />
+          <TextField variant="outlined" type="number" label="Dexterity" value={character.dex} onChange={onChange('dex')} />
         </Badge>
         <Badge badgeContent={calculateModifier(character.con)} color="secondary">
-          <TextField variant="outlined" disabled type="number" label="Constitution" value={character.con} />
+          <TextField variant="outlined" type="number" label="Constitution" value={character.con} onChange={onChange('con')} />
         </Badge>
         <Badge badgeContent={calculateModifier(character.intel)} color="secondary">
-          <TextField variant="outlined" disabled type="number" label="Intelligence" value={character.intel} />
+          <TextField variant="outlined" type="number" label="Intelligence" value={character.intel} onChange={onChange('intel')} />
         </Badge>
         <Badge badgeContent={calculateModifier(character.wis)} color="secondary">
-          <TextField variant="outlined" disabled type="number" label="Wisdom" value={character.wis} />
+          <TextField variant="outlined" type="number" label="Wisdom" value={character.wis} onChange={onChange('wis')} />
         </Badge>
         <Badge badgeContent={calculateModifier(character.cha)} color="secondary">
-          <TextField variant="outlined" disabled type="number" label="Charisma" value={character.cha} />
+          <TextField variant="outlined" type="number" label="Charisma" value={character.cha} onChange={onChange('cha')} />
         </Badge>
       </StatGrid>
     </Card>
@@ -45,6 +52,7 @@ Attributes.propTypes = {
     intel: PropTypes.number,
     str: PropTypes.number,
   }).isRequired,
+  update: PropTypes.func.isRequired,
 };
 
 const StatGrid = styled.div`

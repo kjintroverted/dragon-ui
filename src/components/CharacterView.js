@@ -39,7 +39,7 @@ function CharacterView({ location }) {
   return (
     <ContentWithSideBar>
       <RowCenter>
-        <CharacterSheet character={focus} />
+        <CharacterSheet data={focus} />
       </RowCenter>
       {
         characters.length > 1

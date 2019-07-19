@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import Profile from './Profile';
@@ -6,21 +6,31 @@ import Attributes from './Attributes';
 import Skills from './Skills';
 
 
-const CharacterSheet = ({ character }) => (
-  <SheetContainer>
-    <ProfileArea>
-      <Profile character={character} />
-    </ProfileArea>
-    <StatsArea>
-      <Attributes character={character} />
-    </StatsArea>
-    <SkillsArea>
-      <Skills character={character} />
-    </SkillsArea>
-    <WeaponsArea />
-    <EquipmentArea />
-  </SheetContainer>
-);
+const CharacterSheet = ({ data }) => {
+  const [character, updateCharacter] = useState(data);
+  const [isDirty, setDirty] = useState(false);
+
+  function update(charUpdates) {
+    setDirty(true);
+    updateCharacter(charUpdates);
+  }
+
+  return (
+    <SheetContainer>
+      <ProfileArea>
+        <Profile character={character} update={update} />
+      </ProfileArea>
+      <StatsArea>
+        <Attributes character={character} update={update} />
+      </StatsArea>
+      <SkillsArea>
+        <Skills character={character} />
+      </SkillsArea>
+      <WeaponsArea />
+      <EquipmentArea />
+    </SheetContainer>
+  );
+};
 
 export default CharacterSheet;
 
