@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 
 import { Avatar, IconButton } from '@material-ui/core';
 import DungeonService from '../services/dungeonService';
+import { Spacer } from './CustomStyled';
 
 
 function NavBar({ user }) {
@@ -36,7 +37,7 @@ function NavBar({ user }) {
         <Link to="/">
           <h3>{ welcome }</h3>
         </Link>
-        <span className="spacer" />
+        <Spacer />
         { user && <IconButton><Avatar alt={user.name} src={user.photo} /></IconButton> }
       </Toolbar>
     </AppBar>
