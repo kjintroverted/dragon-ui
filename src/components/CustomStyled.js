@@ -35,6 +35,7 @@ export const HeaderBar = styled.div`
 
 export const ActionBar = styled.span`
   display: flex;
+  align-items: center;
   flex-direction: row-reverse;
 `;
 
