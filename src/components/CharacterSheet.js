@@ -33,6 +33,7 @@ const CharacterSheet = ({ data }) => {
 
   useEffect(() => {
     checkAuthorized(firebase.auth().currentUser);
+    updateCharacter(data);
   }, [data]);
 
   return (
