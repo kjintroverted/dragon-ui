@@ -28,7 +28,6 @@ const CharacterSheet = ({ data }) => {
 
   async function checkAuthorized(user) {
     const result = await dungeonService.checkUserAuth(character.id, user.email);
-    console.log('authorized:', result.authorized);
     setAuthorized(result.authorized);
   }
 
@@ -40,19 +39,19 @@ const CharacterSheet = ({ data }) => {
     <SheetContainer>
       { isDirty
         && <TopAnchor>
-          <Fab color="secondary" size="small" onClick={ save }>
+          <Fab color="secondary" size="small" onClick={save}>
             <i className="material-icons">done</i>
           </Fab>
-        </TopAnchor>
+           </TopAnchor>
       }
       <ProfileArea>
-        <Profile character={ character } update={ update } />
+        <Profile character={character} update={update} disabled={!authorized} />
       </ProfileArea>
       <StatsArea>
-        <Attributes character={ character } update={ update } />
+        <Attributes character={character} update={update} disabled={!authorized} />
       </StatsArea>
       <SkillsArea>
-        <Skills character={ character } />
+        <Skills character={character} />
       </SkillsArea>
       <WeaponsArea />
       <EquipmentArea />

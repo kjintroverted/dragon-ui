@@ -5,7 +5,7 @@ import {
   Card, Column, Row, BasicBox, Spacer,
 } from './CustomStyled';
 
-const Profile = ({ character, update }) => {
+const Profile = ({ character, update, disabled }) => {
   function onChange(field, max) {
     return (e) => {
       let val = +e.target.value;
@@ -28,16 +28,16 @@ const Profile = ({ character, update }) => {
           </BasicBox>
         </Badge>
         <BasicBox>
-          <TextField variant="outlined" type="number" label="HP" value={character.hp} onChange={onChange('hp')} />
+          <TextField variant="outlined" disabled={disabled} type="number" label="HP" value={character.hp} onChange={onChange('hp')} />
         </BasicBox>
         <BasicBox>
-          <TextField variant="outlined" type="number" label="AC" value={character.armor} onChange={onChange('armor')} />
+          <TextField variant="outlined" disabled={disabled} type="number" label="AC" value={character.armor} onChange={onChange('armor')} />
         </BasicBox>
         <BasicBox>
-          <TextField variant="outlined" type="number" label="Speed" value={character.speed} onChange={onChange('speed')} />
+          <TextField variant="outlined" disabled={disabled} type="number" label="Speed" value={character.speed} onChange={onChange('speed')} />
         </BasicBox>
         <BasicBox>
-          <TextField variant="outlined" type="number" label="Init" value={character.initiative || ''} onChange={onChange('initiative')} />
+          <TextField variant="outlined" disabled={disabled} type="number" label="Init" value={character.initiative || ''} onChange={onChange('initiative')} />
         </BasicBox>
       </Row>
     </Card>
@@ -53,4 +53,5 @@ Profile.propTypes = {
     class: PropTypes.string,
   }).isRequired,
   update: PropTypes.func.isRequired,
+  disabled: PropTypes.bool.isRequired,
 };
