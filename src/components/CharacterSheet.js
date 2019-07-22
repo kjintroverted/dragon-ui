@@ -10,8 +10,8 @@ import { TopAnchor } from './CustomStyled';
 import dungeonService from '../services/dungeonService';
 
 
-const CharacterSheet = ({ data }) => {
-  const [character, updateCharacter] = useState(data);
+const CharacterSheet = ({ characterData }) => {
+  const [character, updateCharacter] = useState(characterData);
   const [isDirty, setDirty] = useState(false);
   const [authorized, setAuthorized] = useState(false);
 
@@ -33,8 +33,8 @@ const CharacterSheet = ({ data }) => {
 
   useEffect(() => {
     checkAuthorized(firebase.auth().currentUser);
-    updateCharacter(data);
-  }, [data]);
+    updateCharacter(characterData);
+  }, [characterData]);
 
   return (
     <SheetContainer>
@@ -63,7 +63,7 @@ const CharacterSheet = ({ data }) => {
 export default CharacterSheet;
 
 CharacterSheet.propTypes = {
-  data: PropTypes.shape({
+  characterData: PropTypes.shape({
     name: PropTypes.string,
     race: PropTypes.string,
     class: PropTypes.string,
