@@ -27,14 +27,18 @@ const CharacterSheet = ({ characterData }) => {
   }
 
   async function checkAuthorized(user) {
+    if (!character) return;
     const result = await dungeonService.checkUserAuth(character.id, user.email);
     setAuthorized(result.authorized);
   }
 
   useEffect(() => {
-    checkAuthorized(firebase.auth().currentUser);
     updateCharacter(characterData);
   }, [characterData]);
+
+  useEffect(() => {
+    checkAuthorized(firebase.auth().currentUser);
+  }, [character]);
 
   return (
     <SheetContainer>
