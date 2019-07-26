@@ -23,7 +23,17 @@ function CharacterView({ location }) {
     const ids = location.search.split('id=')[1].split(',');
     setIDList(ids);
     const socket = DungeonService.watchCharacters(ids);
-    socket.onmessage = event => setCharacters(JSON.parse(event.data));
+    socket.onmessage = (event) => {
+      const updatedCharacters = JSON.parse(event.data).sort((a, b) => {
+        if (!a.initiative) {
+          if (!b.initiative) return 0;
+          return 1;
+        }
+        if (!b.initiative) return -1;
+        return b.initiative - a.initiative;
+      });
+      setCharacters(updatedCharacters);
+    };
 
     return () => socket.close();
   }, []);
@@ -39,21 +49,22 @@ function CharacterView({ location }) {
   return (
     <ContentWithSideBar>
       <RowCenter>
-        <CharacterSheet character={focus} />
+        <CharacterSheet characterData={focus} />
       </RowCenter>
       {
         characters.length > 1
         && <>
           <SideBar className={sidebar ? 'open' : ''}>
             {
-              characters.map(character => (
-                <CharacterSummary
-                  key={character.id}
-                  character={character}
-                  open={() => setFocus(character)}
-                  highlight={focus.id === character.id}
-                />
-              ))
+              characters
+                .map(character => (
+                  <CharacterSummary
+                    key={character.id}
+                    character={character}
+                    open={() => setFocus(character)}
+                    highlight={focus.id === character.id}
+                  />
+                ))
             }
           </SideBar>
           <SideBarToggle>

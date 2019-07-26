@@ -4,6 +4,13 @@ export const Spacer = styled.span`
   flex: 1;
 `;
 
+export const TopAnchor = styled.span`
+  position: absolute;
+  top: -.8em;
+  right: 0em;
+  z-index: 100;
+`;
+
 export const BottomAnchor = styled.span`
   position: fixed;
   bottom: .313em;
