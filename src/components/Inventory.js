@@ -83,7 +83,7 @@ const Inventory = ({
            </Column>
       }
 
-      <Row>
+      <Row style={{ justifyContent: 'flex-end' }}>
         <TextField
           style={{ maxWidth: 150 }}
           variant="outlined"
@@ -92,7 +92,6 @@ const Inventory = ({
           value={goldValue || 0}
           onChange={changeGold}
         />
-        <Divider />
       </Row>
 
       { // DISPLAY ALL ITEMS
