@@ -80,7 +80,7 @@ const Weapons = ({
               </Column>
               <Spacer />
               <BasicBox>
-                <TextField variant="outlined" disabled label="Check" value={mod} />
+                <TextField variant="outlined" disabled label="Attack" value={mod} />
               </BasicBox>
               <BasicBox>
                 <TextField variant="outlined" disabled label="Damage" value={`${weapon.damage_dice} ${mod}`} />
