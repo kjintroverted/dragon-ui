@@ -5,14 +5,12 @@ export function calculateModifier(x) {
 }
 
 export function isFinesse(weapon) {
-  for (const prop in weapon.properties) {
+  const finesse = weapon.properties.find((prop) => {
     const text = prop.toLowerCase();
-    if (text.indexOf('range') !== -1
-      || text.indexOf('finesse') !== -1) {
-      return true;
-    }
-  }
-  return false;
+    return text.indexOf('range') !== -1
+      || text.indexOf('finesse') !== -1;
+  });
+  return !!finesse;
 }
 
 export const skillsArray = [
