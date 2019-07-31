@@ -5,9 +5,9 @@ import { Fab } from '@material-ui/core';
 import DungeonService from '../services/dungeonService';
 import {
   SideBar, SideBarToggle, ContentWithSideBar, RowCenter,
-} from './CustomStyled';
-import CharacterSummary from './CharacterSummary';
-import CharacterSheet from './CharacterSheet';
+} from '../components/CustomStyled';
+import CharacterSummary from '../components/CharacterSummary';
+import CharacterSheet from '../components/CharacterSheet';
 
 function CharacterView({ location }) {
   const [sidebar, setSidebar] = useState(false);

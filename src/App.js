@@ -4,8 +4,8 @@ import firebase from 'firebase';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 
 import NavBar from './components/NavBar';
-import OwnerView from './components/OwnerView';
-import CharacterView from './components/CharacterView';
+import OwnerView from './containers/OwnerView';
+import CharacterView from './containers/PartyView';
 
 import './App.css';
 

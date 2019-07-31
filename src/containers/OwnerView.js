@@ -6,11 +6,11 @@ import {
   Fab, TextField, IconButton, Select, MenuItem, OutlinedInput, FormControl, FormLabel,
 } from '@material-ui/core';
 import { Link } from 'react-router-dom';
-import CharacterSummary from './CharacterSummary';
+import CharacterSummary from '../components/CharacterSummary';
 import DungeonService from '../services/dungeonService';
 import {
   BottomAnchor, TopAnchor, HeaderBar, ActionBar, Card, Spacer,
-} from './CustomStyled';
+} from '../components/CustomStyled';
 
 function OwnerView({ owner }) {
   const [characters, updateCharacters] = useState([]);
