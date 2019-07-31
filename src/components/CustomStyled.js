@@ -54,7 +54,7 @@ export const Row = styled.div`
 
 export const RowCenter = styled.div`
   display: flex;
-  align-items: center;
+  justify-content: center;
 `;
 
 export const Column = styled.div`
