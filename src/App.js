@@ -4,8 +4,8 @@ import firebase from 'firebase';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 
 import NavBar from './components/NavBar';
-import OwnerView from './components/OwnerView';
-import CharacterView from './components/CharacterView';
+import OwnerView from './containers/OwnerView';
+import PartyView from './containers/PartyView';
 
 import './App.css';
 
@@ -32,7 +32,7 @@ function App() {
         { user
           && <Content>
             <Route path="/" exact component={() => <OwnerView owner={user.email} />} />
-            <Route path="/character" exact component={props => <CharacterView {...props} />} />
+            <Route path="/character" exact component={props => <PartyView {...props} />} />
              </Content>
         }
       </div>

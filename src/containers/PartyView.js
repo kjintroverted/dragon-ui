@@ -5,15 +5,15 @@ import { Fab } from '@material-ui/core';
 import DungeonService from '../services/dungeonService';
 import {
   SideBar, SideBarToggle, ContentWithSideBar, RowCenter,
-} from './CustomStyled';
-import CharacterSummary from './CharacterSummary';
-import CharacterSheet from './CharacterSheet';
+} from '../components/CustomStyled';
+import CharacterSummary from '../components/CharacterSummary';
+import CharacterSheet from '../components/CharacterSheet';
 
-function CharacterView({ location }) {
+function PartyView({ location }) {
   const [sidebar, setSidebar] = useState(false);
   const [idList, setIDList] = useState([]);
   const [characters, setCharacters] = useState([]);
-  const [focus, setFocus] = useState({});
+  const [focus, setFocus] = useState(null);
 
   function getCharacter(id) {
     return characters.find(c => c.id === id);
@@ -43,7 +43,6 @@ function CharacterView({ location }) {
     if (!id) return;
     setFocus(getCharacter(id));
   }, [characters, idList]);
-
   if (!focus) return null;
 
   return (
@@ -78,9 +77,9 @@ function CharacterView({ location }) {
   );
 }
 
-CharacterView.propTypes = {
+PartyView.propTypes = {
   location: PropTypes.object.isRequired,
 };
 
 
-export default CharacterView;
+export default PartyView;
