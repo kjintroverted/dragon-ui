@@ -9,7 +9,6 @@ import Skills from './Skills';
 import { TopAnchor } from './CustomStyled';
 import dungeonService from '../services/dungeonService';
 import Weapons from './Weapons';
-import { calculateModifierInt } from '../services/helper';
 
 
 const CharacterSheet = ({ characterData }) => {
@@ -65,6 +64,7 @@ const CharacterSheet = ({ characterData }) => {
           weaponList={character.weapons || []}
           dex={character.dex}
           str={character.str}
+          update={weapons => update({ ...character, weapons })}
         />
       </WeaponsArea>
       <EquipmentArea />
