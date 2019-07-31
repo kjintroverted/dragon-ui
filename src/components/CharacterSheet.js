@@ -8,6 +8,8 @@ import Attributes from './Attributes';
 import Skills from './Skills';
 import { TopAnchor } from './CustomStyled';
 import dungeonService from '../services/dungeonService';
+import Weapons from './Weapons';
+import { calculateModifierInt } from '../services/helper';
 
 
 const CharacterSheet = ({ characterData }) => {
@@ -58,7 +60,13 @@ const CharacterSheet = ({ characterData }) => {
       <SkillsArea>
         <Skills character={character} />
       </SkillsArea>
-      <WeaponsArea />
+      <WeaponsArea>
+        <Weapons
+          weaponList={character.weapons || []}
+          dex={character.dex}
+          str={character.str}
+        />
+      </WeaponsArea>
       <EquipmentArea />
     </SheetContainer>
   );
@@ -83,7 +91,8 @@ const SheetContainer = styled.div`
   grid-template-areas:
     "pro pro pro"
     "skill stat stat"
-    "skill wpn eqp";
+    "skill wpn wpn"
+    "skill eqp eqp";
 
   @media screen and (max-width: 36em){
     display: flex;

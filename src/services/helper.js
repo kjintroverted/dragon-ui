@@ -1,8 +1,20 @@
 
 export function calculateModifier(x) {
   const y = Math.floor((x - 10) / 2);
-  return y < 0 ? `${ y }` : `+${ y }`;
+  return y < 0 ? `${y}` : `+${y}`;
 }
+
+export function isFinesse(weapon) {
+  for (const prop in weapon.properties) {
+    const text = prop.toLowerCase();
+    if (text.indexOf('range') !== -1
+      || text.indexOf('finesse') !== -1) {
+      return true;
+    }
+  }
+  return false;
+}
+
 export const skillsArray = [
   {
     label: 'Acrobatics',

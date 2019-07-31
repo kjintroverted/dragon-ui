@@ -32,6 +32,7 @@ export const HeaderBar = styled.div`
   display: flex;
   align-items: center;
   border-bottom: lightgray solid 1px;
+  margin-bottom: 1em;
   & h1, h2, h3, h4, p {
     margin: 0em;
   }
