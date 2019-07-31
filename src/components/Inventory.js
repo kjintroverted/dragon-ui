@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import {
   IconButton, TextField, Divider,
@@ -34,6 +34,8 @@ const Inventory = ({
   function remove(i) {
     update(goldValue, [...itemList.slice(0, i), ...itemList.slice(i + 1)]);
   }
+
+  useEffect(() => setGold(gold), [gold]);
 
   return (
     <Card>

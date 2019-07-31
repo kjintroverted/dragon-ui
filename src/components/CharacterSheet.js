@@ -46,35 +46,35 @@ const CharacterSheet = ({ characterData }) => {
     <SheetContainer>
       { isDirty
         && <TopAnchor>
-          <Fab color="secondary" size="small" onClick={ save }>
+          <Fab color="secondary" size="small" onClick={save}>
             <i className="material-icons">done</i>
           </Fab>
-        </TopAnchor>
+           </TopAnchor>
       }
       <ProfileArea>
-        <Profile character={ character } update={ update } disabled={ !authorized } />
+        <Profile character={character} update={update} disabled={!authorized} />
       </ProfileArea>
       <StatsArea>
-        <Attributes character={ character } update={ update } disabled={ !authorized } />
+        <Attributes character={character} update={update} disabled={!authorized} />
       </StatsArea>
       <SkillsArea>
-        <Skills character={ character } />
+        <Skills character={character} />
       </SkillsArea>
       <WeaponsArea>
         <Weapons
-          disabled={ !authorized }
-          weaponList={ character.weapons || [] }
-          dex={ character.dex }
-          str={ character.str }
-          update={ weapons => update({ ...character, weapons }) }
+          disabled={!authorized}
+          weaponList={character.weapons || []}
+          dex={character.dex}
+          str={character.str}
+          update={weapons => update({ ...character, weapons })}
         />
       </WeaponsArea>
       <EquipmentArea>
         <Inventory
-          disabled={ !authorized }
-          itemList={ character.inventory || [] }
-          gold={ character.gold }
-          update={ (gold, inventory) => update({ ...character, gold, inventory }) }
+          disabled={!authorized}
+          itemList={character.inventory || []}
+          gold={character.gold}
+          update={(gold, inventory) => update({ ...character, gold, inventory })}
         />
       </EquipmentArea>
     </SheetContainer>
