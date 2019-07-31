@@ -10,7 +10,7 @@ import { isFinesse, calculateModifier } from '../services/helper';
 import dungeonService from '../services/dungeonService';
 
 const Weapons = ({
-  weaponList, dex, str, update,
+  weaponList, dex, str, update, disabled,
 }) => {
   const [isAdding, setAdding] = useState(false);
   const [weaponOptions, setWeaponOptions] = useState([]);
@@ -40,11 +40,13 @@ const Weapons = ({
       <HeaderBar>
         <h2>Weapons</h2>
         <Spacer />
-        <ActionBar>
-          <IconButton onClick={() => setAdding(!isAdding)}>
-            <i className="material-icons">{ isAdding ? 'close' : 'add' }</i>
-          </IconButton>
-        </ActionBar>
+        { !disabled
+          && <ActionBar>
+            <IconButton onClick={() => setAdding(!isAdding)}>
+              <i className="material-icons">{ isAdding ? 'close' : 'add' }</i>
+            </IconButton>
+             </ActionBar>
+        }
       </HeaderBar>
       { // ADD NEW WEAPON
         isAdding
@@ -104,4 +106,5 @@ Weapons.propTypes = {
   dex: PropTypes.number.isRequired,
   str: PropTypes.number.isRequired,
   update: PropTypes.func.isRequired,
+  disabled: PropTypes.bool.isRequired,
 };

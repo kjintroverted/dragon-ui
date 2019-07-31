@@ -61,6 +61,7 @@ const CharacterSheet = ({ characterData }) => {
       </SkillsArea>
       <WeaponsArea>
         <Weapons
+          disabled={!authorized}
           weaponList={character.weapons || []}
           dex={character.dex}
           str={character.str}
