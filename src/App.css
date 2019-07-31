@@ -18,3 +18,12 @@ input[type="number"] {
   text-align: right;
   font-size: 1.5em;
 }
+
+.min-margin {
+  margin: 3px 0px;
+}
+
+/* MUI OVERRIDES */
+.App .MuiOutlinedInput-input {
+  padding: 18.5px 10px;
+}
