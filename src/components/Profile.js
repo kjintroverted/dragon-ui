@@ -30,16 +30,44 @@ const Profile = ({
           </BasicBox>
         </Badge>
         <BasicBox>
-          <TextField variant="outlined" disabled={disabled} type="number" label="HP" value={character.hp} onChange={onChange('hp')} />
+          <TextField
+            variant="outlined"
+            disabled={disabled}
+            type="number"
+            label="HP"
+            value={character.hp}
+            onChange={onChange('hp')}
+          />
         </BasicBox>
         <BasicBox>
-          <TextField variant="outlined" disabled={disabled} type="number" label="AC" value={character.armor} onChange={onChange('armor')} />
+          <TextField
+            variant="outlined"
+            disabled={disabled}
+            type="number"
+            label="AC"
+            value={character.armor}
+            onChange={onChange('armor')}
+          />
         </BasicBox>
         <BasicBox>
-          <TextField variant="outlined" disabled={disabled} type="number" label="Speed" value={character.speed} onChange={onChange('speed')} />
+          <TextField
+            variant="outlined"
+            disabled={disabled}
+            type="number"
+            label="Speed"
+            value={character.speed}
+            onChange={onChange('speed')}
+          />
         </BasicBox>
         <BasicBox>
-          <TextField variant="outlined" disabled={disabled} type="number" label="Init" value={character.initiative || ''} onChange={onChange('initiative')} />
+          <TextField
+            variant="outlined"
+            disabled={disabled}
+            type="number"
+            label="Init"
+            value={character.initiative || ''}
+            onChange={onChange('initiative')}
+          />
         </BasicBox>
       </Row>
     </Card>

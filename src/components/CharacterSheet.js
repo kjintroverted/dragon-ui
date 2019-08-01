@@ -10,6 +10,7 @@ import { TopAnchor } from './CustomStyled';
 import dungeonService from '../services/dungeonService';
 import Weapons from './Weapons';
 import Inventory from './Inventory';
+import SpellBook from './SpellBook';
 
 
 const CharacterSheet = ({ characterData }) => {
@@ -85,6 +86,11 @@ const CharacterSheet = ({ characterData }) => {
           update={(gold, inventory) => update({ ...character, gold, inventory })}
         />
       </EquipmentArea>
+      <Misc>
+        { classInfo && classInfo.spellcasting_ability
+          && <SpellBook classInfo={classInfo.info} level={character.level} />
+        }
+      </Misc>
     </SheetContainer>
   );
 };
@@ -104,12 +110,13 @@ const SheetContainer = styled.div`
     display: grid;
     grid-gap: .625em;
     grid-template-columns: 18.75em minmax(auto, 15.625em) minmax(auto, 12.5em);
-    grid-template-rows: auto 13em auto auto;
+    grid-template-rows: auto 13em auto auto auto;
     grid-template-areas:
       "pro pro pro"
       "skill stat stat"
       "skill wpn wpn"
-      "skill eqp eqp";
+      "skill eqp eqp"
+      "etc etc etc";
   
   @media screen and (max-width: 36em){
         display: flex;
@@ -131,4 +138,9 @@ const WeaponsArea = styled.div`
   `;
 const EquipmentArea = styled.div`
     grid-area: eqp;
+  `;
+const Misc = styled.div`
+    grid-area: etc;
+    display: flex;
+    flex-direction: column;
   `;
