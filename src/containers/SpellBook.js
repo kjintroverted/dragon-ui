@@ -1,16 +1,32 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
+import SpellPage from '../components/SpellPage';
 
 const SpellBook = ({ classInfo, level }) => {
+  const cantrips = (
+    <SpellPage
+      level="Cantrip"
+      slots={ +classInfo['Cantrips Known'][level] }
+      spells={ [] }
+      addSpell={ console.log }
+    />);
+
   const spells = classInfo.Level.map((val, i) => {
     if (i > level - 1 || !classInfo[val][i]) return null;
     return (
-      <p key={val}>{ classInfo[val][i] } { val } Level Spell Slots</p>
+      <SpellPage
+        key={ `${ val }-level-spells` }
+        level={ val }
+        slots={ +classInfo[val][i] }
+        spells={ [] }
+        addSpell={ console.log }
+      />
     );
   });
+
   return (
     <>
-      <h2>SpellBook</h2>
+      { cantrips }
       { spells }
     </>
   );

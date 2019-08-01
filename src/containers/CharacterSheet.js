@@ -3,13 +3,13 @@ import firebase from 'firebase';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { Fab } from '@material-ui/core';
-import Profile from './Profile';
-import Attributes from './Attributes';
-import Skills from './Skills';
-import { TopAnchor } from './CustomStyled';
+import Profile from '../components/Profile';
+import Attributes from '../components/Attributes';
+import Skills from '../components/Skills';
+import { TopAnchor } from '../components/CustomStyled';
 import dungeonService from '../services/dungeonService';
-import Weapons from './Weapons';
-import Inventory from './Inventory';
+import Weapons from '../components/Weapons';
+import Inventory from '../components/Inventory';
 import SpellBook from './SpellBook';
 
 
