@@ -5,7 +5,9 @@ import {
   Card, Column, Row, BasicBox, Spacer,
 } from './CustomStyled';
 
-const Profile = ({ character, update, disabled }) => {
+const Profile = ({
+  character, hitDice, update, disabled,
+}) => {
   function onChange(field, max) {
     return (e) => {
       let val = +e.target.value;
@@ -19,7 +21,7 @@ const Profile = ({ character, update, disabled }) => {
       <Row style={{ alignItems: 'center', justifyContent: 'flex-end' }}>
         <Column>
           <h2 style={{ margin: 0 }}>{ character.name }</h2>
-          <p style={{ margin: 0 }}>{ character.race } { character.class }</p>
+          <p style={{ margin: 0 }}>{ character.race } { character.class } ({ hitDice })</p>
         </Column>
         <Spacer />
         <Badge badgeContent={`+${character.proBonus}`} color="secondary">
@@ -52,6 +54,7 @@ Profile.propTypes = {
     race: PropTypes.string,
     class: PropTypes.string,
   }).isRequired,
+  hitDice: PropTypes.string.isRequired,
   update: PropTypes.func.isRequired,
   disabled: PropTypes.bool.isRequired,
 };

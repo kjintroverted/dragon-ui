@@ -16,6 +16,7 @@ const CharacterSheet = ({ characterData }) => {
   const [character, updateCharacter] = useState(characterData);
   const [isDirty, setDirty] = useState(false);
   const [authorized, setAuthorized] = useState(false);
+  const [classInfo, setClassInfo] = useState(false);
 
   function update(charUpdates) {
     setDirty(true);
@@ -34,12 +35,19 @@ const CharacterSheet = ({ characterData }) => {
     setAuthorized(result.authorized);
   }
 
+  async function getClassInfo(className) {
+    if (!className) return;
+    const result = await dungeonService.getClass(className);
+    setClassInfo(result);
+  }
+
   useEffect(() => {
     updateCharacter(characterData);
   }, [characterData]);
 
   useEffect(() => {
     checkAuthorized(firebase.auth().currentUser);
+    getClassInfo(character.class);
   }, [character]);
 
   return (
@@ -52,7 +60,7 @@ const CharacterSheet = ({ characterData }) => {
            </TopAnchor>
       }
       <ProfileArea>
-        <Profile character={character} update={update} disabled={!authorized} />
+        <Profile character={character} hitDice={classInfo.hit_dice || ''} update={update} disabled={!authorized} />
       </ProfileArea>
       <StatsArea>
         <Attributes character={character} update={update} disabled={!authorized} />
