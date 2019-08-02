@@ -4,6 +4,7 @@ import { Badge, TextField } from '@material-ui/core';
 import {
   Card, Column, Row, BasicBox, Spacer,
 } from './CustomStyled';
+import { calculateModifier } from '../services/helper';
 
 const Profile = ({
   character, hitDice, update, disabled,
@@ -59,16 +60,18 @@ const Profile = ({
             onChange={onChange('speed')}
           />
         </BasicBox>
-        <BasicBox>
-          <TextField
-            variant="outlined"
-            disabled={disabled}
-            type="number"
-            label="Init"
-            value={character.initiative || ''}
-            onChange={onChange('initiative')}
-          />
-        </BasicBox>
+        <Badge badgeContent={calculateModifier(character.dex)} color="secondary">
+          <BasicBox>
+            <TextField
+              variant="outlined"
+              disabled={disabled}
+              type="number"
+              label="Init"
+              value={character.initiative || ''}
+              onChange={onChange('initiative')}
+            />
+          </BasicBox>
+        </Badge>
       </Row>
     </Card>
   );

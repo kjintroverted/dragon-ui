@@ -64,7 +64,7 @@ const CharacterSheet = ({ characterData }) => {
         <Profile character={character} hitDice={classInfo.hit_dice || ''} update={update} disabled={!authorized} />
       </ProfileArea>
       <StatsArea>
-        <Attributes character={character} update={update} disabled={!authorized} />
+        <Attributes character={character} saves={classInfo.prof_saving_throws || ''} update={update} disabled={!authorized} />
       </StatsArea>
       <SkillsArea>
         <Skills character={character} />
@@ -115,7 +115,7 @@ const SheetContainer = styled.div`
     display: grid;
     grid-gap: .625em;
     grid-template-columns: 18.75em minmax(auto, 15.625em) minmax(auto, 12.5em);
-    grid-template-rows: auto 13em auto auto auto;
+    grid-template-rows: auto 14.5em auto auto auto;
     grid-template-areas:
       "pro pro pro"
       "skill stat stat"
