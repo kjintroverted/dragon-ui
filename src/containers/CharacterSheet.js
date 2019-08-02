@@ -88,7 +88,12 @@ const CharacterSheet = ({ characterData }) => {
       </EquipmentArea>
       <Misc>
         { classInfo && classInfo.spellcasting_ability
-          && <SpellBook classInfo={classInfo.info} level={character.level} />
+          && <SpellBook
+            classInfo={classInfo.info}
+            level={character.level}
+            spells={character.spells || []}
+            update={spells => update({ ...character, spells })}
+          />
         }
       </Misc>
     </SheetContainer>

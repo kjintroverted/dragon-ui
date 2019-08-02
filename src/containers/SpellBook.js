@@ -1,33 +1,52 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import SpellPage from '../components/SpellPage';
+import dungeonService from '../services/dungeonService';
 
-const SpellBook = ({ classInfo, level }) => {
+const SpellBook = ({
+  spells, classInfo, level, update,
+}) => {
+  const [spellDetails, setSpellDetails] = useState([]);
+
+  function addSpell(spell) {
+    update([...spells, spell.slug]);
+  }
+
   const cantrips = (
     <SpellPage
       level="Cantrip"
       slots={0}
-      spells={[]}
-      addSpell={console.log}
+      spells={spellDetails || []}
+      addSpell={addSpell}
     />);
 
-  const spells = classInfo.Level.map((val, i) => {
+  const spellContainers = classInfo.Level.map((val, i) => {
     if (i > level - 1 || !classInfo[val][i]) return null;
     return (
       <SpellPage
         key={`${val}-level-spells`}
         level={val}
         slots={+classInfo[val][i]}
-        spells={[]}
-        addSpell={console.log}
+        spells={spellDetails || []}
+        addSpell={addSpell}
       />
     );
   });
 
+  async function loadSpells(slugs) {
+    const result = await dungeonService.getSpells(slugs);
+
+    setSpellDetails(result);
+  }
+
+  useEffect(() => {
+    loadSpells(spells);
+  }, [spells]);
+
   return (
     <>
       { cantrips }
-      { spells }
+      { spellContainers }
     </>
   );
 };
@@ -35,6 +54,7 @@ const SpellBook = ({ classInfo, level }) => {
 export default SpellBook;
 
 SpellBook.propTypes = {
+  spells: PropTypes.arrayOf(PropTypes.string).isRequired,
   classInfo: PropTypes.shape({
     info: PropTypes.shape({
       '1st': PropTypes.arrayOf(PropTypes.string),
@@ -51,4 +71,5 @@ SpellBook.propTypes = {
     }),
   }).isRequired,
   level: PropTypes.number.isRequired,
+  update: PropTypes.func.isRequired,
 };

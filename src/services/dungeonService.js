@@ -66,7 +66,12 @@ const getWeapons = async () => {
   return result.json();
 };
 
-const getSpells = async (level) => {
+const getSpells = async (slugs) => {
+  const result = await fetch(`/api/spells?name=${slugs.join()}`);
+  return result.json();
+};
+
+const getSpellsForLevel = async (level) => {
   const result = await fetch(`/api/spells?level=${level}`);
   return result.json();
 };
@@ -84,4 +89,5 @@ export default {
   getClass,
   getWeapons,
   getSpells,
+  getSpellsForLevel,
 };

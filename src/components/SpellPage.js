@@ -15,9 +15,10 @@ const SpellPage = ({
   const [spellSearchResult, setSearchResults] = useState([]);
   const [showResults, setShow] = useState(false);
   const [newSpell, setNewSpell] = useState({});
+  const [selectedSpell, setSpell] = useState({});
 
   async function getNewSpells() {
-    const results = await dungeonService.getSpells(level);
+    const results = await dungeonService.getSpellsForLevel(level);
     setSearchResults(results.filter(spell => !spellList.find(known => known.slug === spell.slug)));
   }
 
@@ -26,8 +27,17 @@ const SpellPage = ({
     setShow(true);
   }
 
+  function learn(spell) {
+    addSpell(spell);
+    setShow(false);
+    setNewSpell({});
+  }
+
   useEffect(() => {
-    setSpellList(spells.filter(spell => spell.level === `${level}-level`));
+    setSpellList(
+      spells
+        .filter(spell => (spell.level === 'Cantrip' && level === 'Cantrip') || spell.level === `${level}-level`),
+    );
   }, [spells]);
 
   useEffect(() => {
@@ -55,6 +65,24 @@ const SpellPage = ({
           }
         </ActionBar>
       </HeaderBar>
+
+      {/* KNOWN SPELLS */ }
+      <Column>
+        <SpellList>
+          { spellList
+            .map(spell =>
+              <Button
+                key={spell.name}
+                variant="contained"
+                color={spell.name === selectedSpell.name ? 'primary' : 'default'}
+                onClick={() => setSpell(spell)}
+              >{ spell.name }
+              </Button>)
+          }
+        </SpellList>
+      </Column>
+
+      {/* NEW SPELL LOOKUP */ }
       <Column>
         <SpellList>
           { showResults
@@ -74,7 +102,13 @@ const SpellPage = ({
         ? <Button color="secondary" onClick={loadSpellSearch}>See Spells</Button>
         : <Row style={{ justifyContent: 'center' }}>
           <Button onClick={() => setShow(false)}>Cancel</Button>
-          <Button variant="contained" color="secondary" onClick={loadSpellSearch}>Learn Spell</Button>
+          <Button
+            disabled={!newSpell.name}
+            variant="contained"
+            color="secondary"
+            onClick={() => learn(newSpell)}
+          >Learn Spell
+          </Button>
           </Row>
       }
     </Card>
