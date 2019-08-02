@@ -14,6 +14,7 @@ const SpellPage = ({
   const [openSlots, setOpenSlots] = useState([]);
   const [spellSearchResult, setSearchResults] = useState([]);
   const [showResults, setShow] = useState(false);
+  const [newSpell, setNewSpell] = useState({});
 
   async function getNewSpells() {
     const results = await dungeonService.getSpells(level);
@@ -58,7 +59,14 @@ const SpellPage = ({
         <SpellList>
           { showResults
             && spellSearchResult
-              .map(spell => <Button key={spell.name} variant="contained" color="secondary">{ spell.name }</Button>)
+              .map(spell =>
+                <Button
+                  key={spell.name}
+                  variant="contained"
+                  color={spell.name === newSpell.name ? 'primary' : 'secondary'}
+                  onClick={() => setNewSpell(spell)}
+                >{ spell.name }
+                </Button>)
           }
         </SpellList>
       </Column>
