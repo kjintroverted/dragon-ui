@@ -1,6 +1,7 @@
 
-export function calculateModifier(x) {
-  const y = Math.floor((x - 10) / 2);
+export function calculateModifier(x, z) {
+  let y = Math.floor((x - 10) / 2);
+  y = z ? y + z : y;
   return y < 0 ? `${y}` : `+${y}`;
 }
 
