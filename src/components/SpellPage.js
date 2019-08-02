@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import {
-  Checkbox, Button, Chip, IconButton,
+  Checkbox, Button, Chip, IconButton, Divider,
 } from '@material-ui/core';
 import {
   Card, HeaderBar, Spacer, ActionBar, Column, Row,
@@ -77,15 +77,16 @@ const SpellPage = ({
         <SpellList>
           { spellList
             .map(spell =>
-              <Button
+              <Chip
                 key={spell.name}
-                variant="contained"
-                color={spell.name === selectedSpell.name ? 'primary' : 'default'}
+                label={spell.name}
+                variant="outlined"
                 onClick={() => setSpell(spell)}
-              >{ spell.name }
-              </Button>)
+                color={spell.name === selectedSpell.name ? 'primary' : 'secondary'}
+              />)
           }
         </SpellList>
+        <Divider />
       </Column>
 
       {/* NEW SPELL LOOKUP */ }
@@ -97,20 +98,25 @@ const SpellPage = ({
           { showResults
             && spellSearchResult
               .map(spell =>
-                <Button
+                <Chip
                   key={spell.name}
-                  variant="contained"
-                  color={spell.name === newSpell.name ? 'primary' : 'secondary'}
+                  label={spell.name}
+                  variant="outlined"
                   onClick={() => setNewSpell(spell)}
-                >{ spell.name }
-                </Button>)
+                  color={spell.name === newSpell.name ? 'primary' : 'secondary'}
+                />)
           }
         </SpellList>
       </Column>
       { !showResults
         ? <Button color="secondary" onClick={loadSpellSearch}>See Spells</Button>
         : <Row style={{ justifyContent: 'center' }}>
-          <Button onClick={() => setShow(false)}>Cancel</Button>
+          <Button onClick={() => {
+            setShow(false);
+            setNewSpell({});
+          }}
+          >Cancel
+          </Button>
           <Button
             disabled={!newSpell.name}
             variant="contained"
