@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { Checkbox, Button } from '@material-ui/core';
+import {
+  Checkbox, Button, Chip, IconButton,
+} from '@material-ui/core';
 import {
   Card, HeaderBar, Spacer, ActionBar, Column, Row,
 } from './CustomStyled';
@@ -68,6 +70,35 @@ const SpellPage = ({
 
       {/* KNOWN SPELLS */ }
       <Column>
+        { !!selectedSpell.name
+          && <Details>
+            <HeaderBar>
+              <Column>
+                <p>{ selectedSpell.school }</p>
+              </Column>
+              <Spacer />
+              <Chip
+                icon={<i className="material-icons">timer</i>}
+                label={selectedSpell.casting_time}
+                variant="outlined"
+              />
+              <Chip
+                icon={<i className="material-icons">timelapse</i>}
+                label={selectedSpell.duration}
+                variant="outlined"
+              />
+              <Chip
+                icon={<i className="material-icons">wifi_tethering</i>}
+                label={selectedSpell.range}
+                variant="outlined"
+              />
+              <IconButton onClick={() => setSpell({})}>
+                <i className="material-icons">close</i>
+              </IconButton>
+            </HeaderBar>
+            <p className="min-margin">{ selectedSpell.desc }</p>
+             </Details>
+        }
         <SpellList>
           { spellList
             .map(spell =>
@@ -84,6 +115,35 @@ const SpellPage = ({
 
       {/* NEW SPELL LOOKUP */ }
       <Column>
+        { !!newSpell.name
+          && <Details>
+            <HeaderBar>
+              <Column>
+                <p>{ newSpell.school }</p>
+              </Column>
+              <Spacer />
+              <Chip
+                icon={<i className="material-icons">timer</i>}
+                label={newSpell.casting_time}
+                variant="outlined"
+              />
+              <Chip
+                icon={<i className="material-icons">timelapse</i>}
+                label={newSpell.duration}
+                variant="outlined"
+              />
+              <Chip
+                icon={<i className="material-icons">wifi_tethering</i>}
+                label={newSpell.range}
+                variant="outlined"
+              />
+              <IconButton onClick={() => setNewSpell({})}>
+                <i className="material-icons">close</i>
+              </IconButton>
+            </HeaderBar>
+            <p className="min-margin">{ newSpell.desc }</p>
+             </Details>
+        }
         <SpellList>
           { showResults
             && spellSearchResult
@@ -134,4 +194,10 @@ const SpellList = styled.div`
   grid-template-columns: repeat(auto-fill, 150px);
   grid-gap: 10px;
   margin: 10px 0px;
+  justify-content: center;
+`;
+
+const Details = styled.div`
+  display: flex;
+  flex-direction: column;
 `;
