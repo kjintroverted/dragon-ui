@@ -39,8 +39,8 @@ function OwnerView({ owner }) {
     setClasses(classList);
   }
 
-  function handleValueChange(field) {
-    return e => setValues({ ...values, [field]: e.target.value });
+  function handleValueChange(field, numeric) {
+    return e => setValues({ ...values, [field]: numeric ? +e.target.value : e.target.value });
   }
 
   function raceSelect(e) {
@@ -107,7 +107,7 @@ function OwnerView({ owner }) {
           <InfoRow>
             <TextField variant="outlined" label="Name" onChange={handleValueChange('name')} />
             <BasicBox>
-              <TextField variant="outlined" label="HP" type="number" onChange={handleValueChange('maxHP')} />
+              <TextField variant="outlined" label="HP" type="number" onChange={handleValueChange('maxHP', true)} />
             </BasicBox>
           </InfoRow>
           <InfoRow>

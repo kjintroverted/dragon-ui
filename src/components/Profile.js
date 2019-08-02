@@ -35,7 +35,7 @@ const Profile = ({
             variant="outlined"
             disabled={disabled}
             type="number"
-            label="HP"
+            label={`HP/${character.maxHP}`}
             value={character.hp}
             onChange={onChange('hp')}
           />
