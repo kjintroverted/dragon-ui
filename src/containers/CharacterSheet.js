@@ -72,9 +72,11 @@ const CharacterSheet = ({ characterData }) => {
       <WeaponsArea>
         <Weapons
           disabled={!authorized}
+          proWeapons={classInfo.prof_weapons || ''}
           weaponList={character.weapons || []}
           dex={character.dex}
           str={character.str}
+          proBonus={character.proBonus}
           update={weapons => update({ ...character, weapons })}
         />
       </WeaponsArea>

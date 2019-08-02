@@ -14,6 +14,14 @@ export function isFinesse(weapon) {
   return !!finesse;
 }
 
+export function isProWeapon(weapon, proWeaponDesc) {
+  const descArr = proWeaponDesc.split(', ').map(desc => desc.toLowerCase());
+  const result = descArr.find(desc => desc.indexOf(weapon.name.toLowerCase()));
+  if (result) return true;
+  const categoryArr = weapon.category.split(' ').map(str => str.toLowerCase());
+  return !!categoryArr.find(category => !!descArr.find(desc => desc.indexOf(category)));
+}
+
 export const skillsArray = [
   {
     label: 'Acrobatics',

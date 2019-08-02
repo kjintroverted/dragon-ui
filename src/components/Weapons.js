@@ -6,11 +6,11 @@ import {
 import {
   Card, HeaderBar, ActionBar, Row, Spacer, Column, BasicBox,
 } from './CustomStyled';
-import { isFinesse, calculateModifier } from '../services/helper';
+import { isFinesse, calculateModifier, isProWeapon } from '../services/helper';
 import dungeonService from '../services/dungeonService';
 
 const Weapons = ({
-  weaponList, dex, str, update, disabled,
+  proWeapons, weaponList, dex, str, proBonus, update, disabled,
 }) => {
   const [isAdding, setAdding] = useState(false);
   const [weaponOptions, setWeaponOptions] = useState([]);
@@ -29,6 +29,7 @@ const Weapons = ({
   function addWeapon() {
     update([...weaponList, selectedWeapon]);
     setAdding(false);
+    setWeaponSelect({});
   }
 
   useEffect(() => {
@@ -71,7 +72,8 @@ const Weapons = ({
       }
       { // DISPLAY ALL WEAPONS
         weaponList.map((weapon) => {
-          const mod = isFinesse(weapon) ? calculateModifier(dex) : calculateModifier(str);
+          const proMod = isProWeapon(weapon, proWeapons) ? proBonus : 0;
+          const mod = isFinesse(weapon) ? calculateModifier(dex, proMod) : calculateModifier(str, proMod);
           return (
             <Row key={`${weapon.name}`}>
               <Column>
@@ -96,6 +98,7 @@ const Weapons = ({
 export default Weapons;
 
 Weapons.propTypes = {
+  proWeapons: PropTypes.string.isRequired,
   weaponList: PropTypes.arrayOf(PropTypes.shape({
     name: PropTypes.string,
     category: PropTypes.string,
@@ -105,6 +108,7 @@ Weapons.propTypes = {
   })).isRequired,
   dex: PropTypes.number.isRequired,
   str: PropTypes.number.isRequired,
+  proBonus: PropTypes.number.isRequired,
   update: PropTypes.func.isRequired,
   disabled: PropTypes.bool.isRequired,
 };
