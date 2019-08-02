@@ -146,7 +146,7 @@ SpellPage.propTypes = {
 
 const SpellList = styled.div`
   display: grid;
-  grid-template-columns: repeat(auto-fill, 150px);
+  grid-template-columns: repeat(auto-fill, 200px);
   grid-gap: 10px;
   margin: 10px 0px;
   justify-content: center;
