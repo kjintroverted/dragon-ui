@@ -19,6 +19,8 @@ const SpellPage = ({
   const [showResults, setShow] = useState(false);
   const [newSpell, setNewSpell] = useState({});
   const [selectedSpell, setSpell] = useState({});
+  const [showSpellDetail, setShowSpellDetail] = useState(false);
+  const [showNewSpellDetail, setShowNewSpellDetail] = useState(false);
 
   async function getNewSpells() {
     const results = await dungeonService.getSpellsForLevel(level);
@@ -71,8 +73,8 @@ const SpellPage = ({
 
       {/* KNOWN SPELLS */ }
       <Column>
-        { !!selectedSpell.name
-          && <SpellDetail spell={selectedSpell} close={() => setSpell({})} />
+        { !!selectedSpell.name && showSpellDetail
+          && <SpellDetail spell={selectedSpell} close={() => { setSpell({}); setShowSpellDetail(false); }} />
         }
         <SpellList>
           { spellList
@@ -83,6 +85,8 @@ const SpellPage = ({
                 variant="outlined"
                 onClick={() => setSpell(spell)}
                 color={spell.name === selectedSpell.name ? 'primary' : 'secondary'}
+                onDelete={() => { setShowSpellDetail(true); setSpell(spell); }}
+                deleteIcon={<i className="material-icons">info</i>}
               />)
           }
         </SpellList>
@@ -91,8 +95,8 @@ const SpellPage = ({
 
       {/* NEW SPELL LOOKUP */ }
       <Column>
-        { !!newSpell.name
-          && <SpellDetail spell={newSpell} close={() => setNewSpell({})} />
+        { !!newSpell.name && showNewSpellDetail
+          && <SpellDetail spell={newSpell} close={() => { setNewSpell({}); setShowNewSpellDetail(false); }} />
         }
         <SpellList>
           { showResults
@@ -104,6 +108,8 @@ const SpellPage = ({
                   variant="outlined"
                   onClick={() => setNewSpell(spell)}
                   color={spell.name === newSpell.name ? 'primary' : 'secondary'}
+                  onDelete={() => { setShowNewSpellDetail(true); setNewSpell(spell); }}
+                  deleteIcon={<i className="material-icons">info</i>}
                 />)
           }
         </SpellList>
