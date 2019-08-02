@@ -8,12 +8,12 @@ const getWelcome = async () => {
 };
 
 const getCharacter = async (characterId = '') => {
-  const result = await fetch(`/api/characters/${ characterId }`);
+  const result = await fetch(`/api/characters/${characterId}`);
   return result.json();
 };
 
 const checkUserAuth = async (characterId, user) => {
-  const result = await fetch(`/api/characters/${ characterId }/auth-users?user=${ user }`);
+  const result = await fetch(`/api/characters/${characterId}/auth-users?user=${user}`);
   return result.json();
 };
 
@@ -34,15 +34,15 @@ const saveCharacter = async (character) => {
   return true;
 };
 
-const watchCharacters = characterIds => new WebSocket(`ws://${ serverDomain }/api/characters?id=${ characterIds.join() }&watch=true`);
+const watchCharacters = characterIds => new WebSocket(`ws://${serverDomain}/api/characters?id=${characterIds.join()}&watch=true`);
 
 const getCharactersByOwner = async (owner = 'clayton.yarborough@gmail.com') => {
-  const result = await fetch(`/api/characters?owner=${ owner }`);
+  const result = await fetch(`/api/characters?owner=${owner}`);
   return result.json();
 };
 
 const getLevelInfo = async (xp) => {
-  const result = await fetch(`/api/level?xp=${ xp }`);
+  const result = await fetch(`/api/level?xp=${xp}`);
   return result.json();
 };
 
@@ -57,12 +57,17 @@ const getClasses = async () => {
 };
 
 const getClass = async (name) => {
-  const result = await fetch(`/api/classes?name=${ name }`);
+  const result = await fetch(`/api/classes?name=${name}`);
   return result.json();
 };
 
 const getWeapons = async () => {
   const result = await fetch('/api/weapons');
+  return result.json();
+};
+
+const getSpells = async (level) => {
+  const result = await fetch(`/api/spells?level=${level}`);
   return result.json();
 };
 
@@ -78,4 +83,5 @@ export default {
   getClasses,
   getClass,
   getWeapons,
+  getSpells,
 };

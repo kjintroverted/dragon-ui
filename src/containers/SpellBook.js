@@ -6,20 +6,20 @@ const SpellBook = ({ classInfo, level }) => {
   const cantrips = (
     <SpellPage
       level="Cantrip"
-      slots={ +classInfo['Cantrips Known'][level] }
-      spells={ [] }
-      addSpell={ console.log }
+      slots={0}
+      spells={[]}
+      addSpell={console.log}
     />);
 
   const spells = classInfo.Level.map((val, i) => {
     if (i > level - 1 || !classInfo[val][i]) return null;
     return (
       <SpellPage
-        key={ `${ val }-level-spells` }
-        level={ val }
-        slots={ +classInfo[val][i] }
-        spells={ [] }
-        addSpell={ console.log }
+        key={`${val}-level-spells`}
+        level={val}
+        slots={+classInfo[val][i]}
+        spells={[]}
+        addSpell={console.log}
       />
     );
   });
