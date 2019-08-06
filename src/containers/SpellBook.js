@@ -26,7 +26,7 @@ const SpellBook = ({
       <SpellPage
         key={`${val}-level-spells`}
         level={val}
-        slots={+classInfo[val][i]}
+        slots={+classInfo[val][i + 1]}
         spells={spellDetails || []}
         addSpell={addSpell}
       />
