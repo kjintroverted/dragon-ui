@@ -28,7 +28,7 @@ const Profile = ({
               onChange={onChange('name')}
             />
           }
-          <p style={{ margin: 0 }}>{ character.race } { character.class } ({ hitDice })</p>
+          <p style={{ margin: 0 }}>{ character.race } { character.class }</p>
         </Column>
         <Spacer />
         <Badge badgeContent={`+${character.proBonus}`} color="secondary">
@@ -59,6 +59,7 @@ const Profile = ({
               type="number"
               label={`HP/${character.maxHP}`}
               value={character.hp}
+              helperText={`hit dice: ${hitDice}`}
               onChange={onChange('hp', true)}
             />
             : <TextField
@@ -67,6 +68,7 @@ const Profile = ({
               type="number"
               label="Max HP"
               value={character.maxHP}
+              helperText={`hit dice: ${hitDice}`}
               onChange={onChange('maxHP', true)}
             />
           }

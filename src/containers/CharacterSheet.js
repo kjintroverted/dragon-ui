@@ -145,7 +145,6 @@ const SheetContainer = styled.div`
     display: grid;
     grid-gap: .625em;
     grid-template-columns: 18.75em minmax(auto, 15.625em) minmax(auto, 12.5em);
-    grid-template-rows: auto auto 14.5em auto auto auto;
     grid-template-areas:
       "admin admin admin"
       "pro pro pro"
