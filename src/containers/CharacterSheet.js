@@ -95,7 +95,7 @@ const CharacterSheet = ({ characterData }) => {
         />
       </StatsArea>
       <SkillsArea>
-        <Skills character={character} />
+        <Skills character={character} editing={editMode} update={update} />
       </SkillsArea>
       <WeaponsArea>
         <Weapons

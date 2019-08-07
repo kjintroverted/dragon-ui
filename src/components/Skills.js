@@ -1,17 +1,26 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { Divider, TextField } from '@material-ui/core';
+import {
+  Divider, TextField, FormControlLabel, Checkbox,
+} from '@material-ui/core';
 import {
   Row, Spacer, Card, HeaderBar, ActionBar,
 } from './CustomStyled';
 import { calculateModifier, skillsArray } from '../services/helper';
 
-const Skills = ({ character }) => {
+const Skills = ({ character, editing, update }) => {
   const [skillDisplay, setDisplay] = useState(skillsArray);
   const [query, setQuery] = useState('');
 
   function proCheck(proSkills, skill) {
     return proSkills.findIndex(s => s === skill) !== -1;
+  }
+
+  function toggleSKill(e) {
+    const arr = character.proSkills || [];
+    const i = arr.findIndex(skill => skill === e.target.value);
+    if (i === -1) update({ ...character, proSkills: [...arr, e.target.value] });
+    else update({ ...character, proSkills: [...arr.slice(0, i), ...arr.slice(i + 1)] });
   }
 
   useEffect(() => {
@@ -30,8 +39,8 @@ const Skills = ({ character }) => {
           <TextField label="Search" value={query} onChange={e => setQuery(e.target.value)} />
         </ActionBar>
       </HeaderBar>
-      {
-        skillDisplay.map(skill => (
+      { !editing
+        ? skillDisplay.map(skill => (
           <div key={skill.label}>
             <Row>
               <p style={{ margin: '0.3125em' }}>{ skill.label }</p>
@@ -46,6 +55,20 @@ const Skills = ({ character }) => {
             <Divider />
           </div>
         ))
+        : skillDisplay.map(({ label }) => (
+          <FormControlLabel
+            key={label}
+            control={
+              <Checkbox
+                checked={(character.proSkills && character.proSkills.indexOf(label) !== -1) || false}
+                value={label}
+                onChange={toggleSKill}
+                color="primary"
+              />
+            }
+            label={label}
+          />
+        ))
       }
     </Card>
   );
@@ -59,4 +82,6 @@ Skills.propTypes = {
     race: PropTypes.string,
     class: PropTypes.string,
   }).isRequired,
+  editing: PropTypes.bool.isRequired,
+  update: PropTypes.func.isRequired,
 };
