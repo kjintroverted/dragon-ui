@@ -2,18 +2,20 @@ import React, { useState, useEffect } from 'react';
 import firebase from 'firebase';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { Fab } from '@material-ui/core';
+import { Fab, Button } from '@material-ui/core';
 import Profile from '../components/Profile';
 import Attributes from '../components/Attributes';
 import Skills from '../components/Skills';
-import { TopAnchor } from '../components/CustomStyled';
+import { TopAnchor, Row } from '../components/CustomStyled';
 import dungeonService from '../services/dungeonService';
 import Weapons from '../components/Weapons';
 import Inventory from '../components/Inventory';
 import SpellBook from './SpellBook';
+import { same } from '../services/helper';
 
 
 const CharacterSheet = ({ characterData }) => {
+  const [characterBase, updateCharacterBase] = useState(characterData);
   const [character, updateCharacter] = useState(characterData);
   const [isDirty, setDirty] = useState(false);
   const [editMode, setEditMode] = useState(false);
@@ -21,14 +23,16 @@ const CharacterSheet = ({ characterData }) => {
   const [classInfo, setClassInfo] = useState(false);
 
   function update(charUpdates) {
-    setDirty(true);
+    setDirty(!same(characterBase, charUpdates));
     updateCharacter(charUpdates);
   }
 
   async function save() {
     setDirty(false);
+    setEditMode(false);
     const success = await dungeonService.saveCharacter(character);
     if (!success) setDirty(true);
+    else updateCharacterBase(character);
   }
 
   async function checkAuthorized(user) {
@@ -54,12 +58,24 @@ const CharacterSheet = ({ characterData }) => {
 
   return (
     <SheetContainer>
-      { isDirty
+      { authorized && !editMode
         && <TopAnchor>
-          <Fab color="secondary" size="small" onClick={save}>
-            <i className="material-icons">done</i>
-          </Fab>
+          { !isDirty
+            ? <Fab color="secondary" size="small" onClick={() => setEditMode(true)}>
+              <i className="material-icons">edit</i>
+              </Fab>
+            : <Fab color="secondary" size="small" onClick={save}>
+              <i className="material-icons">save</i>
+              </Fab>
+
+          }
            </TopAnchor>
+      }
+      { editMode
+        && <Row>
+          <Button onClick={() => setEditMode(false)}>Cancel</Button>
+          <Button onClick={save} variant="contained" color="secondary">Save</Button>
+           </Row>
       }
       <ProfileArea>
         <Profile
@@ -129,8 +145,9 @@ const SheetContainer = styled.div`
     display: grid;
     grid-gap: .625em;
     grid-template-columns: 18.75em minmax(auto, 15.625em) minmax(auto, 12.5em);
-    grid-template-rows: auto 14.5em auto auto auto;
+    grid-template-rows: auto auto 14.5em auto auto auto;
     grid-template-areas:
+      "admin admin admin"
       "pro pro pro"
       "skill stat stat"
       "skill wpn wpn"

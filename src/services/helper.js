@@ -22,6 +22,12 @@ export function isProWeapon(weapon, proWeaponDesc) {
   return !!categoryArr.find(category => !!descArr.find(desc => desc.indexOf(category)));
 }
 
+export function same(obj1, obj2) {
+  console.log('same', JSON.stringify(obj1), JSON.stringify(obj2), JSON.stringify(obj1) === JSON.stringify(obj2));
+
+  return JSON.stringify(obj1) === JSON.stringify(obj2);
+}
+
 export const skillsArray = [
   {
     label: 'Acrobatics',
