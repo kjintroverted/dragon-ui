@@ -4,8 +4,11 @@ import { Badge, TextField } from '@material-ui/core';
 import {
   Card, Column, Row, BasicBox, Spacer,
 } from './CustomStyled';
+import { calculateModifier } from '../services/helper';
 
-const Profile = ({ character, update, disabled }) => {
+const Profile = ({
+  character, hitDice, update, disabled,
+}) => {
   function onChange(field, max) {
     return (e) => {
       let val = +e.target.value;
@@ -19,7 +22,7 @@ const Profile = ({ character, update, disabled }) => {
       <Row style={{ alignItems: 'center', justifyContent: 'flex-end' }}>
         <Column>
           <h2 style={{ margin: 0 }}>{ character.name }</h2>
-          <p style={{ margin: 0 }}>{ character.race } { character.class }</p>
+          <p style={{ margin: 0 }}>{ character.race } { character.class } ({ hitDice })</p>
         </Column>
         <Spacer />
         <Badge badgeContent={`+${character.proBonus}`} color="secondary">
@@ -28,17 +31,47 @@ const Profile = ({ character, update, disabled }) => {
           </BasicBox>
         </Badge>
         <BasicBox>
-          <TextField variant="outlined" disabled={disabled} type="number" label="HP" value={character.hp} onChange={onChange('hp')} />
+          <TextField
+            variant="outlined"
+            disabled={disabled}
+            type="number"
+            label={`HP/${character.maxHP}`}
+            value={character.hp}
+            onChange={onChange('hp')}
+          />
         </BasicBox>
         <BasicBox>
-          <TextField variant="outlined" disabled={disabled} type="number" label="AC" value={character.armor} onChange={onChange('armor')} />
+          <TextField
+            variant="outlined"
+            disabled={disabled}
+            type="number"
+            label="AC"
+            value={character.armor}
+            onChange={onChange('armor')}
+          />
         </BasicBox>
         <BasicBox>
-          <TextField variant="outlined" disabled={disabled} type="number" label="Speed" value={character.speed} onChange={onChange('speed')} />
+          <TextField
+            variant="outlined"
+            disabled={disabled}
+            type="number"
+            label="Speed"
+            value={character.speed}
+            onChange={onChange('speed')}
+          />
         </BasicBox>
-        <BasicBox>
-          <TextField variant="outlined" disabled={disabled} type="number" label="Init" value={character.initiative || ''} onChange={onChange('initiative')} />
-        </BasicBox>
+        <Badge badgeContent={calculateModifier(character.dex)} color="secondary">
+          <BasicBox>
+            <TextField
+              variant="outlined"
+              disabled={disabled}
+              type="number"
+              label="Init"
+              value={character.initiative || ''}
+              onChange={onChange('initiative')}
+            />
+          </BasicBox>
+        </Badge>
       </Row>
     </Card>
   );
@@ -52,6 +85,7 @@ Profile.propTypes = {
     race: PropTypes.string,
     class: PropTypes.string,
   }).isRequired,
+  hitDice: PropTypes.string.isRequired,
   update: PropTypes.func.isRequired,
   disabled: PropTypes.bool.isRequired,
 };

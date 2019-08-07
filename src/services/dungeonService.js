@@ -1,6 +1,6 @@
 
 // WILL NEED TO BE DYNAMIC BY ENV
-const serverDomain = 'localhost:4000';
+const serverDomain = process.env.REACT_APP_DOMAIN || 'localhost:4000';
 
 const getWelcome = async () => {
   const result = await fetch('/api');
@@ -51,13 +51,28 @@ const getRaces = async () => {
   return result.json();
 };
 
-const getClasses = async (xp) => {
+const getClasses = async () => {
   const result = await fetch('/api/classes');
+  return result.json();
+};
+
+const getClass = async (name) => {
+  const result = await fetch(`/api/classes?name=${name}`);
   return result.json();
 };
 
 const getWeapons = async () => {
   const result = await fetch('/api/weapons');
+  return result.json();
+};
+
+const getSpells = async (slugs) => {
+  const result = await fetch(`/api/spells?name=${slugs.join()}`);
+  return result.json();
+};
+
+const getSpellsForLevel = async (level) => {
+  const result = await fetch(`/api/spells?level=${level}`);
   return result.json();
 };
 
@@ -71,5 +86,8 @@ export default {
   checkUserAuth,
   getRaces,
   getClasses,
+  getClass,
   getWeapons,
+  getSpells,
+  getSpellsForLevel,
 };

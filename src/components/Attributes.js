@@ -7,7 +7,9 @@ import { Card, HeaderBar } from './CustomStyled';
 import { calculateModifier } from '../services/helper';
 
 
-function Attributes({ character, update, disabled }) {
+function Attributes({
+  character, saves, update, disabled,
+}) {
   function onChange(field) {
     return (e) => {
       const val = +e.target.value;
@@ -40,6 +42,7 @@ function Attributes({ character, update, disabled }) {
           <TextField variant="outlined" disabled={disabled} type="number" label="Charisma" value={character.cha} onChange={onChange('cha')} />
         </Badge>
       </StatGrid>
+      <p className="min-margin"><strong>Saving Throws:</strong> { `+${character.proBonus}` } { saves } </p>
     </Card>
   );
 }
@@ -52,6 +55,7 @@ Attributes.propTypes = {
     intel: PropTypes.number,
     str: PropTypes.number,
   }).isRequired,
+  saves: PropTypes.string.isRequired,
   update: PropTypes.func.isRequired,
   disabled: PropTypes.bool.isRequired,
 };

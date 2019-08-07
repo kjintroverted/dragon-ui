@@ -7,7 +7,7 @@ import {
   SideBar, SideBarToggle, ContentWithSideBar, RowCenter,
 } from '../components/CustomStyled';
 import CharacterSummary from '../components/CharacterSummary';
-import CharacterSheet from '../components/CharacterSheet';
+import CharacterSheet from './CharacterSheet';
 
 function PartyView({ location }) {
   const [sidebar, setSidebar] = useState(false);
@@ -48,30 +48,30 @@ function PartyView({ location }) {
   return (
     <ContentWithSideBar>
       <RowCenter>
-        <CharacterSheet characterData={focus} />
+        <CharacterSheet characterData={ focus } />
       </RowCenter>
       {
         characters.length > 1
         && <>
-          <SideBar className={sidebar ? 'open' : ''}>
+          <SideBar className={ sidebar ? 'open' : '' }>
             {
               characters
                 .map(character => (
                   <CharacterSummary
-                    key={character.id}
-                    character={character}
-                    open={() => setFocus(character)}
-                    highlight={focus.id === character.id}
+                    key={ character.id }
+                    character={ character }
+                    open={ () => setFocus(character) }
+                    highlight={ focus.id === character.id }
                   />
                 ))
             }
           </SideBar>
           <SideBarToggle>
-            <Fab color="secondary" onClick={() => setSidebar(!sidebar)}>
+            <Fab color="secondary" onClick={ () => setSidebar(!sidebar) }>
               <i className="material-icons">{ sidebar ? 'close' : 'group' }</i>
             </Fab>
           </SideBarToggle>
-           </>
+        </>
       }
     </ContentWithSideBar>
   );

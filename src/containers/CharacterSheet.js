@@ -3,19 +3,21 @@ import firebase from 'firebase';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { Fab } from '@material-ui/core';
-import Profile from './Profile';
-import Attributes from './Attributes';
-import Skills from './Skills';
-import { TopAnchor } from './CustomStyled';
+import Profile from '../components/Profile';
+import Attributes from '../components/Attributes';
+import Skills from '../components/Skills';
+import { TopAnchor } from '../components/CustomStyled';
 import dungeonService from '../services/dungeonService';
-import Weapons from './Weapons';
-import Inventory from './Inventory';
+import Weapons from '../components/Weapons';
+import Inventory from '../components/Inventory';
+import SpellBook from './SpellBook';
 
 
 const CharacterSheet = ({ characterData }) => {
   const [character, updateCharacter] = useState(characterData);
   const [isDirty, setDirty] = useState(false);
   const [authorized, setAuthorized] = useState(false);
+  const [classInfo, setClassInfo] = useState(false);
 
   function update(charUpdates) {
     setDirty(true);
@@ -34,12 +36,19 @@ const CharacterSheet = ({ characterData }) => {
     setAuthorized(result.authorized);
   }
 
+  async function getClassInfo(className) {
+    if (!className) return;
+    const result = await dungeonService.getClass(className);
+    setClassInfo(result);
+  }
+
   useEffect(() => {
     updateCharacter(characterData);
   }, [characterData]);
 
   useEffect(() => {
     checkAuthorized(firebase.auth().currentUser);
+    getClassInfo(character.class);
   }, [character]);
 
   return (
@@ -52,10 +61,10 @@ const CharacterSheet = ({ characterData }) => {
            </TopAnchor>
       }
       <ProfileArea>
-        <Profile character={character} update={update} disabled={!authorized} />
+        <Profile character={character} hitDice={classInfo.hit_dice || ''} update={update} disabled={!authorized} />
       </ProfileArea>
       <StatsArea>
-        <Attributes character={character} update={update} disabled={!authorized} />
+        <Attributes character={character} saves={classInfo.prof_saving_throws || ''} update={update} disabled={!authorized} />
       </StatsArea>
       <SkillsArea>
         <Skills character={character} />
@@ -63,9 +72,11 @@ const CharacterSheet = ({ characterData }) => {
       <WeaponsArea>
         <Weapons
           disabled={!authorized}
+          proWeapons={classInfo.prof_weapons || ''}
           weaponList={character.weapons || []}
           dex={character.dex}
           str={character.str}
+          proBonus={character.proBonus}
           update={weapons => update({ ...character, weapons })}
         />
       </WeaponsArea>
@@ -77,6 +88,16 @@ const CharacterSheet = ({ characterData }) => {
           update={(gold, inventory) => update({ ...character, gold, inventory })}
         />
       </EquipmentArea>
+      <Misc>
+        { classInfo && classInfo.spellcasting_ability
+          && <SpellBook
+            classInfo={classInfo.info}
+            level={character.level}
+            spells={character.spells || []}
+            update={spells => update({ ...character, spells })}
+          />
+        }
+      </Misc>
     </SheetContainer>
   );
 };
@@ -96,12 +117,13 @@ const SheetContainer = styled.div`
     display: grid;
     grid-gap: .625em;
     grid-template-columns: 18.75em minmax(auto, 15.625em) minmax(auto, 12.5em);
-    grid-template-rows: auto 13em auto auto;
+    grid-template-rows: auto 14.5em auto auto auto;
     grid-template-areas:
       "pro pro pro"
       "skill stat stat"
       "skill wpn wpn"
-      "skill eqp eqp";
+      "skill eqp eqp"
+      "etc etc etc";
   
   @media screen and (max-width: 36em){
         display: flex;
@@ -123,4 +145,9 @@ const WeaponsArea = styled.div`
   `;
 const EquipmentArea = styled.div`
     grid-area: eqp;
+  `;
+const Misc = styled.div`
+    grid-area: etc;
+    display: flex;
+    flex-direction: column;
   `;

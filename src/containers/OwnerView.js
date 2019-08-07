@@ -3,14 +3,15 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
 import {
-  Fab, TextField, IconButton, Select, MenuItem, OutlinedInput, FormControl, FormLabel,
+  Fab, TextField, IconButton, Select, MenuItem, OutlinedInput, FormControl, FormLabel, FormControlLabel, Checkbox, Divider,
 } from '@material-ui/core';
 import { Link } from 'react-router-dom';
 import CharacterSummary from '../components/CharacterSummary';
 import DungeonService from '../services/dungeonService';
 import {
-  BottomAnchor, TopAnchor, HeaderBar, ActionBar, Card, Spacer,
+  BottomAnchor, TopAnchor, HeaderBar, ActionBar, Card, Spacer, BasicBox,
 } from '../components/CustomStyled';
+import { skillsArray } from '../services/helper';
 
 function OwnerView({ owner }) {
   const [characters, updateCharacters] = useState([]);
@@ -22,7 +23,7 @@ function OwnerView({ owner }) {
 
   async function getCharactersByOwner() {
     const characterList = await DungeonService.getCharactersByOwner(owner);
-    updateCharacters(characterList);
+    updateCharacters(characterList || []);
   }
 
   function toggleCharacter(id) {
@@ -38,13 +39,20 @@ function OwnerView({ owner }) {
     setClasses(classList);
   }
 
-  function handleValueChange(field) {
-    return e => setValues({ ...values, [field]: e.target.value });
+  function handleValueChange(field, numeric) {
+    return e => setValues({ ...values, [field]: numeric ? +e.target.value : e.target.value });
   }
 
   function raceSelect(e) {
     const race = races.find(r => r.name === e.target.value);
     setValues({ ...values, race: race.name, speed: race.speed });
+  }
+
+  function toggleSKill(e) {
+    const arr = values.proSkills || [];
+    const i = arr.findIndex(skill => skill === e.target.value);
+    if (i === -1) setValues({ ...values, proSkills: [...arr, e.target.value] });
+    else setValues({ ...values, proSkills: [...arr.slice(0, i), ...arr.slice(i + 1)] });
   }
 
   async function addCharacter() {
@@ -98,6 +106,9 @@ function OwnerView({ owner }) {
           </HeaderBar>
           <InfoRow>
             <TextField variant="outlined" label="Name" onChange={handleValueChange('name')} />
+            <BasicBox>
+              <TextField variant="outlined" label="HP" type="number" onChange={handleValueChange('maxHP', true)} />
+            </BasicBox>
           </InfoRow>
           <InfoRow>
             <FormControl variant="outlined" style={{ minWidth: 120 }}>
@@ -126,6 +137,26 @@ function OwnerView({ owner }) {
               </Select>
             </FormControl>
           </InfoRow>
+          <Divider />
+          <HeaderBar>
+            <p><strong>Proficient Skills</strong></p>
+          </HeaderBar>
+          <SkillSelect>
+            { skillsArray.map(({ label }) => (
+              <FormControlLabel
+                key={label}
+                control={
+                  <Checkbox
+                    checked={(values.proSkills && values.proSkills.indexOf(label) !== -1) || false}
+                    value={label}
+                    onChange={toggleSKill}
+                    color="primary"
+                  />
+                }
+                label={label}
+              />
+            )) }
+          </SkillSelect>
            </Card>
       }
       { !!party.length
@@ -159,4 +190,12 @@ const Container = styled.div`
 const InfoRow = styled.div`
   display: flex;
   margin-top: .62em;
+`;
+
+const SkillSelect = styled.div`
+  display: grid;
+  grid-template-columns: repeat(auto-fill, 150px);
+  grid-gap: 10px;
+  margin: 10px 0px;
+  justify-content: center;
 `;

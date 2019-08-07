@@ -1,6 +1,7 @@
 
-export function calculateModifier(x) {
-  const y = Math.floor((x - 10) / 2);
+export function calculateModifier(x, z) {
+  let y = Math.floor((x - 10) / 2);
+  y = z ? y + z : y;
   return y < 0 ? `${y}` : `+${y}`;
 }
 
@@ -11,6 +12,14 @@ export function isFinesse(weapon) {
       || text.indexOf('finesse') !== -1;
   });
   return !!finesse;
+}
+
+export function isProWeapon(weapon, proWeaponDesc) {
+  const descArr = proWeaponDesc.split(', ').map(desc => desc.toLowerCase());
+  const result = descArr.find(desc => desc.indexOf(weapon.name.toLowerCase()));
+  if (result) return true;
+  const categoryArr = weapon.category.split(' ').map(str => str.toLowerCase());
+  return !!categoryArr.find(category => !!descArr.find(desc => desc.indexOf(category)));
 }
 
 export const skillsArray = [

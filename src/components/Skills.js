@@ -10,6 +10,10 @@ const Skills = ({ character }) => {
   const [skillDisplay, setDisplay] = useState(skillsArray);
   const [query, setQuery] = useState('');
 
+  function proCheck(proSkills, skill) {
+    return proSkills.findIndex(s => s === skill) !== -1;
+  }
+
   useEffect(() => {
     const lowerQuery = query.toLowerCase();
     const list = !query ? skillsArray
@@ -32,7 +36,12 @@ const Skills = ({ character }) => {
             <Row>
               <p style={{ margin: '0.3125em' }}>{ skill.label }</p>
               <Spacer />
-              <h4 style={{ margin: '0.3125em' }}>{ calculateModifier(character[skill.check]) }</h4>
+              <h4 style={{ margin: '0.3125em' }}>
+                { calculateModifier(
+                  character[skill.check],
+                  proCheck(character.proSkills, skill.label) ? character.proBonus : 0,
+                ) }
+              </h4>
             </Row>
             <Divider />
           </div>
