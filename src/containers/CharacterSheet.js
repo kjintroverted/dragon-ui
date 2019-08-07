@@ -91,7 +91,7 @@ const CharacterSheet = ({ characterData }) => {
           character={character}
           saves={classInfo.prof_saving_throws || ''}
           update={update}
-          disabled={!authorized}
+          disabled={!authorized || !editMode}
         />
       </StatsArea>
       <SkillsArea>
