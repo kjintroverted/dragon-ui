@@ -16,6 +16,7 @@ import SpellBook from './SpellBook';
 const CharacterSheet = ({ characterData }) => {
   const [character, updateCharacter] = useState(characterData);
   const [isDirty, setDirty] = useState(false);
+  const [editMode, setEditMode] = useState(false);
   const [authorized, setAuthorized] = useState(false);
   const [classInfo, setClassInfo] = useState(false);
 
@@ -61,10 +62,21 @@ const CharacterSheet = ({ characterData }) => {
            </TopAnchor>
       }
       <ProfileArea>
-        <Profile character={character} hitDice={classInfo.hit_dice || ''} update={update} disabled={!authorized} />
+        <Profile
+          character={character}
+          hitDice={classInfo.hit_dice || ''}
+          update={update}
+          disabled={!authorized}
+          editing={editMode}
+        />
       </ProfileArea>
       <StatsArea>
-        <Attributes character={character} saves={classInfo.prof_saving_throws || ''} update={update} disabled={!authorized} />
+        <Attributes
+          character={character}
+          saves={classInfo.prof_saving_throws || ''}
+          update={update}
+          disabled={!authorized}
+        />
       </StatsArea>
       <SkillsArea>
         <Skills character={character} />
