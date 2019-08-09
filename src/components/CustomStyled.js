@@ -7,7 +7,7 @@ export const Spacer = styled.span`
 export const TopAnchor = styled.span`
   position: absolute;
   top: -.8em;
-  right: 0em;
+  left: 0em;
   z-index: 100;
 `;
 

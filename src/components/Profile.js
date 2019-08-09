@@ -7,12 +7,11 @@ import {
 import { calculateModifier } from '../services/helper';
 
 const Profile = ({
-  character, hitDice, update, disabled,
+  character, hitDice, update, disabled, editing,
 }) => {
-  function onChange(field, max) {
+  function onChange(field, numeric) {
     return (e) => {
-      let val = +e.target.value;
-      val = val > max ? max : val;
+      const val = numeric ? +e.target.value : e.target.value;
       update({ ...character, [field]: val });
     };
   }
@@ -21,43 +20,77 @@ const Profile = ({
     <Card>
       <Row style={{ alignItems: 'center', justifyContent: 'flex-end' }}>
         <Column>
-          <h2 style={{ margin: 0 }}>{ character.name }</h2>
-          <p style={{ margin: 0 }}>{ character.race } { character.class } ({ hitDice })</p>
+          { !editing
+            ? <h2 style={{ margin: 0 }}>{ character.name }</h2>
+            : <TextField
+              label="Name"
+              value={character.name}
+              onChange={onChange('name')}
+            />
+          }
+          <p style={{ margin: 0 }}>{ character.race } { character.class }</p>
         </Column>
         <Spacer />
         <Badge badgeContent={`+${character.proBonus}`} color="secondary">
           <BasicBox>
-            <TextField variant="outlined" disabled type="number" label="Level" value={character.level} />
+            { !editing
+              ? <TextField
+                variant="outlined"
+                disabled
+                type="number"
+                label="Level"
+                value={character.level}
+              />
+              : <TextField
+                variant="outlined"
+                type="number"
+                label="XP"
+                value={character.xp}
+                onChange={onChange('xp', true)}
+              />
+            }
           </BasicBox>
         </Badge>
         <BasicBox>
-          <TextField
-            variant="outlined"
-            disabled={disabled}
-            type="number"
-            label={`HP/${character.maxHP}`}
-            value={character.hp}
-            onChange={onChange('hp')}
-          />
+          { !editing
+            ? <TextField
+              variant="outlined"
+              disabled={disabled}
+              type="number"
+              label={`HP/${character.maxHP}`}
+              value={character.hp}
+              helperText={`hit dice: ${hitDice}`}
+              onChange={onChange('hp', true)}
+            />
+            : <TextField
+              variant="outlined"
+              disabled={disabled}
+              type="number"
+              label="Max HP"
+              value={character.maxHP}
+              helperText={`hit dice: ${hitDice}`}
+              onChange={onChange('maxHP', true)}
+            />
+          }
         </BasicBox>
         <BasicBox>
           <TextField
             variant="outlined"
-            disabled={disabled}
+            disabled={!editing}
             type="number"
             label="AC"
             value={character.armor}
-            onChange={onChange('armor')}
+            onChange={onChange('armor', true)}
           />
         </BasicBox>
         <BasicBox>
           <TextField
             variant="outlined"
-            disabled={disabled}
+            disabled={!editing}
             type="number"
             label="Speed"
             value={character.speed}
-            onChange={onChange('speed')}
+            onChange={onChange('speed', true)}
           />
         </BasicBox>
         <Badge badgeContent={calculateModifier(character.dex)} color="secondary">
@@ -68,7 +101,7 @@ const Profile = ({
               type="number"
               label="Init"
               value={character.initiative || ''}
-              onChange={onChange('initiative')}
+              onChange={onChange('initiative', true)}
             />
           </BasicBox>
         </Badge>
@@ -88,4 +121,5 @@ Profile.propTypes = {
   hitDice: PropTypes.string.isRequired,
   update: PropTypes.func.isRequired,
   disabled: PropTypes.bool.isRequired,
+  editing: PropTypes.bool.isRequired,
 };
