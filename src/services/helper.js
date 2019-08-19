@@ -2,7 +2,7 @@
 export function calculateModifier(x, z) {
   let y = Math.floor((x - 10) / 2);
   y = z ? y + z : y;
-  return y < 0 ? `${y}` : `+${y}`;
+  return y < 0 ? `${ y }` : `+${ y }`;
 }
 
 export function isFinesse(weapon) {
@@ -39,7 +39,7 @@ export const skillsArray = [
   },
   {
     label: 'Arcana',
-    check: 'intel',
+    check: 'int',
   },
   {
     label: 'Athletics',
@@ -51,7 +51,7 @@ export const skillsArray = [
   },
   {
     label: 'History',
-    check: 'intel',
+    check: 'int',
   },
   {
     label: 'Insight',
@@ -63,7 +63,7 @@ export const skillsArray = [
   },
   {
     label: 'Investigation',
-    check: 'intel',
+    check: 'int',
   },
   {
     label: 'Medicine',
@@ -71,7 +71,7 @@ export const skillsArray = [
   },
   {
     label: 'Nature',
-    check: 'intel',
+    check: 'int',
   },
   {
     label: 'Perception',
@@ -87,7 +87,7 @@ export const skillsArray = [
   },
   {
     label: 'Religion',
-    check: 'intel',
+    check: 'int',
   },
   {
     label: 'Sleight of Hand',

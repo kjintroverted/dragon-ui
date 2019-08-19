@@ -4,7 +4,7 @@ import SpellPage from '../components/SpellPage';
 import dungeonService from '../services/dungeonService';
 
 const SpellBook = ({
-  spells, classInfo, level, update,
+  spells, classInfo, level, mod, update,
 }) => {
   const [spellDetails, setSpellDetails] = useState([]);
 
@@ -18,6 +18,7 @@ const SpellBook = ({
       slots={0}
       spells={spellDetails || []}
       addSpell={addSpell}
+      mod={mod}
     />);
 
   const spellContainers = classInfo.Level.map((val, i) => {
@@ -29,6 +30,7 @@ const SpellBook = ({
         slots={+classInfo[val][i + 1]}
         spells={spellDetails || []}
         addSpell={addSpell}
+        mod={mod}
       />
     );
   });
@@ -71,5 +73,6 @@ SpellBook.propTypes = {
     }),
   }).isRequired,
   level: PropTypes.number.isRequired,
+  mod: PropTypes.string.isRequired,
   update: PropTypes.func.isRequired,
 };
