@@ -41,7 +41,7 @@ const SpellPage = ({
   useEffect(() => {
     setSpellList(
       spells
-        .filter(spell => (spell.level === 'Cantrip' && level === 'Cantrip') || spell.level === `${level}-level`),
+        .filter(spell => (spell.level === 'Cantrip' && level === 'Cantrip') || spell.level === `${ level }-level`),
     );
   }, [spells]);
 
@@ -58,16 +58,16 @@ const SpellPage = ({
       <HeaderBar>
         <Column>
           <h2>{ level } Level Spells</h2>
-          <p>Modifier: { mod } | DC: { 10 + +mod }</p>
+          <p><b>Modifier:</b> { mod } | <b>DC:</b> { 10 + +mod }</p>
         </Column>
         <Spacer />
         <ActionBar>
           { openSlots.map((val, i) => (
             <Checkbox
-              key={`${level}-slot-${i}`}
-              checked={val}
-              value={i}
-              onChange={() => setOpenSlots([...openSlots.slice(0, i), !val, ...openSlots.slice(i + 1)])}
+              key={ `${ level }-slot-${ i }` }
+              checked={ val }
+              value={ i }
+              onChange={ () => setOpenSlots([...openSlots.slice(0, i), !val, ...openSlots.slice(i + 1)]) }
             />
           ))
           }
@@ -77,19 +77,19 @@ const SpellPage = ({
       {/* KNOWN SPELLS */ }
       <Column>
         { !!selectedSpell.name && showSpellDetail
-          && <SpellDetail spell={selectedSpell} close={() => { setSpell({}); setShowSpellDetail(false); }} />
+          && <SpellDetail spell={ selectedSpell } close={ () => { setSpell({}); setShowSpellDetail(false); } } />
         }
         <SpellList>
           { spellList
             .map(spell =>
               <Chip
-                key={spell.name}
-                label={spell.name}
+                key={ spell.name }
+                label={ spell.name }
                 variant="outlined"
-                onClick={() => setSpell(spell)}
-                color={spell.name === selectedSpell.name ? 'primary' : 'secondary'}
-                onDelete={() => { setShowSpellDetail(true); setSpell(spell); }}
-                deleteIcon={<i className="material-icons">info</i>}
+                onClick={ () => setSpell(spell) }
+                color={ spell.name === selectedSpell.name ? 'primary' : 'secondary' }
+                onDelete={ () => { setShowSpellDetail(true); setSpell(spell); } }
+                deleteIcon={ <i className="material-icons">info</i> }
               />)
           }
         </SpellList>
@@ -99,41 +99,41 @@ const SpellPage = ({
       {/* NEW SPELL LOOKUP */ }
       <Column>
         { !!newSpell.name && showNewSpellDetail
-          && <SpellDetail spell={newSpell} close={() => { setNewSpell({}); setShowNewSpellDetail(false); }} />
+          && <SpellDetail spell={ newSpell } close={ () => { setNewSpell({}); setShowNewSpellDetail(false); } } />
         }
         <SpellList>
           { showResults
             && spellSearchResult
               .map(spell =>
                 <Chip
-                  key={spell.name}
-                  label={spell.name}
+                  key={ spell.name }
+                  label={ spell.name }
                   variant="outlined"
-                  onClick={() => setNewSpell(spell)}
-                  color={spell.name === newSpell.name ? 'primary' : 'secondary'}
-                  onDelete={() => { setShowNewSpellDetail(true); setNewSpell(spell); }}
-                  deleteIcon={<i className="material-icons">info</i>}
+                  onClick={ () => setNewSpell(spell) }
+                  color={ spell.name === newSpell.name ? 'primary' : 'secondary' }
+                  onDelete={ () => { setShowNewSpellDetail(true); setNewSpell(spell); } }
+                  deleteIcon={ <i className="material-icons">info</i> }
                 />)
           }
         </SpellList>
       </Column>
       { !showResults
-        ? <Button color="secondary" onClick={loadSpellSearch}>See Spells</Button>
-        : <Row style={{ justifyContent: 'center' }}>
-          <Button onClick={() => {
+        ? <Button color="secondary" onClick={ loadSpellSearch }>See Spells</Button>
+        : <Row style={ { justifyContent: 'center' } }>
+          <Button onClick={ () => {
             setShow(false);
             setNewSpell({});
-          }}
+          } }
           >Cancel
           </Button>
           <Button
-            disabled={!newSpell.name}
+            disabled={ !newSpell.name }
             variant="contained"
             color="secondary"
-            onClick={() => learn(newSpell)}
+            onClick={ () => learn(newSpell) }
           >Learn Spell
           </Button>
-          </Row>
+        </Row>
       }
     </Card>
   );

@@ -11,7 +11,7 @@ import dungeonService from '../services/dungeonService';
 import Weapons from '../components/Weapons';
 import Inventory from '../components/Inventory';
 import SpellBook from './SpellBook';
-import { same } from '../services/helper';
+import { same, calculateModifier } from '../services/helper';
 
 
 const CharacterSheet = ({ characterData }) => {
@@ -123,6 +123,7 @@ const CharacterSheet = ({ characterData }) => {
             level={character.level}
             spells={character.spells || []}
             update={spells => update({ ...character, spells })}
+            mod={calculateModifier(character[classInfo.spellcasting_ability.toLowerCase().substring(0, 3)])}
           />
         }
       </Misc>
