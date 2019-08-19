@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import {
-  Checkbox, Button, Chip, IconButton, Divider,
+  Checkbox, Button, Chip, Divider,
 } from '@material-ui/core';
 import {
   Card, HeaderBar, Spacer, ActionBar, Column, Row,
@@ -11,7 +11,7 @@ import dungeonService from '../services/dungeonService';
 import SpellDetail from './SpellDetail';
 
 const SpellPage = ({
-  level, spells, slots, addSpell,
+  level, spells, slots, addSpell, mod,
 }) => {
   const [spellList, setSpellList] = useState([]);
   const [openSlots, setOpenSlots] = useState([]);
@@ -56,7 +56,10 @@ const SpellPage = ({
   return (
     <Card>
       <HeaderBar>
-        <h2>{ level } Level Spells</h2>
+        <Column>
+          <h2>{ level } Level Spells</h2>
+          <p>Modifier: { mod } | DC: { 10 + +mod }</p>
+        </Column>
         <Spacer />
         <ActionBar>
           { openSlots.map((val, i) => (
@@ -148,6 +151,7 @@ SpellPage.propTypes = {
   })).isRequired,
   slots: PropTypes.number.isRequired,
   addSpell: PropTypes.func.isRequired,
+  mod: PropTypes.string.isRequired,
 };
 
 const SpellList = styled.div`

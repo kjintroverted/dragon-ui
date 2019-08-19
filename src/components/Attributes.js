@@ -32,8 +32,8 @@ function Attributes({
         <Badge badgeContent={calculateModifier(character.con)} color="secondary">
           <TextField variant="outlined" disabled={disabled} type="number" label="Constitution" value={character.con} onChange={onChange('con')} />
         </Badge>
-        <Badge badgeContent={calculateModifier(character.intel)} color="secondary">
-          <TextField variant="outlined" disabled={disabled} type="number" label="Intelligence" value={character.intel} onChange={onChange('intel')} />
+        <Badge badgeContent={calculateModifier(character.int)} color="secondary">
+          <TextField variant="outlined" disabled={disabled} type="number" label="Intelligence" value={character.int} onChange={onChange('int')} />
         </Badge>
         <Badge badgeContent={calculateModifier(character.wis)} color="secondary">
           <TextField variant="outlined" disabled={disabled} type="number" label="Wisdom" value={character.wis} onChange={onChange('wis')} />
@@ -52,7 +52,7 @@ export default Attributes;
 Attributes.propTypes = {
   character: PropTypes.shape({
     dex: PropTypes.number,
-    intel: PropTypes.number,
+    int: PropTypes.number,
     str: PropTypes.number,
   }).isRequired,
   saves: PropTypes.string.isRequired,
