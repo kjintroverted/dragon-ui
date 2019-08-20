@@ -18,7 +18,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "build:prod": "REACT_APP_DUNGEON_DOMAIN=dungeon-dash.herokuapp.com npm run build",
+    "build:heroku": "REACT_APP_DUNGEON_DOMAIN=dungeon-dash.herokuapp.com npm run build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "setup:auth": "./util/main auth-config"
