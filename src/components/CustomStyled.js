@@ -50,7 +50,7 @@ export const FooterBar = styled.div`
     margin: 0.3em 0em;
   }
   & p {
-    font-size: .6em;
+    font-size: .7em;
   }
 `;
 
