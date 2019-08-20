@@ -6,12 +6,13 @@ import { Fab, Button } from '@material-ui/core';
 import Profile from '../components/Profile';
 import Attributes from '../components/Attributes';
 import Skills from '../components/Skills';
-import { TopAnchor, Row } from '../components/CustomStyled';
+import { TopAnchor, Row, Column } from '../components/CustomStyled';
 import dungeonService from '../services/dungeonService';
 import Weapons from '../components/Weapons';
 import Inventory from '../components/Inventory';
 import SpellBook from './SpellBook';
 import { same, calculateModifier } from '../services/helper';
+import CharacterAdmin from '../components/CharacterAdmin';
 
 
 const CharacterSheet = ({ characterData }) => {
@@ -72,10 +73,15 @@ const CharacterSheet = ({ characterData }) => {
            </TopAnchor>
       }
       { editMode
-        && <Row>
-          <Button onClick={() => setEditMode(false)}>Cancel</Button>
-          <Button onClick={save} variant="contained" color="secondary">Save</Button>
-           </Row>
+        && <Column>
+          <Row>
+            <Button onClick={() => setEditMode(false)}>Cancel</Button>
+            <Button onClick={save} variant="contained" color="secondary">Save</Button>
+          </Row>
+          <CharacterAdmin character={character} update={update} />
+           </Column>
+
+
       }
       <ProfileArea>
         <Profile
