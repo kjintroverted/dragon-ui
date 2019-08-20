@@ -53,8 +53,8 @@ const CharacterSheet = ({ characterData }) => {
 
   useEffect(() => {
     checkAuthorized(firebase.auth().currentUser);
-    getClassInfo(character.class);
-  }, [character]);
+    getClassInfo(characterData.class);
+  }, [characterData]);
 
   return (
     <SheetContainer>
