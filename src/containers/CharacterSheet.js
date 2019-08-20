@@ -6,7 +6,7 @@ import { Fab, Button } from '@material-ui/core';
 import Profile from '../components/Profile';
 import Attributes from '../components/Attributes';
 import Skills from '../components/Skills';
-import { TopAnchor, Row, Column } from '../components/CustomStyled';
+import { TopAnchor, Row } from '../components/CustomStyled';
 import dungeonService from '../services/dungeonService';
 import Weapons from '../components/Weapons';
 import Inventory from '../components/Inventory';
@@ -60,72 +60,72 @@ const CharacterSheet = ({ characterData }) => {
       { authorized && !editMode
         && <TopAnchor>
           { !isDirty
-            ? <Fab color="secondary" size="small" onClick={() => setEditMode(true)}>
+            ? <Fab color="secondary" size="small" onClick={ () => setEditMode(true) }>
               <i className="material-icons">edit</i>
-              </Fab>
-            : <Fab color="secondary" size="small" onClick={save}>
+            </Fab>
+            : <Fab color="secondary" size="small" onClick={ save }>
               <i className="material-icons">save</i>
-              </Fab>
+            </Fab>
 
           }
-           </TopAnchor>
+        </TopAnchor>
       }
       { editMode
         && <Admin>
-          <Row style={{ justifyContent: 'flex-end' }}>
-            <Button onClick={() => setEditMode(false)}>Cancel</Button>
-            <Button onClick={save} variant="contained" color="secondary">Save</Button>
+          <Row style={ { justifyContent: 'flex-end' } }>
+            <Button onClick={ () => setEditMode(false) }>Cancel</Button>
+            <Button onClick={ save } variant="contained" color="secondary">Save</Button>
           </Row>
-          <CharacterAdmin character={character} update={update} />
-           </Admin>
+          <CharacterAdmin character={ character } update={ update } />
+        </Admin>
       }
       <ProfileArea>
         <Profile
-          character={character}
-          hitDice={classInfo.hit_dice || ''}
-          update={update}
-          disabled={!authorized}
-          editing={editMode}
+          character={ character }
+          hitDice={ classInfo.hit_dice || '' }
+          update={ update }
+          disabled={ !authorized }
+          editing={ editMode }
         />
       </ProfileArea>
       <StatsArea>
         <Attributes
-          character={character}
-          saves={classInfo.prof_saving_throws || ''}
-          update={update}
-          disabled={!authorized || !editMode}
+          character={ character }
+          saves={ classInfo.prof_saving_throws || '' }
+          update={ update }
+          disabled={ !authorized || !editMode }
         />
       </StatsArea>
       <SkillsArea>
-        <Skills character={character} editing={editMode} update={update} />
+        <Skills character={ character } editing={ editMode } update={ update } />
       </SkillsArea>
       <WeaponsArea>
         <Weapons
-          disabled={!authorized}
-          proWeapons={classInfo.prof_weapons || ''}
-          weaponList={character.weapons || []}
-          dex={character.dex}
-          str={character.str}
-          proBonus={character.proBonus}
-          update={weapons => update({ ...character, weapons })}
+          disabled={ !authorized }
+          proWeapons={ classInfo.prof_weapons || '' }
+          weaponList={ character.weapons || [] }
+          dex={ character.dex }
+          str={ character.str }
+          proBonus={ character.proBonus }
+          update={ weapons => update({ ...character, weapons }) }
         />
       </WeaponsArea>
       <EquipmentArea>
         <Inventory
-          disabled={!authorized}
-          itemList={character.inventory || []}
-          gold={character.gold}
-          update={(gold, inventory) => update({ ...character, gold, inventory })}
+          disabled={ !authorized }
+          itemList={ character.inventory || [] }
+          gold={ character.gold }
+          update={ (gold, inventory) => update({ ...character, gold, inventory }) }
         />
       </EquipmentArea>
       <Misc>
         { classInfo && classInfo.spellcasting_ability
           && <SpellBook
-            classInfo={classInfo.info}
-            level={character.level}
-            spells={character.spells || []}
-            update={spells => update({ ...character, spells })}
-            mod={calculateModifier(character[classInfo.spellcasting_ability.toLowerCase().substring(0, 3)])}
+            classInfo={ classInfo.info }
+            level={ character.level }
+            spells={ character.spells || [] }
+            update={ spells => update({ ...character, spells }) }
+            mod={ calculateModifier(character[classInfo.spellcasting_ability.toLowerCase().substring(0, 3)]) }
           />
         }
       </Misc>

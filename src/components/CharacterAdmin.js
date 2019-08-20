@@ -1,9 +1,23 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { Chip } from '@material-ui/core';
+import { Chip, TextField, IconButton } from '@material-ui/core';
 import { Card, Row, HeaderBar } from './CustomStyled';
 
 const CharacterAdmin = ({ character, update }) => {
+  const [values, setValues] = useState({});
+
+  function onChange(field) {
+    return e => setValues({ ...values, [field]: e.target.value });
+  }
+
+  function add(field, valueField) {
+    return () => {
+      const array = character[field] || [];
+      update({ ...character, [field]: [...array, values[valueField]] });
+      setValues({ ...values, [valueField]: '' });
+    };
+  }
+
   function remove(field, i) {
     return () => {
       character[field].splice(i, 1);
@@ -28,6 +42,14 @@ const CharacterAdmin = ({ character, update }) => {
             />
           ))
         }
+        <TextField
+          label="New Email"
+          value={values.authEmail || ''}
+          onChange={onChange('authEmail')}
+        />
+        <IconButton color="primary" onClick={add('authUsers', 'authEmail')}>
+          <i className="material-icons">done</i>
+        </IconButton>
       </Row>
     </Card>
   );
