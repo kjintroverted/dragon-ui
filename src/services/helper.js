@@ -2,7 +2,7 @@
 export function calculateModifier(x, z) {
   let y = Math.floor((x - 10) / 2);
   y = z ? y + z : y;
-  return y < 0 ? `${ y }` : `+${ y }`;
+  return y < 0 ? `${y}` : `+${y}`;
 }
 
 export function isFinesse(weapon) {
@@ -23,8 +23,6 @@ export function isProWeapon(weapon, proWeaponDesc) {
 }
 
 export function same(obj1, obj2) {
-  console.log('same', JSON.stringify(obj1), JSON.stringify(obj2), JSON.stringify(obj1) === JSON.stringify(obj2));
-
   return JSON.stringify(obj1) === JSON.stringify(obj2);
 }
 

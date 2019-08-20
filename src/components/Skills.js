@@ -13,7 +13,7 @@ const Skills = ({ character, editing, update }) => {
   const [query, setQuery] = useState('');
 
   function proCheck(proSkills, skill) {
-    return proSkills.findIndex(s => s === skill) !== -1;
+    return !proSkills ? false : proSkills.findIndex(s => s === skill) !== -1;
   }
 
   function toggleSKill(e) {
