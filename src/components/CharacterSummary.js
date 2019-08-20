@@ -1,10 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { IconButton, TextField } from '@material-ui/core';
+import { IconButton, TextField, Divider } from '@material-ui/core';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import {
-  Card, HeaderBar, Spacer, ActionBar, Column,
+  Card, HeaderBar, Spacer, ActionBar, Column, FooterBar,
 } from './CustomStyled';
 
 
@@ -49,6 +49,9 @@ function CharacterSummary({
         <TextField variant="outlined" disabled type="number" label="Hit Points" value={character.hp} />
         <TextField variant="outlined" disabled type="number" label="Initiative" value={character.initiative || ''} />
       </InfoRow>
+      <FooterBar>
+        <p>Created by <b>{ character.owner }</b></p>
+      </FooterBar>
     </Card>
   );
 }

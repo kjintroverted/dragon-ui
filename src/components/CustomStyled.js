@@ -41,6 +41,19 @@ export const HeaderBar = styled.div`
   }
 `;
 
+export const FooterBar = styled.div`
+  display: flex;
+  align-items: center;
+  border-top: lightgray solid 1px;
+  margin-top: .8em;
+  & h1, h2, h3, h4, p {
+    margin: 0.3em 0em;
+  }
+  & p {
+    font-size: .6em;
+  }
+`;
+
 export const ActionBar = styled.span`
   display: flex;
   align-items: center;
