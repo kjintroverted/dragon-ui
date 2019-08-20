@@ -50,11 +50,9 @@ const CharacterSheet = ({ characterData }) => {
 
   useEffect(() => {
     updateCharacter(characterData);
-  }, [characterData]);
-
-  useEffect(() => {
     checkAuthorized(firebase.auth().currentUser);
     getClassInfo(characterData.class);
+    setEditMode(false);
   }, [characterData]);
 
   return (
@@ -73,15 +71,13 @@ const CharacterSheet = ({ characterData }) => {
            </TopAnchor>
       }
       { editMode
-        && <Column>
-          <Row>
+        && <Admin>
+          <Row style={{ justifyContent: 'flex-end' }}>
             <Button onClick={() => setEditMode(false)}>Cancel</Button>
             <Button onClick={save} variant="contained" color="secondary">Save</Button>
           </Row>
           <CharacterAdmin character={character} update={update} />
-           </Column>
-
-
+           </Admin>
       }
       <ProfileArea>
         <Profile
@@ -166,6 +162,11 @@ const SheetContainer = styled.div`
     }
   `;
 
+const Admin = styled.div`
+    grid-area: admin;
+    display: flex;
+    flex-direction: column;
+  `;
 const ProfileArea = styled.div`
     grid-area: pro;
   `;
