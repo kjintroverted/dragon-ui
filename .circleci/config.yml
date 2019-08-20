@@ -16,7 +16,7 @@ jobs:
       - run: cd .. && git clone git@github.com:kjintroverted/dnd-build.git build
       - run: cp ../build/secret_firebase.json src/secret_auth_config.json
       - run: cd ../dungeon && go build .
-      - run: cd ../dungeon && mv dungeon build
+      - run: cd .. && mv dungeon/dungeon build
       - run: npm i
       - run: npm run build:heroku
       - run: rm -r ../build/app
