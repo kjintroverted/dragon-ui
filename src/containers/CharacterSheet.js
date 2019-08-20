@@ -36,8 +36,8 @@ const CharacterSheet = ({ characterData }) => {
   }
 
   async function checkAuthorized(user) {
-    if (!character) return;
-    const result = await dungeonService.checkUserAuth(character.id, user.email);
+    if (!characterData) return;
+    const result = await dungeonService.checkUserAuth(characterData.id, user.email);
     setAuthorized(result.authorized);
   }
 
