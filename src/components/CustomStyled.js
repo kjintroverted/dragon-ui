@@ -98,15 +98,16 @@ export const SideBar = styled.div`
   position: fixed;
   width: 22em;
   height: 100vh;
-  top: 3.75em;
-  padding: 1em;
+  top: 4em;
+  padding: 0em 1em;
   right: 0em;
   overflow-y: scroll;
-  z-index: 100;
+  z-index: 1100;
 
   @media screen and (max-width: 62.5em) {
     background-color: white;
     box-shadow: lightgrey 1px 1px 0.313em;
+    top: 0em;
     right: -25em;
     transition: right 0.3s ease;
 
@@ -121,7 +122,7 @@ export const SideBarToggle = styled.div`
   bottom: 0.313em;
   right: 0.313em;
   display: none;
-  z-index: 101;
+  z-index: 1101;
 
   @media screen and (max-width: 62.5em) {
     display: initial;
