@@ -20,8 +20,11 @@ const CharacterAdmin = ({ character, update }) => {
 
   function remove(field, i) {
     return () => {
-      character[field].splice(i, 1);
-      update(character);
+      let array = [
+        ...character[field].slice(0, i),
+        ...character[field].slice(i + 1)
+      ];
+      update({ ...character, [field]: array });
     };
   }
 
