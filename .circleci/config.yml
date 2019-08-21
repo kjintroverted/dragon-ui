@@ -1,0 +1,52 @@
+# Golang CircleCI 2.0 configuration file
+#
+# Check https://circleci.com/docs/2.0/language-go/ for more details
+version: 2
+jobs:
+
+  build:
+    docker:
+      - image: kjintroverted/go-node
+    working_directory: ~/dragon-ui
+    steps:
+      - checkout
+      - add_ssh_keys:
+          fingerprints:
+            - "b8:78:e9:fe:e2:dc:58:45:d2:36:b5:5e:a1:4a:be:c0"
+      - run: npm i
+      - run: cd .. && git clone git@github.com:kjintroverted/dnd-build.git build
+      - run: cp ../build/secret_firebase.json src/secret_auth_config.json
+      # Add Tests
+      - run: npm run build:heroku
+
+  deploy:
+    docker:
+      - image: kjintroverted/go-node
+    working_directory: ~/dragon-ui
+    steps:
+      - checkout
+      - add_ssh_keys:
+          fingerprints:
+            - "b8:78:e9:fe:e2:dc:58:45:d2:36:b5:5e:a1:4a:be:c0"
+      - run: cd .. && git clone git@github.com:kjintroverted/dungeon.git
+      - run: cd .. && git clone git@github.com:kjintroverted/dnd-build.git build
+      - run: cp ../build/secret_firebase.json src/secret_auth_config.json
+      - run: cd ../dungeon && go build .
+      - run: cd .. && mv dungeon/dungeon build
+      - run: npm i
+      - run: npm run build:heroku
+      - run: rm -r ../build/app
+      - run: cp -r build ../build/app
+      - run: git config --global user.email "wkgreen13@gmail.com"
+      - run: git config --global user.name "CircleCI"
+      - run: cd ../build && git status && git add -A && git commit -m "CI build" && git push
+      
+workflows:
+  version: 2
+  build-deploy:
+    jobs:
+      - build
+      - deploy:
+          filters:
+            branches:
+              only: master
