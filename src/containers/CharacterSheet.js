@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import firebase from "firebase";
-import PropTypes from "prop-types";
+import PropTypes, { func } from "prop-types";
 import styled from "styled-components";
 import { Fab, Button } from "@material-ui/core";
 import Profile from "../components/Profile";
@@ -33,6 +33,12 @@ const CharacterSheet = ({ characterData }) => {
     const success = await dungeonService.saveCharacter(character);
     if (!success) setDirty(true);
     else updateCharacterBase(character);
+  }
+
+  function cancel() {
+    setDirty(false);
+    setEditMode(false);
+    updateCharacter(characterBase);
   }
 
   async function checkAuthorized(user) {
@@ -79,7 +85,7 @@ const CharacterSheet = ({ characterData }) => {
       {editMode && (
         <Admin>
           <Row style={{ justifyContent: "flex-end" }}>
-            <Button onClick={() => setEditMode(false)}>Cancel</Button>
+            <Button onClick={cancel}>Cancel</Button>
             <Button onClick={save} variant='contained' color='secondary'>
               Save
             </Button>
