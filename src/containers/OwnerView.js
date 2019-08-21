@@ -2,12 +2,17 @@ import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 
-import { Fab } from "@material-ui/core";
+import { Fab, Divider } from "@material-ui/core";
 import { Link } from "react-router-dom";
 import CharacterSummary from "../components/CharacterSummary";
 import CharacterForm from "../components/CharacterForm";
 import DungeonService from "../services/dungeonService";
-import { BottomAnchor, TopAnchor } from "../components/CustomStyled";
+import {
+  BottomAnchor,
+  TopAnchor,
+  Column,
+  Row
+} from "../components/CustomStyled";
 
 function OwnerView({ owner }) {
   const [characters, updateCharacters] = useState([]);
@@ -49,9 +54,9 @@ function OwnerView({ owner }) {
     loadBackgroundOptions();
   }, [isAdding]);
 
-  const characterCards = [];
-  characters.forEach(character => {
-    characterCards.push(
+  const ownCharacters = characters
+    .filter(character => character.owner === owner)
+    .map(character => (
       <CharacterSummary
         key={character.id}
         character={character}
@@ -59,11 +64,22 @@ function OwnerView({ owner }) {
         add={() => toggleCharacter(character.id)}
         linkTo={`/character?id=${character.id}`}
       />
-    );
-  });
+    ));
+
+  const otherCharacters = characters
+    .filter(character => character.owner !== owner)
+    .map(character => (
+      <CharacterSummary
+        key={character.id}
+        character={character}
+        highlight={party.indexOf(character.id) !== -1}
+        add={() => toggleCharacter(character.id)}
+        linkTo={`/character?id=${character.id}`}
+      />
+    ));
 
   return (
-    <Container>
+    <Column>
       <TopAnchor>
         <Fab
           size='small'
@@ -73,9 +89,17 @@ function OwnerView({ owner }) {
           <i className='material-icons'>{!isAdding ? "add" : "close"}</i>
         </Fab>
       </TopAnchor>
-      {characterCards}
-      {isAdding && (
-        <CharacterForm races={races} classes={classes} save={addCharacter} />
+      <Grid>
+        {ownCharacters}
+        {isAdding && (
+          <CharacterForm races={races} classes={classes} save={addCharacter} />
+        )}
+      </Grid>
+      {!!otherCharacters.length && (
+        <>
+          <Divider />
+          <Grid>{otherCharacters}</Grid>
+        </>
       )}
       {!!party.length && (
         <BottomAnchor>
@@ -86,7 +110,7 @@ function OwnerView({ owner }) {
           </Link>
         </BottomAnchor>
       )}
-    </Container>
+    </Column>
   );
 }
 
@@ -96,7 +120,7 @@ OwnerView.propTypes = {
   owner: PropTypes.string.isRequired
 };
 
-const Container = styled.div`
+const Grid = styled.div`
   position: relative;
   width: 100vw;
   display: grid;
