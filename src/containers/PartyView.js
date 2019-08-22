@@ -1,13 +1,17 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 
-import PropTypes from 'prop-types';
-import { Fab } from '@material-ui/core';
-import DungeonService from '../services/dungeonService';
+import PropTypes from "prop-types";
+import styled from "styled-components";
+import { Fab } from "@material-ui/core";
+import DungeonService from "../services/dungeonService";
 import {
-  SideBar, SideBarToggle, ContentWithSideBar, RowCenter,
-} from '../components/CustomStyled';
-import CharacterSummary from '../components/CharacterSummary';
-import CharacterSheet from './CharacterSheet';
+  SideBar,
+  SideBarToggle,
+  ContentWithSideBar,
+  RowCenter
+} from "../components/CustomStyled";
+import CharacterSummary from "../components/CharacterSummary";
+import CharacterSheet from "./CharacterSheet";
 
 function PartyView({ location }) {
   const [sidebar, setSidebar] = useState(false);
@@ -20,10 +24,10 @@ function PartyView({ location }) {
   }
 
   useEffect(() => {
-    const ids = location.search.split('id=')[1].split(',');
+    const ids = location.search.split("id=")[1].split(",");
     setIDList(ids);
     const socket = DungeonService.watchCharacters(ids);
-    socket.onmessage = (event) => {
+    socket.onmessage = event => {
       const updatedCharacters = JSON.parse(event.data).sort((a, b) => {
         if (!a.initiative) {
           if (!b.initiative) return 0;
@@ -48,38 +52,39 @@ function PartyView({ location }) {
   return (
     <ContentWithSideBar>
       <RowCenter>
-        <CharacterSheet characterData={ focus } />
+        <CharacterSheet characterData={focus} />
       </RowCenter>
-      {
-        characters.length > 1
-        && <>
-          <SideBar className={ sidebar ? 'open' : '' }>
-            {
-              characters
-                .map(character => (
-                  <CharacterSummary
-                    key={ character.id }
-                    character={ character }
-                    open={ () => setFocus(character) }
-                    highlight={ focus.id === character.id }
-                  />
-                ))
-            }
+      {characters.length > 1 && (
+        <>
+          <SideBar className={sidebar ? "open" : ""}>
+            <SideContainer>
+              {characters.map(character => (
+                <CharacterSummary
+                  key={character.id}
+                  character={character}
+                  open={() => setFocus(character)}
+                  highlight={focus.id === character.id}
+                />
+              ))}
+            </SideContainer>
           </SideBar>
           <SideBarToggle>
-            <Fab color="secondary" onClick={ () => setSidebar(!sidebar) }>
-              <i className="material-icons">{ sidebar ? 'close' : 'group' }</i>
+            <Fab color='secondary' onClick={() => setSidebar(!sidebar)}>
+              <i className='material-icons'>{sidebar ? "close" : "group"}</i>
             </Fab>
           </SideBarToggle>
         </>
-      }
+      )}
     </ContentWithSideBar>
   );
 }
 
 PartyView.propTypes = {
-  location: PropTypes.object.isRequired,
+  location: PropTypes.object.isRequired
 };
 
-
 export default PartyView;
+
+const SideContainer = styled.div`
+  margin-bottom: 4em;
+`;
