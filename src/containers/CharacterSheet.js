@@ -13,6 +13,7 @@ import Inventory from "../components/Inventory";
 import SpellBook from "./SpellBook";
 import { same, calculateModifier } from "../services/helper";
 import CharacterAdmin from "../components/CharacterAdmin";
+import Feats from "../components/Feats";
 
 const CharacterSheet = ({ characterData }) => {
   const [characterBase, updateCharacterBase] = useState(characterData);
@@ -65,89 +66,90 @@ const CharacterSheet = ({ characterData }) => {
 
   return (
     <SheetContainer>
-      {authorized && !editMode && (
+      { authorized && !editMode && (
         <TopAnchor>
-          {!isDirty ? (
+          { !isDirty ? (
             <Fab
               color='secondary'
               size='small'
-              onClick={() => setEditMode(true)}
+              onClick={ () => setEditMode(true) }
             >
               <i className='material-icons'>edit</i>
             </Fab>
           ) : (
-            <Fab color='secondary' size='small' onClick={save}>
-              <i className='material-icons'>save</i>
-            </Fab>
-          )}
+              <Fab color='secondary' size='small' onClick={ save }>
+                <i className='material-icons'>save</i>
+              </Fab>
+            ) }
         </TopAnchor>
-      )}
-      {editMode && (
+      ) }
+      { editMode && (
         <Admin>
-          <Row style={{ justifyContent: "flex-end" }}>
-            <Button onClick={cancel}>Cancel</Button>
-            <Button onClick={save} variant='contained' color='secondary'>
+          <Row style={ { justifyContent: "flex-end" } }>
+            <Button onClick={ cancel }>Cancel</Button>
+            <Button onClick={ save } variant='contained' color='secondary'>
               Save
             </Button>
           </Row>
-          <CharacterAdmin character={character} update={update} />
+          <CharacterAdmin character={ character } update={ update } />
         </Admin>
-      )}
+      ) }
       <ProfileArea>
         <Profile
-          character={character}
-          hitDice={classInfo.hit_dice || ""}
-          update={update}
-          disabled={!authorized}
-          editing={editMode}
+          character={ character }
+          hitDice={ classInfo.hit_dice || "" }
+          update={ update }
+          disabled={ !authorized }
+          editing={ editMode }
         />
       </ProfileArea>
       <StatsArea>
         <Attributes
-          character={character}
-          saves={classInfo.prof_saving_throws || ""}
-          update={update}
-          disabled={!authorized || !editMode}
+          character={ character }
+          saves={ classInfo.prof_saving_throws || "" }
+          update={ update }
+          disabled={ !authorized || !editMode }
         />
       </StatsArea>
       <SkillsArea>
-        <Skills character={character} editing={editMode} update={update} />
+        <Skills character={ character } editing={ editMode } update={ update } />
       </SkillsArea>
       <WeaponsArea>
         <Weapons
-          disabled={!authorized}
-          proWeapons={classInfo.prof_weapons || ""}
-          weaponList={character.weapons || []}
-          dex={character.dex}
-          str={character.str}
-          proBonus={character.proBonus}
-          update={weapons => update({ ...character, weapons })}
+          disabled={ !authorized }
+          proWeapons={ classInfo.prof_weapons || "" }
+          weaponList={ character.weapons || [] }
+          dex={ character.dex }
+          str={ character.str }
+          proBonus={ character.proBonus }
+          update={ weapons => update({ ...character, weapons }) }
         />
       </WeaponsArea>
       <EquipmentArea>
         <Inventory
-          disabled={!authorized}
-          itemList={character.inventory || []}
-          gold={character.gold}
-          update={(gold, inventory) =>
+          disabled={ !authorized }
+          itemList={ character.inventory || [] }
+          gold={ character.gold }
+          update={ (gold, inventory) =>
             update({ ...character, gold, inventory })
           }
         />
       </EquipmentArea>
       <Misc>
-        {classInfo && classInfo.spellcasting_ability && (
+        <Feats level={ character.level } featIDs={ character.feats } update={ feats => update({ ...character, feats }) } />
+        { classInfo && classInfo.spellcasting_ability && (
           <SpellBook
-            classInfo={classInfo.info}
-            level={character.level}
-            spells={character.spells || []}
-            update={spells => update({ ...character, spells })}
-            mod={calculateModifier(
+            classInfo={ classInfo.info }
+            level={ character.level }
+            spells={ character.spells || [] }
+            update={ spells => update({ ...character, spells }) }
+            mod={ calculateModifier(
               character[
-                classInfo.spellcasting_ability.toLowerCase().substring(0, 3)
+              classInfo.spellcasting_ability.toLowerCase().substring(0, 3)
               ]
-            )}
+            ) }
           />
-        )}
+        ) }
       </Misc>
     </SheetContainer>
   );
@@ -164,46 +166,46 @@ CharacterSheet.propTypes = {
 };
 
 const SheetContainer = styled.div`
-  position: relative;
-  display: grid;
-  grid-gap: 0.625em;
-  grid-template-columns: 18.75em minmax(auto, 15.625em) minmax(auto, 12.5em);
-  grid-template-areas:
-    "admin admin admin"
-    "pro pro pro"
-    "skill stat stat"
-    "skill wpn wpn"
-    "skill eqp eqp"
-    "etc etc etc";
-
+    position: relative;
+    display: grid;
+    grid-gap: 0.625em;
+    grid-template-columns: 18.75em minmax(auto, 15.625em) minmax(auto, 12.5em);
+    grid-template-areas:
+      "admin admin admin"
+      "pro pro pro"
+      "skill stat stat"
+      "skill wpn wpn"
+      "skill eqp eqp"
+      "etc etc etc";
+  
   @media screen and (max-width: 36em) {
-    display: flex;
-    flex-direction: column;
-  }
-`;
+        display: flex;
+      flex-direction: column;
+    }
+  `;
 
 const Admin = styled.div`
-  grid-area: admin;
-  display: flex;
-  flex-direction: column;
-`;
+    grid-area: admin;
+    display: flex;
+    flex-direction: column;
+  `;
 const ProfileArea = styled.div`
-  grid-area: pro;
-`;
+    grid-area: pro;
+  `;
 const StatsArea = styled.div`
-  grid-area: stat;
-`;
+    grid-area: stat;
+  `;
 const SkillsArea = styled.div`
-  grid-area: skill;
-`;
+    grid-area: skill;
+  `;
 const WeaponsArea = styled.div`
-  grid-area: wpn;
-`;
+    grid-area: wpn;
+  `;
 const EquipmentArea = styled.div`
-  grid-area: eqp;
-`;
+    grid-area: eqp;
+  `;
 const Misc = styled.div`
-  grid-area: etc;
-  display: flex;
-  flex-direction: column;
-`;
+    grid-area: etc;
+    display: flex;
+    flex-direction: column;
+  `;
