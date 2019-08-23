@@ -24,8 +24,9 @@ const Feats = ({ featIDs, level, update }) => {
     setSearchResults(featSearchArr.filter(feat => feat.name.toLowerCase().indexOf(searchQuery) !== -1))
   }
 
-  function add(id) {
-    update([...featIDs, id])
+  function add(url) {
+    const parsed = url.split('/');
+    update([...featIDs, +parsed[parsed.length - 1]])
   }
 
   function remove(i) {
@@ -52,7 +53,7 @@ const Feats = ({ featIDs, level, update }) => {
   return (
     <Card>
       <HeaderBar>
-        <h2>Feats and Abilities</h2>
+        <h2>Abilities</h2>
         <Spacer />
         <ActionBar>
           <IconButton onClick={ () => setIsAdding(!adding) }>
@@ -80,7 +81,7 @@ const Feats = ({ featIDs, level, update }) => {
                 <Card key={ `new-feat-${ feat.name.replace(' ', '-') }` }>
                   <Row>
                     <p>{ feat.name }</p>
-                    <IconButton color="secondary">
+                    <IconButton color="secondary" onClick={ () => add(feat.url) }>
                       <i className='material-icons'>add</i>
                     </IconButton>
                   </Row>
