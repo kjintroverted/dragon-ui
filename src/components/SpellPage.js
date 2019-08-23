@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import {
-  Checkbox, Button, Chip, Divider,
+  Checkbox, Button, ExpansionPanel, ExpansionPanelSummary, ExpansionPanelDetails, ExpansionPanelActions,
 } from '@material-ui/core';
 import {
   Card, HeaderBar, Spacer, ActionBar, Column, Row,
@@ -17,10 +17,6 @@ const SpellPage = ({
   const [openSlots, setOpenSlots] = useState([]);
   const [spellSearchResult, setSearchResults] = useState([]);
   const [showResults, setShow] = useState(false);
-  const [newSpell, setNewSpell] = useState({});
-  const [selectedSpell, setSpell] = useState({});
-  const [showSpellDetail, setShowSpellDetail] = useState(false);
-  const [showNewSpellDetail, setShowNewSpellDetail] = useState(false);
 
   async function getNewSpells() {
     const results = await dungeonService.getSpellsForLevel(level);
@@ -34,14 +30,12 @@ const SpellPage = ({
 
   function learn(spell) {
     addSpell(spell);
-    setShow(false);
-    setNewSpell({});
   }
 
   useEffect(() => {
     setSpellList(
       spells
-        .filter(spell => (spell.level === 'Cantrip' && level === 'Cantrip') || spell.level === `${level}-level`),
+        .filter(spell => (spell.level === 'Cantrip' && level === 'Cantrip') || spell.level === `${ level }-level`),
     );
   }, [spells]);
 
@@ -71,10 +65,10 @@ const SpellPage = ({
         <ActionBar>
           { openSlots.map((val, i) => (
             <Checkbox
-              key={`${level}-slot-${i}`}
-              checked={val}
-              value={i}
-              onChange={() => setOpenSlots([...openSlots.slice(0, i), !val, ...openSlots.slice(i + 1)])}
+              key={ `${ level }-slot-${ i }` }
+              checked={ val }
+              value={ i }
+              onChange={ () => setOpenSlots([...openSlots.slice(0, i), !val, ...openSlots.slice(i + 1)]) }
             />
           ))
           }
@@ -82,67 +76,38 @@ const SpellPage = ({
       </HeaderBar>
 
       {/* KNOWN SPELLS */ }
-      <Column>
-        { !!selectedSpell.name && showSpellDetail
-          && <SpellDetail spell={selectedSpell} close={() => { setSpell({}); setShowSpellDetail(false); }} />
-        }
-        <SpellList>
-          { spellList
-            .map(spell =>
-              <Chip
-                key={spell.name}
-                label={spell.name}
-                variant="outlined"
-                onClick={() => setSpell(spell)}
-                color={spell.name === selectedSpell.name ? 'primary' : 'secondary'}
-                onDelete={() => { setShowSpellDetail(true); setSpell(spell); }}
-                deleteIcon={<i className="material-icons">info</i>}
-              />)
-          }
-        </SpellList>
-        <Divider />
-      </Column>
+      { spellList.map(spell =>
+        <ExpansionPanel key={ spell.name }>
+          <ExpansionPanelSummary>{ spell.name }</ExpansionPanelSummary>
+          <ExpansionPanelDetails>
+            <SpellDetail spell={ spell } />
+          </ExpansionPanelDetails>
+        </ExpansionPanel>
+      )
+      }
 
       {/* NEW SPELL LOOKUP */ }
-      <Column>
-        { !!newSpell.name && showNewSpellDetail
-          && <SpellDetail spell={newSpell} close={() => { setNewSpell({}); setShowNewSpellDetail(false); }} />
-        }
-        <SpellList>
-          { showResults
-            && spellSearchResult
-              .map(spell =>
-                <Chip
-                  key={spell.name}
-                  label={spell.name}
-                  variant="outlined"
-                  onClick={() => setNewSpell(spell)}
-                  color={spell.name === newSpell.name ? 'primary' : 'secondary'}
-                  onDelete={() => { setShowNewSpellDetail(true); setNewSpell(spell); }}
-                  deleteIcon={<i className="material-icons">info</i>}
-                />)
-          }
-        </SpellList>
-      </Column>
-      { !showResults
-        ? <Button color="secondary" onClick={loadSpellSearch}>See Spells</Button>
-        : <Row style={{ justifyContent: 'center' }}>
-          <Button onClick={() => {
-            setShow(false);
-            setNewSpell({});
-          }}
-          >Cancel
-          </Button>
-          <Button
-            disabled={!newSpell.name}
-            variant="contained"
-            color="secondary"
-            onClick={() => learn(newSpell)}
-          >Learn Spell
-          </Button>
-          </Row>
+      { showResults
+        && spellSearchResult.map(spell =>
+          <ExpansionPanel key={ spell.name }>
+            <ExpansionPanelSummary>{ spell.name }</ExpansionPanelSummary>
+            <ExpansionPanelDetails>
+              <SpellDetail spell={ spell } />
+            </ExpansionPanelDetails>
+            <ExpansionPanelActions>
+              <Button variant="contained" color="secondary" onClick={ () => learn(spell) }>
+                Learn
+              </Button>
+            </ExpansionPanelActions>
+          </ExpansionPanel>
+        )
       }
-    </Card>
+      {
+        !showResults
+          ? <Button color="secondary" onClick={ loadSpellSearch }>See Spells</Button>
+          : <Button onClick={ () => setShow(false) }>Cancel</Button>
+      }
+    </Card >
   );
 };
 
