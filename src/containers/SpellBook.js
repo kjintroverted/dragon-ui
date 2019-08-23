@@ -12,25 +12,32 @@ const SpellBook = ({
     update([...spells, spell.slug]);
   }
 
+  function removeSpell(spell) {
+    const i = spells.findIndex(s => s === spell.slug)
+    update([...spells.slice(0, i), ...spells.slice(i + 1)]);
+  }
+
   const cantrips = (
     <SpellPage
       level="Cantrip"
-      slots={0}
-      spells={spellDetails || []}
-      addSpell={addSpell}
-      mod={mod}
+      slots={ 0 }
+      spells={ spellDetails || [] }
+      addSpell={ addSpell }
+      forgetSpell={ removeSpell }
+      mod={ mod }
     />);
 
   const spellContainers = classInfo.Level.map((val, i) => {
     if (i > level - 1 || !classInfo[val][i]) return null;
     return (
       <SpellPage
-        key={`${val}-level-spells`}
-        level={val}
-        slots={+classInfo[val][i + 1]}
-        spells={spellDetails || []}
-        addSpell={addSpell}
-        mod={mod}
+        key={ `${ val }-level-spells` }
+        level={ val }
+        slots={ +classInfo[val][i + 1] }
+        spells={ spellDetails || [] }
+        addSpell={ addSpell }
+        forgetSpell={ removeSpell }
+        mod={ mod }
       />
     );
   });
