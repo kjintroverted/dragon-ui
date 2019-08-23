@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { Divider } from '@material-ui/core';
+import { Divider, ExpansionPanel, ExpansionPanelSummary, ExpansionPanelDetails } from '@material-ui/core';
 import { Card, HeaderBar, Column, } from './CustomStyled';
 import dungeonService from '../services/dungeonService';
 
@@ -41,13 +41,12 @@ const Feats = ({ featIDs, level, update }) => {
       </HeaderBar>
       {
         feats.map(feat => (
-          <Column key={ `feat-${ feat.id }` }>
-            <h3>{ feat.name }</h3>
+          <ExpansionPanel key={ `feat-${ feat.id }` }>
+            <ExpansionPanelSummary>{ feat.name }</ExpansionPanelSummary>
             {
-              feat.desc.map(words => <p key={ `feat-${ feat.id }-desc.${ words.length }` }>{ words }</p>)
+              feat.desc.map(words => <ExpansionPanelDetails key={ `feat-${ feat.id }-desc.${ words.length }` }>{ words }</ExpansionPanelDetails>)
             }
-            <Divider />
-          </ Column>
+          </ExpansionPanel>
         ))
       }
     </Card>
