@@ -87,25 +87,32 @@ const SpellPage = ({
       }
 
       {/* NEW SPELL LOOKUP */ }
-      { showResults
-        && spellSearchResult.map(spell =>
-          <ExpansionPanel key={ spell.name }>
-            <ExpansionPanelSummary>{ spell.name }</ExpansionPanelSummary>
-            <ExpansionPanelDetails>
-              <SpellDetail spell={ spell } />
-            </ExpansionPanelDetails>
-            <ExpansionPanelActions>
-              <Button variant="contained" color="secondary" onClick={ () => learn(spell) }>
-                Learn
+      { showResults &&
+        <>
+          <HeaderBar>
+            <h2>New Spells</h2>
+          </HeaderBar>
+          {
+            spellSearchResult.map(spell =>
+              <ExpansionPanel key={ spell.name }>
+                <ExpansionPanelSummary>{ spell.name }</ExpansionPanelSummary>
+                <ExpansionPanelDetails>
+                  <SpellDetail spell={ spell } />
+                </ExpansionPanelDetails>
+                <ExpansionPanelActions>
+                  <Button variant="contained" color="secondary" onClick={ () => learn(spell) }>
+                    Learn
               </Button>
-            </ExpansionPanelActions>
-          </ExpansionPanel>
-        )
+                </ExpansionPanelActions>
+              </ExpansionPanel>
+            )
+          }
+        </>
       }
       {
         !showResults
           ? <Button color="secondary" onClick={ loadSpellSearch }>See Spells</Button>
-          : <Button onClick={ () => setShow(false) }>Cancel</Button>
+          : <Button onClick={ () => setShow(false) }>Close</Button>
       }
     </Card >
   );

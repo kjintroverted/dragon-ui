@@ -5,7 +5,7 @@ import {
   Column, Row,
 } from './CustomStyled';
 
-const SpellDetail = ({ spell, close }) => (
+const SpellDetail = ({ spell }) => (
   <Column>
     <Row>
       <Chip
@@ -44,5 +44,4 @@ SpellDetail.propTypes = {
     casting_time: PropTypes.string,
     range: PropTypes.string,
   }).isRequired,
-  close: PropTypes.func.isRequired,
 };
