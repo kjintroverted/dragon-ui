@@ -101,13 +101,13 @@ const Feats = ({ featIDs, level, update }) => {
       }
       {
         feats.map((feat, i) => (
-          <ExpansionPanel key={ `feat-${ feat.id }` }>
+          <ExpansionPanel key={ `feat-${ feat.name.replace(' ', '-') }` }>
             <ExpansionPanelSummary>{ feat.name }</ExpansionPanelSummary>
             {
               feat.desc.map(words => {
                 return (
                   <ExpansionPanelDetails
-                    key={ `feat-${ feat.id }-desc.${ words.length }` }>
+                    key={ `feat-${ feat.name.replace(' ', '-') }-desc.${ words.length }` }>
                     { words }
                   </ExpansionPanelDetails>
                 )

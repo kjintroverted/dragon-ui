@@ -1,17 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import styled from 'styled-components';
 import {
   Checkbox, Button, ExpansionPanel, ExpansionPanelSummary, ExpansionPanelDetails, ExpansionPanelActions,
 } from '@material-ui/core';
 import {
-  Card, HeaderBar, Spacer, ActionBar, Column, Row,
+  Card, HeaderBar, Spacer, ActionBar, Column,
 } from './CustomStyled';
 import dungeonService from '../services/dungeonService';
 import SpellDetail from './SpellDetail';
 
 const SpellPage = ({
-  level, spells, slots, addSpell, mod,
+  level, spells, slots, addSpell, forgetSpell, mod,
 }) => {
   const [spellList, setSpellList] = useState([]);
   const [openSlots, setOpenSlots] = useState([]);
@@ -26,10 +25,6 @@ const SpellPage = ({
   function loadSpellSearch() {
     if (!spellSearchResult.length) getNewSpells();
     setShow(true);
-  }
-
-  function learn(spell) {
-    addSpell(spell);
   }
 
   useEffect(() => {
@@ -76,12 +71,17 @@ const SpellPage = ({
       </HeaderBar>
 
       {/* KNOWN SPELLS */ }
-      { spellList.map(spell =>
+      { spellList.map((spell, i) =>
         <ExpansionPanel key={ spell.name }>
           <ExpansionPanelSummary>{ spell.name }</ExpansionPanelSummary>
           <ExpansionPanelDetails>
             <SpellDetail spell={ spell } />
           </ExpansionPanelDetails>
+          <ExpansionPanelActions>
+            <Button onClick={ () => forgetSpell(spell) }
+              variant="contained"
+              color="secondary">Forget</Button>
+          </ExpansionPanelActions>
         </ExpansionPanel>
       )
       }
@@ -100,9 +100,9 @@ const SpellPage = ({
                   <SpellDetail spell={ spell } />
                 </ExpansionPanelDetails>
                 <ExpansionPanelActions>
-                  <Button variant="contained" color="secondary" onClick={ () => learn(spell) }>
+                  <Button variant="contained" color="secondary" onClick={ () => addSpell(spell) }>
                     Learn
-              </Button>
+                  </Button>
                 </ExpansionPanelActions>
               </ExpansionPanel>
             )
@@ -111,7 +111,7 @@ const SpellPage = ({
       }
       {
         !showResults
-          ? <Button color="secondary" onClick={ loadSpellSearch }>See Spells</Button>
+          ? <Button color="secondary" onClick={ loadSpellSearch }>See Library</Button>
           : <Button onClick={ () => setShow(false) }>Close</Button>
       }
     </Card >
@@ -130,13 +130,6 @@ SpellPage.propTypes = {
   })).isRequired,
   slots: PropTypes.number.isRequired,
   addSpell: PropTypes.func.isRequired,
+  forgetSpell: PropTypes.func.isRequired,
   mod: PropTypes.string.isRequired,
 };
-
-const SpellList = styled.div`
-  display: grid;
-  grid-template-columns: repeat(auto-fill, 200px);
-  grid-gap: 10px;
-  margin: 10px 0px;
-  justify-content: center;
-`;
