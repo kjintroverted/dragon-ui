@@ -1,20 +1,27 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { Divider, ExpansionPanel, ExpansionPanelSummary, ExpansionPanelDetails } from '@material-ui/core';
-import { Card, HeaderBar, Column, } from './CustomStyled';
+import { ExpansionPanel, ExpansionPanelSummary, ExpansionPanelDetails, IconButton, TextField } from '@material-ui/core';
+import { Card, HeaderBar, Spacer, ActionBar, Row, Column } from './CustomStyled';
 import dungeonService from '../services/dungeonService';
 
 const Feats = ({ featIDs, level, update }) => {
   const [feats, setFeats] = useState([]);
   const [featSearchArr, setSearchArr] = useState([]);
+  const [searchQuery, setQuery] = useState("");
+  const [featSearchResults, setSearchResults] = useState([]);
+  const [adding, setIsAdding] = useState(false);
 
   async function getAllFeats() {
     const results = await dungeonService.getFeats();
-    setSearchArr(results.filter(feat => feat.level <= level));
+    setSearchArr(results);
   }
 
   function loadFeatSearch() {
     if (!featSearchArr.length) getAllFeats();
+  }
+
+  function updateSearchResults() {
+    setSearchResults(featSearchArr.filter(feat => feat.name.toLowerCase().indexOf(searchQuery) !== -1))
   }
 
   function add(id) {
@@ -34,17 +41,68 @@ const Feats = ({ featIDs, level, update }) => {
     if (featIDs && featIDs.length) loadFeats(featIDs)
   }, [featIDs]);
 
+  useEffect(() => {
+    if (adding) loadFeatSearch()
+    if (!adding) {
+      setQuery("")
+      setSearchResults([])
+    }
+  }, [adding]);
+
   return (
     <Card>
       <HeaderBar>
         <h2>Feats and Abilities</h2>
+        <Spacer />
+        <ActionBar>
+          <IconButton onClick={ () => setIsAdding(!adding) }>
+            <i className='material-icons'>{ adding ? 'done' : 'add' }</i>
+          </IconButton>
+          { adding &&
+            <>
+              <IconButton disabled={ searchQuery.length < 3 } onClick={ updateSearchResults }>
+                <i className='material-icons'>search</i>
+              </IconButton>
+              <TextField
+                label="Search"
+                value={ searchQuery || '' }
+                onChange={ e => setQuery(e.target.value) } />
+            </>
+          }
+        </ActionBar>
       </HeaderBar>
+      {
+        adding && !!featSearchArr.length &&
+        <Column>
+          <Row>
+            {
+              featSearchResults.map(feat => (
+                <Card key={ `new-feat-${ feat.name.replace(' ', '-') }` }>
+                  <Row>
+                    <p>{ feat.name }</p>
+                    <IconButton color="secondary">
+                      <i className='material-icons'>add</i>
+                    </IconButton>
+                  </Row>
+                </Card>
+              ))
+            }
+          </Row>
+        </Column>
+      }
       {
         feats.map(feat => (
           <ExpansionPanel key={ `feat-${ feat.id }` }>
             <ExpansionPanelSummary>{ feat.name }</ExpansionPanelSummary>
             {
-              feat.desc.map(words => <ExpansionPanelDetails key={ `feat-${ feat.id }-desc.${ words.length }` }>{ words }</ExpansionPanelDetails>)
+              feat.desc.map(words => {
+                return (
+                  <ExpansionPanelDetails
+                    key={ `feat-${ feat.id }-desc.${ words.length }` }>
+                    { words }
+                  </ExpansionPanelDetails>
+                )
+              })
             }
           </ExpansionPanel>
         ))
