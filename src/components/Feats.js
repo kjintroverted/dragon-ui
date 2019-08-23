@@ -1,6 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { ExpansionPanel, ExpansionPanelSummary, ExpansionPanelDetails, IconButton, TextField } from '@material-ui/core';
+import {
+  ExpansionPanel,
+  ExpansionPanelSummary,
+  ExpansionPanelDetails,
+  IconButton,
+  TextField,
+  Button,
+  ExpansionPanelActions
+} from '@material-ui/core';
 import { Card, HeaderBar, Spacer, ActionBar, Row, Column } from './CustomStyled';
 import dungeonService from '../services/dungeonService';
 
@@ -92,7 +100,7 @@ const Feats = ({ featIDs, level, update }) => {
         </Column>
       }
       {
-        feats.map(feat => (
+        feats.map((feat, i) => (
           <ExpansionPanel key={ `feat-${ feat.id }` }>
             <ExpansionPanelSummary>{ feat.name }</ExpansionPanelSummary>
             {
@@ -105,6 +113,12 @@ const Feats = ({ featIDs, level, update }) => {
                 )
               })
             }
+
+            <ExpansionPanelActions>
+              <Button onClick={ () => remove(i) }
+                variant="contained"
+                color="secondary">Forget</Button>
+            </ExpansionPanelActions>
           </ExpansionPanel>
         ))
       }
