@@ -12,7 +12,7 @@ import {
 import { Card, HeaderBar, Spacer, ActionBar, Row, Column } from './CustomStyled';
 import dungeonService from '../services/dungeonService';
 
-const Feats = ({ featIDs, level, update }) => {
+const Feats = ({ featIDs, update }) => {
   const [feats, setFeats] = useState([]);
   const [featSearchArr, setSearchArr] = useState([]);
   const [searchQuery, setQuery] = useState("");
@@ -48,6 +48,7 @@ const Feats = ({ featIDs, level, update }) => {
 
   useEffect(() => {
     if (featIDs && featIDs.length) loadFeats(featIDs)
+    else setFeats([])
   }, [featIDs]);
 
   useEffect(() => {
@@ -129,7 +130,6 @@ const Feats = ({ featIDs, level, update }) => {
 export default Feats;
 
 Feats.propTypes = {
-  level: PropTypes.number.isRequired,
   featIDs: PropTypes.arrayOf(PropTypes.number).isRequired,
   update: PropTypes.func.isRequired,
 };
