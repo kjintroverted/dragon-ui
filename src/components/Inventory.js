@@ -44,10 +44,10 @@ const Inventory = ({
         <Spacer />
         { !disabled
           && <ActionBar>
-            <IconButton onClick={() => setAdding(!isAdding)}>
+            <IconButton onClick={ () => setAdding(!isAdding) }>
               <i className="material-icons">{ isAdding ? 'close' : 'add' }</i>
             </IconButton>
-             </ActionBar>
+          </ActionBar>
         }
       </HeaderBar>
       { // ADD NEW ITEM
@@ -55,55 +55,58 @@ const Inventory = ({
         && <Column>
           <Row>
             <TextField
-              style={{ maxWidth: 100 }}
+              style={ { maxWidth: 100 } }
               variant="outlined"
               type="number"
               label="Value (gp)"
-              value={itemValues.goldCost || ''}
-              onChange={handleChange('goldCost', true)}
+              value={ itemValues.goldCost || '' }
+              onChange={ handleChange('goldCost', true) }
             />
             <TextField
-              style={{ maxWidth: 150 }}
+              style={ { maxWidth: 150 } }
               variant="outlined"
               label="Name"
-              value={itemValues.name || ''}
-              onChange={handleChange('name')}
+              value={ itemValues.name || '' }
+              onChange={ handleChange('name') }
             />
             <Spacer />
-            <IconButton onClick={addItem}>
+            <IconButton onClick={ addItem }>
               <i className="material-icons">done</i>
             </IconButton>
           </Row>
           <TextField
             variant="outlined"
             label="Description (optional)"
-            value={itemValues.description || ''}
-            onChange={handleChange('description')}
+            value={ itemValues.description || '' }
+            onChange={ handleChange('description') }
           />
-           </Column>
+        </Column>
       }
 
-      <Row style={{ justifyContent: 'flex-end' }}>
+      <Row style={ { justifyContent: 'flex-end' } }>
         <TextField
-          style={{ maxWidth: 150 }}
+          disabled={ disabled }
+          style={ { maxWidth: 150 } }
           variant="outlined"
           type="number"
           label="Gold Pieces"
-          value={goldValue || 0}
-          onChange={changeGold}
+          value={ goldValue || 0 }
+          onChange={ changeGold }
         />
       </Row>
 
       { // DISPLAY ALL ITEMS
         itemList.map((item, i) => (
-          <Column key={`${item.name}`}>
-            <Row style={{ alignItems: 'center' }}>
+          <Column key={ `${ item.name }` }>
+            <Row style={ { alignItems: 'center' } }>
               <h4 className="min-margin">{ item.name }</h4>
               <p className="min-margin"> ({ item.goldCost }gp)</p>
               <Spacer />
-              <IconButton color="secondary" onClick={() => remove(i)}>
-                <i className="material-icons">close</i>
-              </IconButton>
+              { !disabled &&
+                <IconButton color="secondary" onClick={ () => remove(i) }>
+                  <i className="material-icons">close</i>
+                </IconButton>
+              }
             </Row>
             { item.description && <p className="min-margin">{ item.description }</p> }
             <Divider />
