@@ -49,6 +49,10 @@ const SpellPage = ({
     localStorage.setItem(level, JSON.stringify(openSlots));
   }, [openSlots]);
 
+  const spellLookupButton = !showResults
+    ? <Button color="secondary" onClick={ loadSpellSearch }>See Library</Button>
+    : <Button onClick={ () => setShow(false) }>Close</Button>;
+
   return (
     <Card>
       <HeaderBar>
@@ -77,11 +81,13 @@ const SpellPage = ({
           <ExpansionPanelDetails>
             <SpellDetail spell={ spell } />
           </ExpansionPanelDetails>
-          <ExpansionPanelActions>
-            <Button onClick={ () => forgetSpell(spell) }
-              variant="contained"
-              color="secondary">Forget</Button>
-          </ExpansionPanelActions>
+          { forgetSpell &&
+            <ExpansionPanelActions>
+              <Button onClick={ () => forgetSpell(spell) }
+                variant="contained"
+                color="secondary">Forget</Button>
+            </ExpansionPanelActions>
+          }
         </ExpansionPanel>
       )
       }
@@ -109,11 +115,7 @@ const SpellPage = ({
           }
         </>
       }
-      {
-        !showResults
-          ? <Button color="secondary" onClick={ loadSpellSearch }>See Library</Button>
-          : <Button onClick={ () => setShow(false) }>Close</Button>
-      }
+      { addSpell && spellLookupButton }
     </Card >
   );
 };
