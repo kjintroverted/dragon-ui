@@ -4,7 +4,7 @@ import SpellPage from '../components/SpellPage';
 import dungeonService from '../services/dungeonService';
 
 const SpellBook = ({
-  spells, classInfo, level, mod, update,
+  spells, classInfo, level, mod, update, disabled
 }) => {
   const [spellDetails, setSpellDetails] = useState([]);
 
@@ -22,8 +22,8 @@ const SpellBook = ({
       level="Cantrip"
       slots={ 0 }
       spells={ spellDetails || [] }
-      addSpell={ addSpell }
-      forgetSpell={ removeSpell }
+      addSpell={ disabled ? null : addSpell }
+      forgetSpell={ disabled ? null : removeSpell }
       mod={ mod }
     />);
 
@@ -35,8 +35,8 @@ const SpellBook = ({
         level={ val }
         slots={ +classInfo[val][i + 1] }
         spells={ spellDetails || [] }
-        addSpell={ addSpell }
-        forgetSpell={ removeSpell }
+        addSpell={ disabled ? null : addSpell }
+        forgetSpell={ disabled ? null : removeSpell }
         mod={ mod }
       />
     );
@@ -82,4 +82,5 @@ SpellBook.propTypes = {
   level: PropTypes.number.isRequired,
   mod: PropTypes.string.isRequired,
   update: PropTypes.func.isRequired,
+  disabled: PropTypes.bool.isRequired,
 };

@@ -12,7 +12,7 @@ import {
 import { Card, HeaderBar, Spacer, ActionBar, Row, Column } from './CustomStyled';
 import dungeonService from '../services/dungeonService';
 
-const Feats = ({ featIDs, level, update }) => {
+const Feats = ({ featIDs, update, disabled }) => {
   const [feats, setFeats] = useState([]);
   const [featSearchArr, setSearchArr] = useState([]);
   const [searchQuery, setQuery] = useState("");
@@ -48,6 +48,7 @@ const Feats = ({ featIDs, level, update }) => {
 
   useEffect(() => {
     if (featIDs && featIDs.length) loadFeats(featIDs)
+    else setFeats([])
   }, [featIDs]);
 
   useEffect(() => {
@@ -64,9 +65,11 @@ const Feats = ({ featIDs, level, update }) => {
         <h2>Abilities</h2>
         <Spacer />
         <ActionBar>
-          <IconButton onClick={ () => setIsAdding(!adding) }>
-            <i className='material-icons'>{ adding ? 'done' : 'add' }</i>
-          </IconButton>
+          { !disabled &&
+            <IconButton onClick={ () => setIsAdding(!adding) }>
+              <i className='material-icons'>{ adding ? 'done' : 'add' }</i>
+            </IconButton>
+          }
           { adding &&
             <>
               <IconButton disabled={ searchQuery.length < 3 } onClick={ updateSearchResults }>
@@ -113,12 +116,13 @@ const Feats = ({ featIDs, level, update }) => {
                 )
               })
             }
-
-            <ExpansionPanelActions>
-              <Button onClick={ () => remove(i) }
-                variant="contained"
-                color="secondary">Forget</Button>
-            </ExpansionPanelActions>
+            { !disabled &&
+              <ExpansionPanelActions>
+                <Button onClick={ () => remove(i) }
+                  variant="contained"
+                  color="secondary">Forget</Button>
+              </ExpansionPanelActions>
+            }
           </ExpansionPanel>
         ))
       }
@@ -129,7 +133,7 @@ const Feats = ({ featIDs, level, update }) => {
 export default Feats;
 
 Feats.propTypes = {
-  level: PropTypes.number.isRequired,
   featIDs: PropTypes.arrayOf(PropTypes.number).isRequired,
   update: PropTypes.func.isRequired,
+  disabled: PropTypes.bool.isRequired,
 };

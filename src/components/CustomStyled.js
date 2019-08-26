@@ -46,7 +46,7 @@ export const HeaderBar = styled.div`
 `;
 
 export const FooterBar = styled.div`
-  display: flex;
+display: flex;
   align-items: center;
   border-top: lightgray solid 1px;
   margin-top: 0.8em;
@@ -88,7 +88,6 @@ export const ContentWithSideBar = styled.div`
   flex: 1;
   display: grid;
   grid-template-columns: 1fr 25em;
-  margin-bottom: 4.3em;
   @media screen and (max-width: 62.5em) {
     grid-template-columns: 1fr;
   }

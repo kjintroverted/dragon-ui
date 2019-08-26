@@ -51,30 +51,33 @@ function PartyView({ location }) {
 
   return (
     <ContentWithSideBar>
-      <RowCenter>
-        <CharacterSheet characterData={focus} />
-      </RowCenter>
-      {characters.length > 1 && (
-        <>
-          <SideBar className={sidebar ? "open" : ""}>
-            <SideContainer>
-              {characters.map(character => (
-                <CharacterSummary
-                  key={character.id}
-                  character={character}
-                  open={() => setFocus(character)}
-                  highlight={focus.id === character.id}
-                />
-              ))}
-            </SideContainer>
-          </SideBar>
-          <SideBarToggle>
-            <Fab color='secondary' onClick={() => setSidebar(!sidebar)}>
-              <i className='material-icons'>{sidebar ? "close" : "group"}</i>
-            </Fab>
-          </SideBarToggle>
-        </>
-      )}
+      <Content>
+
+        <RowCenter>
+          <CharacterSheet characterData={ focus } />
+        </RowCenter>
+        { characters.length > 1 && (
+          <>
+            <SideBar className={ sidebar ? "open" : "" }>
+              <SideContainer>
+                { characters.map(character => (
+                  <CharacterSummary
+                    key={ character.id }
+                    character={ character }
+                    open={ () => setFocus(character) }
+                    highlight={ focus.id === character.id }
+                  />
+                )) }
+              </SideContainer>
+            </SideBar>
+            <SideBarToggle>
+              <Fab color='secondary' onClick={ () => setSidebar(!sidebar) }>
+                <i className='material-icons'>{ sidebar ? "close" : "group" }</i>
+              </Fab>
+            </SideBarToggle>
+          </>
+        ) }
+      </Content>
     </ContentWithSideBar>
   );
 }
@@ -86,5 +89,9 @@ PartyView.propTypes = {
 export default PartyView;
 
 const SideContainer = styled.div`
+  margin-bottom: 4em;
+`;
+
+const Content = styled.div`
   margin-bottom: 4em;
 `;
