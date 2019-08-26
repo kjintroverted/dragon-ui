@@ -136,7 +136,7 @@ const CharacterSheet = ({ characterData }) => {
         />
       </EquipmentArea>
       <Misc>
-        <Feats level={ character.level } featIDs={ character.feats } update={ feats => update({ ...character, feats }) } />
+        <Feats disabled={ !authorized } featIDs={ character.feats } update={ feats => update({ ...character, feats }) } />
         { classInfo && classInfo.spellcasting_ability && (
           <SpellBook
             classInfo={ classInfo.info }
