@@ -147,7 +147,7 @@ const CharacterSheet = ({ characterData }) => {
             mod={ calculateModifier(
               character[
               classInfo.spellcasting_ability.toLowerCase().substring(0, 3)
-              ]
+              ], character.proBonus
             ) }
           />
         ) }
