@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import firebase from "firebase";
-import PropTypes, { func } from "prop-types";
+import PropTypes from "prop-types";
 import styled from "styled-components";
 import { Fab, Button } from "@material-ui/core";
 import Profile from "../components/Profile";

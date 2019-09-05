@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
-
+import firebase from "firebase";
 import PropTypes from "prop-types";
 import styled from "styled-components";
-import { Fab } from "@material-ui/core";
+import { Fab, Button } from "@material-ui/core";
 import DungeonService from "../services/dungeonService";
 import {
   SideBar,
@@ -26,10 +26,9 @@ function PartyView({ location }) {
   function clearInitiative() {
     const { email } = firebase.auth().currentUser;
     characters
-      .filter(async ({ id }) => await DungeonService.checkUserAuth(id, email))
-      .forEach(character => {
-        character.initiative = null;
-        DungeonService.saveCharacter(character)
+      .forEach(async character => {
+        const { authorized } = await DungeonService.checkUserAuth(character.id, email)
+        if (authorized) DungeonService.saveCharacter({ ...character, initiative: null })
       })
   }
 
@@ -69,6 +68,7 @@ function PartyView({ location }) {
         { characters.length > 1 && (
           <>
             <SideBar className={ sidebar ? "open" : "" }>
+              <Button color="secondary" onClick={ clearInitiative }>Clear Initiative</Button>
               <SideContainer>
                 { characters.map(character => (
                   <CharacterSummary
