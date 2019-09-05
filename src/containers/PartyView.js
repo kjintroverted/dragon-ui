@@ -23,6 +23,16 @@ function PartyView({ location }) {
     return characters.find(c => c.id === id);
   }
 
+  function clearInitiative() {
+    const { email } = firebase.auth().currentUser;
+    characters
+      .filter(async ({ id }) => await DungeonService.checkUserAuth(id, email))
+      .forEach(character => {
+        character.initiative = null;
+        DungeonService.saveCharacter(character)
+      })
+  }
+
   useEffect(() => {
     const ids = location.search.split("id=")[1].split(",");
     setIDList(ids);
