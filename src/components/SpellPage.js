@@ -58,7 +58,7 @@ const SpellPage = ({
       <HeaderBar>
         <Column>
           <h2>{ level } Level Spells</h2>
-          <p><b>Modifier:</b> { mod } | <b>DC:</b> { 10 + +mod }</p>
+          <p><b>Modifier:</b> { mod } | <b>DC:</b> { 8 + +mod }</p>
         </Column>
         <Spacer />
         <ActionBar>
