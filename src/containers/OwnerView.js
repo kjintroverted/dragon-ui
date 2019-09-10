@@ -11,7 +11,6 @@ import {
   BottomAnchor,
   TopAnchor,
   Column,
-  Row
 } from "../components/CustomStyled";
 
 function OwnerView({ owner }) {
@@ -58,11 +57,11 @@ function OwnerView({ owner }) {
     .filter(character => character.owner === owner)
     .map(character => (
       <CharacterSummary
-        key={character.id}
-        character={character}
-        highlight={party.indexOf(character.id) !== -1}
-        add={() => toggleCharacter(character.id)}
-        linkTo={`/character?id=${character.id}`}
+        key={ character.id }
+        character={ character }
+        highlight={ party.indexOf(character.id) !== -1 }
+        add={ () => toggleCharacter(character.id) }
+        linkTo={ `/character?id=${ character.id }` }
       />
     ));
 
@@ -70,11 +69,11 @@ function OwnerView({ owner }) {
     .filter(character => character.owner !== owner)
     .map(character => (
       <CharacterSummary
-        key={character.id}
-        character={character}
-        highlight={party.indexOf(character.id) !== -1}
-        add={() => toggleCharacter(character.id)}
-        linkTo={`/character?id=${character.id}`}
+        key={ character.id }
+        character={ character }
+        highlight={ party.indexOf(character.id) !== -1 }
+        add={ () => toggleCharacter(character.id) }
+        linkTo={ `/character?id=${ character.id }` }
       />
     ));
 
@@ -84,32 +83,32 @@ function OwnerView({ owner }) {
         <Fab
           size='small'
           color='secondary'
-          onClick={() => setAdding(!isAdding)}
+          onClick={ () => setAdding(!isAdding) }
         >
-          <i className='material-icons'>{!isAdding ? "add" : "close"}</i>
+          <i className='material-icons'>{ !isAdding ? "add" : "close" }</i>
         </Fab>
       </TopAnchor>
       <Grid>
-        {ownCharacters}
-        {isAdding && (
-          <CharacterForm races={races} classes={classes} save={addCharacter} />
-        )}
+        { ownCharacters }
+        { isAdding && (
+          <CharacterForm races={ races } classes={ classes } save={ addCharacter } />
+        ) }
       </Grid>
-      {!!otherCharacters.length && (
+      { !!otherCharacters.length && (
         <>
           <Divider />
-          <Grid>{otherCharacters}</Grid>
+          <Grid>{ otherCharacters }</Grid>
         </>
-      )}
-      {!!party.length && (
+      ) }
+      { !!party.length && (
         <BottomAnchor>
-          <Link to={`/character?id=${party.join()}`} style={{ zIndex: 10 }}>
+          <Link to={ `/character?id=${ party.join() }` } style={ { zIndex: 10 } }>
             <Fab color='secondary'>
               <i className='material-icons'>group</i>
             </Fab>
           </Link>
         </BottomAnchor>
-      )}
+      ) }
     </Column>
   );
 }
