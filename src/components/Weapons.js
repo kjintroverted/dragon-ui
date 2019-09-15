@@ -17,7 +17,13 @@ const Weapons = ({
   const [isAddingUnique, setAddingUnique] = useState(false);
   const [weaponOptions, setWeaponOptions] = useState([]);
   const [selectedWeapon, setWeaponSelect] = useState({});
-  const [uniqueWeapon, setUniqueWeapon] = useState({});
+  const [uniqueWeapon, setUniqueWeapon] = useState({
+    name: '',
+    category: '',
+    damage_dice: '',
+    damage_type: '',
+    properties: [],
+  });
 
   async function loadWeaponOptions() {
     const result = await dungeonService.getWeapons();
@@ -64,7 +70,7 @@ const Weapons = ({
         <Spacer />
         { !disabled
           && <ActionBar>
-            <IconButton onClick={() => setAdding(!isAdding)}>
+            <IconButton onClick={() => { setAdding(!isAdding); setAddingUnique(false); }}>
               <i className="material-icons">{ isAdding ? 'close' : 'add' }</i>
             </IconButton>
              </ActionBar>
@@ -103,23 +109,53 @@ const Weapons = ({
           <Spacer />
         </Row>
           <Row>
-          <BasicBox>
-                <TextField variant="outlined" label="Name" onChange={handleValueChange('name')} />
+          <BasicBox style={{ margin: '.75rem' }}>
+                <TextField
+                  style={{ width: '6rem' }}
+                  variant="outlined"
+                  label="Name"
+                  onChange={handleValueChange('name')}
+                />
           </BasicBox>
-          <BasicBox>
-                <TextField variant="outlined" label="Category" onChange={handleValueChange('category')} />
+          <BasicBox style={{ margin: '.75rem' }}>
+                <TextField
+                  style={{ width: '6rem' }}
+                  variant="outlined"
+                  label="Category"
+                  onChange={handleValueChange('category')}
+                />
           </BasicBox>
-          <BasicBox>
-                <TextField variant="outlined" label="Damage Dice" onChange={handleValueChange('damage_dice')} />
+          <BasicBox style={{ margin: '.75rem' }}>
+                <TextField
+                  style={{ width: '6rem' }}
+                  variant="outlined"
+                  label="Damage Dice"
+                  onChange={handleValueChange('damage_dice')}
+                />
           </BasicBox>
-          <BasicBox>
-                <TextField variant="outlined" label="Damage Type" onChange={handleValueChange('damage_type')} />
+          <BasicBox style={{ margin: '.75rem' }}>
+                <TextField
+                  style={{ width: '6rem' }}
+                  variant="outlined"
+                  label="Damage Type"
+                  onChange={handleValueChange('damage_type')}
+                />
           </BasicBox>
-          <BasicBox>
-                <TextField variant="outlined" label="Weight" onChange={handleValueChange('weight')} />
+          <BasicBox style={{ margin: '.75rem' }}>
+                <TextField
+                  style={{ width: '6rem' }}
+                  variant="outlined"
+                  label="Weight"
+                  onChange={handleValueChange('weight')}
+                />
           </BasicBox>
-          <BasicBox>
-                <TextField variant="outlined" label="Properties" onChange={handleValueChange('properties')} />
+          <BasicBox style={{ margin: '.75rem' }}>
+                <TextField
+                  style={{ width: '6rem' }}
+                  variant="outlined"
+                  label="Properties"
+                  onChange={handleValueChange('properties')}
+                />
           </BasicBox>
           </Row>
           <Row>
@@ -171,7 +207,3 @@ Weapons.propTypes = {
   update: PropTypes.func.isRequired,
   disabled: PropTypes.bool.isRequired,
 };
-
-const SubmitButton = styled(Button)`
-    background-color: blue
-  `;
