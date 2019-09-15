@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
+import styled from 'styled-components';
 import {
-  IconButton, TextField, FormControl, FormLabel, Select, OutlinedInput, MenuItem,
+  IconButton, TextField, FormControl, FormLabel, Select, OutlinedInput, MenuItem, Button,
 } from '@material-ui/core';
 import {
   Card, HeaderBar, ActionBar, Row, Spacer, Column, BasicBox,
@@ -13,8 +14,10 @@ const Weapons = ({
   proWeapons, weaponList, dex, str, proBonus, update, disabled,
 }) => {
   const [isAdding, setAdding] = useState(false);
+  const [isAddingUnique, setAddingUnique] = useState(false);
   const [weaponOptions, setWeaponOptions] = useState([]);
   const [selectedWeapon, setWeaponSelect] = useState({});
+  const [uniqueWeapon, setUniqueWeapon] = useState({});
 
   async function loadWeaponOptions() {
     const result = await dungeonService.getWeapons();
@@ -27,15 +30,33 @@ const Weapons = ({
   }
 
   function addWeapon() {
+    console.log(selectedWeapon);
     update([...weaponList, selectedWeapon]);
     setAdding(false);
     setWeaponSelect({});
   }
 
+  function handleValueChange(field) {
+    return (e) => {
+      const weapon = uniqueWeapon;
+      if (field === 'properties') {
+        weapon[field] = [e.target.value];
+      } else {
+        weapon[field] = e.target.value;
+      }
+      setUniqueWeapon(weapon);
+    };
+  }
+
+  function submitUniqueWeapon() {
+    update([...weaponList, uniqueWeapon]);
+    setAddingUnique(false);
+    setUniqueWeapon({});
+  }
+
   useEffect(() => {
     if (isAdding && !weaponOptions.length) loadWeaponOptions();
   }, [isAdding]);
-
   return (
     <Card>
       <HeaderBar>
@@ -50,7 +71,7 @@ const Weapons = ({
         }
       </HeaderBar>
       { // ADD NEW WEAPON
-        isAdding
+        isAdding && !isAddingUnique
         && <Row>
           <FormControl variant="outlined" style={{ minWidth: 120 }}>
             <FormLabel htmlFor="class">Weapon Select</FormLabel>
@@ -68,7 +89,45 @@ const Weapons = ({
           <IconButton onClick={addWeapon}>
             <i className="material-icons">done</i>
           </IconButton>
+           <Row>
+           <h2>Can&apos;t find your weapon?</h2>
+           <Button variant="contained" color="primary" onClick={() => setAddingUnique(true)}>Add Unique Weapon</Button>
            </Row>
+           </Row>
+      }
+      {
+        isAddingUnique
+        && <>
+        <Row>
+          <h3>Add Unique Weapon</h3>
+          <Spacer />
+        </Row>
+          <Row>
+          <BasicBox>
+                <TextField variant="outlined" label="Name" onChange={handleValueChange('name')} />
+          </BasicBox>
+          <BasicBox>
+                <TextField variant="outlined" label="Category" onChange={handleValueChange('category')} />
+          </BasicBox>
+          <BasicBox>
+                <TextField variant="outlined" label="Damage Dice" onChange={handleValueChange('damage_dice')} />
+          </BasicBox>
+          <BasicBox>
+                <TextField variant="outlined" label="Damage Type" onChange={handleValueChange('damage_type')} />
+          </BasicBox>
+          <BasicBox>
+                <TextField variant="outlined" label="Weight" onChange={handleValueChange('weight')} />
+          </BasicBox>
+          <BasicBox>
+                <TextField variant="outlined" label="Properties" onChange={handleValueChange('properties')} />
+          </BasicBox>
+          </Row>
+          <Row>
+          <Button variant="contained" color="primary" className="submit-button" onClick={submitUniqueWeapon}>
+            Submit Weapon
+          </Button>
+          </Row>
+           </>
       }
       { // DISPLAY ALL WEAPONS
         weaponList.map((weapon) => {
@@ -112,3 +171,7 @@ Weapons.propTypes = {
   update: PropTypes.func.isRequired,
   disabled: PropTypes.bool.isRequired,
 };
+
+const SubmitButton = styled(Button)`
+    background-color: blue
+  `;
