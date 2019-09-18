@@ -21,7 +21,8 @@ const CharacterSheet = ({ characterData }) => {
   const [isDirty, setDirty] = useState(false);
   const [editMode, setEditMode] = useState(false);
   const [authorized, setAuthorized] = useState(false);
-  const [classInfo, setClassInfo] = useState(false);
+  const [classInfo, setClassInfo] = useState({});
+  const [raceInfo, setRaceInfo] = useState({});
 
   function update(charUpdates) {
     setDirty(!same(characterBase, charUpdates));
@@ -57,10 +58,17 @@ const CharacterSheet = ({ characterData }) => {
     setClassInfo(result);
   }
 
+  async function getRaceInfo(race) {
+    if (!race) return;
+    const result = await dungeonService.getRace(race);
+    setRaceInfo(result);
+  }
+
   useEffect(() => {
     updateCharacter(characterData);
     checkAuthorized(firebase.auth().currentUser);
     getClassInfo(characterData.class);
+    getRaceInfo(characterData.race);
     setEditMode(false);
   }, [characterData]);
 
