@@ -6,7 +6,7 @@ import {
 import {
   Card, HeaderBar, ActionBar, Row, Spacer, Column, BasicBox,
 } from './CustomStyled';
-import { dexAttack, calculateModifier, isProWeapon } from '../services/helper';
+import { dexAttack, calculateModifier, isProWeapon, isRangeWeapon } from '../services/helper';
 import dungeonService from '../services/dungeonService';
 
 const Weapons = ({
@@ -72,9 +72,11 @@ const Weapons = ({
       }
       { // DISPLAY ALL WEAPONS
         weaponList.map((weapon) => {
+          const dexCheck = dexAttack(weapon);
           const proMod = isProWeapon(weapon, proWeapons) ? proBonus : 0;
-          const atkMod = dexAttack(weapon) ? calculateModifier(dex, proMod) : calculateModifier(str, proMod);
-          const dmgMod = dexAttack(weapon) ? calculateModifier(dex) : calculateModifier(str);
+          const atkMod = dexCheck ? calculateModifier(dex, proMod) : calculateModifier(str, proMod);
+          const dmgMod = dexCheck ? calculateModifier(dex) : calculateModifier(str);
+          const rangeMod = isRangeWeapon(weapon) ? calculateModifier(dex) : 0;
           return (
             <Row key={ `${ weapon.name }` }>
               <Column>
@@ -86,7 +88,9 @@ const Weapons = ({
                 <TextField variant="outlined" disabled label="Attack" value={ atkMod } />
               </BasicBox>
               <BasicBox>
-                <TextField variant="outlined" disabled label="Damage" value={ `${ weapon.damage_dice } ${ dmgMod }` } />
+                <TextField variant="outlined" disabled label="Damage"
+                  value={ `${ weapon.damage_dice } ${ dmgMod }` }
+                  helperText={ !dexCheck && rangeMod ? `thrown: ${ rangeMod }` : '' } />
               </BasicBox>
             </Row>
           );

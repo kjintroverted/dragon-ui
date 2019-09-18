@@ -14,6 +14,14 @@ export function dexAttack(weapon) {
   return !!finesse;
 }
 
+export function isRangeWeapon(weapon) {
+  const ranged = weapon.properties.find((prop) => {
+    const text = prop.toLowerCase();
+    return text.indexOf('range') !== -1;
+  });
+  return !!ranged;
+}
+
 export function isProWeapon(weapon, proWeaponDesc) {
   const descArr = proWeaponDesc.split(', ').map(desc => desc.toLowerCase());
   const result = descArr.find(desc => desc.indexOf(weapon.name.toLowerCase()));
