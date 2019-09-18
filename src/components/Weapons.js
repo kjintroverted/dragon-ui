@@ -36,7 +36,6 @@ const Weapons = ({
   }
 
   function addWeapon() {
-    console.log(selectedWeapon);
     update([...weaponList, selectedWeapon]);
     setAdding(false);
     setWeaponSelect({});
@@ -129,6 +128,7 @@ const Weapons = ({
                 <TextField
                   style={{ width: '6rem' }}
                   variant="outlined"
+                  placeholder="1d4 + 4"
                   label="Damage Dice"
                   onChange={handleValueChange('damage_dice')}
                 />
