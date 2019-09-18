@@ -75,8 +75,10 @@ const Weapons = ({
           const dexCheck = dexAttack(weapon);
           const proMod = isProWeapon(weapon, proWeapons) ? proBonus : 0;
           const atkMod = dexCheck ? calculateModifier(dex, proMod) : calculateModifier(str, proMod);
+          const rangeAtk = isRangeWeapon(weapon) ? calculateModifier(dex, proMod) : 0;
           const dmgMod = dexCheck ? calculateModifier(dex) : calculateModifier(str);
-          const rangeMod = isRangeWeapon(weapon) ? calculateModifier(dex) : 0;
+          const rangeDmg = isRangeWeapon(weapon) ? calculateModifier(dex) : 0;
+
           return (
             <Row key={ `${ weapon.name }` }>
               <Column>
@@ -85,12 +87,13 @@ const Weapons = ({
               </Column>
               <Spacer />
               <BasicBox>
-                <TextField variant="outlined" disabled label="Attack" value={ atkMod } />
+                <TextField variant="outlined" disabled label="Attack" value={ atkMod }
+                  helperText={ !dexCheck && rangeAtk ? `thrown: ${ rangeAtk }` : '' } />
               </BasicBox>
               <BasicBox>
                 <TextField variant="outlined" disabled label="Damage"
                   value={ `${ weapon.damage_dice } ${ dmgMod }` }
-                  helperText={ !dexCheck && rangeMod ? `thrown: ${ rangeMod }` : '' } />
+                  helperText={ !dexCheck && rangeDmg ? `thrown: ${ rangeDmg }` : '' } />
               </BasicBox>
             </Row>
           );
