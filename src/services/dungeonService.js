@@ -62,7 +62,7 @@ const getClass = async (name) => {
 };
 
 const getRace = async (name) => {
-  const result = await fetch(`/api/race?name=${ name }`);
+  const result = await fetch(`/api/races?name=${ name }`);
   return result.json();
 };
 
