@@ -2,10 +2,11 @@
 export function calculateModifier(x, z) {
   let y = Math.floor((x - 10) / 2);
   y = z ? y + z : y;
-  return y < 0 ? `${y}` : `+${y}`;
+  return y < 0 ? `${ y }` : `+${ y }`;
 }
 
 export function isFinesse(weapon) {
+  if (!weapon.properties) return false;
   const finesse = weapon.properties.find((prop) => {
     const text = prop.toLowerCase();
     return text.indexOf('range') !== -1
