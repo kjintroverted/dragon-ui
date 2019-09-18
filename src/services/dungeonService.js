@@ -61,6 +61,11 @@ const getClass = async (name) => {
   return result.json();
 };
 
+const getRace = async (name) => {
+  const result = await fetch(`/api/race?name=${ name }`);
+  return result.json();
+};
+
 const getWeapons = async () => {
   const result = await fetch('/api/weapons');
   return result.json();
@@ -93,6 +98,7 @@ export default {
   getRaces,
   getClasses,
   getClass,
+  getRace,
   getWeapons,
   getSpells,
   getSpellsForLevel,
