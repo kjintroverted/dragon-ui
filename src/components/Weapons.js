@@ -6,7 +6,7 @@ import {
 import {
   Card, HeaderBar, ActionBar, Row, Spacer, Column, BasicBox,
 } from './CustomStyled';
-import { isFinesse, calculateModifier, isProWeapon } from '../services/helper';
+import { dexAttack, calculateModifier, isProWeapon, isRangeWeapon } from '../services/helper';
 import dungeonService from '../services/dungeonService';
 
 const Weapons = ({
@@ -43,49 +43,57 @@ const Weapons = ({
         <Spacer />
         { !disabled
           && <ActionBar>
-            <IconButton onClick={() => setAdding(!isAdding)}>
+            <IconButton onClick={ () => setAdding(!isAdding) }>
               <i className="material-icons">{ isAdding ? 'close' : 'add' }</i>
             </IconButton>
-             </ActionBar>
+          </ActionBar>
         }
       </HeaderBar>
       { // ADD NEW WEAPON
         isAdding
         && <Row>
-          <FormControl variant="outlined" style={{ minWidth: 120 }}>
+          <FormControl variant="outlined" style={ { minWidth: 120 } }>
             <FormLabel htmlFor="class">Weapon Select</FormLabel>
             <Select
-              value={selectedWeapon.name || ''}
-              onChange={onWeaponChange}
-              input={<OutlinedInput id="weapon" />}
+              value={ selectedWeapon.name || '' }
+              onChange={ onWeaponChange }
+              input={ <OutlinedInput id="weapon" /> }
             >
               {
-                weaponOptions.map(val => <MenuItem key={val.name} value={val.name}>{ val.name }</MenuItem>)
+                weaponOptions.map(val => <MenuItem key={ val.name } value={ val.name }>{ val.name }</MenuItem>)
               }
             </Select>
           </FormControl>
           <Spacer />
-          <IconButton onClick={addWeapon}>
+          <IconButton onClick={ addWeapon }>
             <i className="material-icons">done</i>
           </IconButton>
-           </Row>
+        </Row>
       }
       { // DISPLAY ALL WEAPONS
         weaponList.map((weapon) => {
+          const dexCheck = dexAttack(weapon);
           const proMod = isProWeapon(weapon, proWeapons) ? proBonus : 0;
-          const mod = isFinesse(weapon) ? calculateModifier(dex, proMod) : calculateModifier(str, proMod);
+          const atkMod = dexCheck ? calculateModifier(dex, proMod) : calculateModifier(str, proMod);
+          const rangeAtk = isRangeWeapon(weapon) ? calculateModifier(dex, proMod) : 0;
+          const dmgMod = dexCheck ? calculateModifier(dex) : calculateModifier(str);
+          const rangeDmg = isRangeWeapon(weapon) ? calculateModifier(dex) : 0;
+
           return (
-            <Row key={`${weapon.name}`}>
+            <Row key={ `${ weapon.name }` }>
               <Column>
                 <h3 className="min-margin">{ weapon.name }</h3>
                 <p className="min-margin">{ weapon.damage_type }</p>
               </Column>
               <Spacer />
               <BasicBox>
-                <TextField variant="outlined" disabled label="Attack" value={mod} />
+                <TextField variant="outlined" disabled label="Attack" value={ atkMod }
+                  helperText={ !dexCheck && rangeAtk ? `thrown: ${ rangeAtk }` : '' } />
               </BasicBox>
               <BasicBox>
-                <TextField variant="outlined" disabled label="Damage" value={`${weapon.damage_dice} ${mod}`} />
+                <TextField variant="outlined" disabled label="Damage"
+                  value={ `${ weapon.damage_dice } ${ dmgMod }` }
+                  helperText={ !dexCheck && rangeDmg ? `thrown: ${ rangeDmg }` : '' } />
               </BasicBox>
             </Row>
           );
