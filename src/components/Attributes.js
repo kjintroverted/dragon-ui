@@ -32,7 +32,7 @@ function Attributes({
           <TextField
             variant="outlined"
             disabled={ disabled }
-            type={ !disabled ? "number" : "text" }
+            type={ !disabled ? "number" : "mod" }
             label="Strength"
             value={ !disabled ? character.str : calculateModifier(character.str) }
             onChange={ onChange('str') }
@@ -43,7 +43,7 @@ function Attributes({
           <TextField
             variant="outlined"
             disabled={ disabled }
-            type={ !disabled ? "number" : "text" }
+            type={ !disabled ? "number" : "mod" }
             label="Dexterity"
             value={ !disabled ? character.dex : calculateModifier(character.dex) }
             onChange={ onChange('dex') }
@@ -54,7 +54,7 @@ function Attributes({
           <TextField
             variant="outlined"
             disabled={ disabled }
-            type={ !disabled ? "number" : "text" }
+            type={ !disabled ? "number" : "mod" }
             label="Constitution"
             value={ !disabled ? character.con : calculateModifier(character.con) }
             onChange={ onChange('con') }
@@ -65,7 +65,7 @@ function Attributes({
           <TextField
             variant="outlined"
             disabled={ disabled }
-            type={ !disabled ? "number" : "text" }
+            type={ !disabled ? "number" : "mod" }
             label="Intelligence"
             value={ !disabled ? character.int : calculateModifier(character.int) }
             onChange={ onChange('int') }
@@ -76,7 +76,7 @@ function Attributes({
           <TextField
             variant="outlined"
             disabled={ disabled }
-            type={ !disabled ? "number" : "text" }
+            type={ !disabled ? "number" : "mod" }
             label="Wisdom"
             value={ !disabled ? character.wis : calculateModifier(character.wis) }
             onChange={ onChange('wis') }
@@ -87,7 +87,7 @@ function Attributes({
           <TextField
             variant="outlined"
             disabled={ disabled }
-            type={ !disabled ? "number" : "text" }
+            type={ !disabled ? "number" : "mod" }
             label="Charisma"
             value={ !disabled ? character.cha : calculateModifier(character.cha) }
             onChange={ onChange('cha') }
