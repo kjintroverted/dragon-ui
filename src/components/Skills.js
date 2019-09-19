@@ -45,10 +45,8 @@ const Skills = ({ character, editing, update }) => {
           return ( // DISPLAY SKILLS
             <div key={ skill.label }>
               <Row>
-                { proSkill ?
-                  <h4 style={ { margin: '0.3125em' } }>{ skill.label }</h4>
-                  : <p style={ { margin: '0.3125em' } }>{ skill.label }</p>
-                }
+                <i className="material-icons">{ proSkill ? 'radio_button_checked' : 'radio_button_unchecked' }</i>
+                <p style={ { margin: '0.3125em' } }>{ skill.label }</p>
                 <Spacer />
                 <h4 style={ { margin: '0.3125em' } }>
                   { calculateModifier(
