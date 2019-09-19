@@ -12,7 +12,7 @@ import {
 import { Card, HeaderBar, Spacer, ActionBar, Row, Column } from './CustomStyled';
 import dungeonService from '../services/dungeonService';
 
-const Feats = ({ featIDs, update, disabled }) => {
+const Feats = ({ featIDs, traits, update, disabled }) => {
   const [feats, setFeats] = useState([]);
   const [featSearchArr, setSearchArr] = useState([]);
   const [searchQuery, setQuery] = useState("");
@@ -83,7 +83,7 @@ const Feats = ({ featIDs, update, disabled }) => {
           }
         </ActionBar>
       </HeaderBar>
-      {
+      { // ADD NEW FEAT
         adding && !!featSearchArr.length &&
         <Column>
           <Row>
@@ -102,7 +102,17 @@ const Feats = ({ featIDs, update, disabled }) => {
           </Row>
         </Column>
       }
-      {
+      { // DISPLAY TRAITS
+        traits.map((trait) => (
+          <ExpansionPanel key={ `trait-${ trait.name.replace(' ', '-') }` }>
+            <ExpansionPanelSummary>{ trait.name }</ExpansionPanelSummary>
+            <ExpansionPanelDetails>
+              { trait.desc }
+            </ExpansionPanelDetails>
+          </ExpansionPanel>
+        ))
+      }
+      { // DISPLAY FEATS
         feats.map((feat, i) => (
           <ExpansionPanel key={ `feat-${ feat.name.replace(' ', '-') }` }>
             <ExpansionPanelSummary>{ feat.name }</ExpansionPanelSummary>
@@ -134,6 +144,10 @@ export default Feats;
 
 Feats.propTypes = {
   featIDs: PropTypes.arrayOf(PropTypes.number).isRequired,
+  traits: PropTypes.arrayOf(PropTypes.shape({
+    name: PropTypes.string,
+    desc: PropTypes.string
+  })).isRequired,
   update: PropTypes.func.isRequired,
   disabled: PropTypes.bool.isRequired,
 };
