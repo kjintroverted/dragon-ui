@@ -35,38 +35,42 @@ const Skills = ({ character, editing, update }) => {
       <HeaderBar>
         <h2>Skills</h2>
         <Spacer />
-        <ActionBar style={{ marginBottom: '0.3125em' }}>
-          <TextField label="Search" value={query} onChange={e => setQuery(e.target.value)} />
+        <ActionBar style={ { marginBottom: '0.3125em' } }>
+          <TextField label="Search" value={ query } onChange={ e => setQuery(e.target.value) } />
         </ActionBar>
       </HeaderBar>
       { !editing
-        ? skillDisplay.map(skill => (
-          <div key={skill.label}>
-            <Row>
-              <p style={{ margin: '0.3125em' }}>{ skill.label }</p>
-              <Spacer />
-              <h4 style={{ margin: '0.3125em' }}>
-                { calculateModifier(
-                  character[skill.check],
-                  proCheck(character.proSkills, skill.label) ? character.proBonus : 0,
-                ) }
-              </h4>
-            </Row>
-            <Divider />
-          </div>
-        ))
-        : skillDisplay.map(({ label }) => (
+        ? skillDisplay.map(skill => {
+          const proSkill = proCheck(character.proSkills, skill.label);
+          return ( // DISPLAY SKILLS
+            <div key={ skill.label }>
+              <Row>
+                <i className="material-icons">{ proSkill ? 'radio_button_checked' : 'radio_button_unchecked' }</i>
+                <p style={ { margin: '0.3125em' } }>{ skill.label }</p>
+                <Spacer />
+                <h4 style={ { margin: '0.3125em' } }>
+                  { calculateModifier(
+                    character[skill.check],
+                    proSkill ? character.proBonus : 0,
+                  ) }
+                </h4>
+              </Row>
+              <Divider />
+            </div>
+          )
+        })
+        : skillDisplay.map(({ label }) => ( // EDIT SKILLS
           <FormControlLabel
-            key={label}
+            key={ label }
             control={
               <Checkbox
-                checked={(character.proSkills && character.proSkills.indexOf(label) !== -1) || false}
-                value={label}
-                onChange={toggleSKill}
+                checked={ (character.proSkills && character.proSkills.indexOf(label) !== -1) || false }
+                value={ label }
+                onChange={ toggleSKill }
                 color="primary"
               />
             }
-            label={label}
+            label={ label }
           />
         ))
       }
