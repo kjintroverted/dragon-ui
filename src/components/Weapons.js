@@ -159,7 +159,7 @@ const Weapons = ({
                   <TextField
                     style={{ width: '7rem' }}
                     variant="outlined"
-                    placeholder="1d4 + 4"
+                    placeholder="1d4"
                     onChange={handleValueChange('damage_dice')}
                   />
             </InputContainer>
