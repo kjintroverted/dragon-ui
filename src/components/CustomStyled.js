@@ -72,6 +72,7 @@ export const Row = styled.div`
   display: flex;
   flex-wrap: wrap;
   margin: .5rem;
+  align-items: center;
 `;
 
 export const RowCenter = styled.div`
@@ -133,4 +134,5 @@ export const BasicBox = styled.div`
   width: 4.6875em;
   height: 4.6875em;
   margin-left: 0.625em;
+  margin-bottom: 0.625em;
 `;

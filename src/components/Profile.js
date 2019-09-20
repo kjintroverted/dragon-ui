@@ -85,7 +85,7 @@ const Profile = ({
               type="number"
               label={ `HP/${ character.maxHP }` }
               value={ character.hp }
-              helperText={ `hit dice: ${ hitDice }` }
+              helperText={ `${ hitDice }` }
               onChange={ onChange('hp', true) }
             />
             : <TextField
@@ -94,7 +94,7 @@ const Profile = ({
               type="number"
               label="Max HP"
               value={ character.maxHP }
-              helperText={ `hit dice: ${ hitDice }` }
+              helperText={ `${ hitDice }` }
               onChange={ onChange('maxHP', true) }
             />
           }
