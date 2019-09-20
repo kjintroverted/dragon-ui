@@ -1,14 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import styled from 'styled-components';
 import {
   IconButton, TextField, FormControl, InputLabel, FormLabel, Select, OutlinedInput, MenuItem, Button,
 } from '@material-ui/core';
+import styled from 'styled-components';
 import {
   Card, HeaderBar, ActionBar, Row, Spacer, Column, BasicBox,
 } from './CustomStyled';
 import { isFinesse, calculateModifier, isProWeapon } from '../services/helper';
 import dungeonService from '../services/dungeonService';
+
 
 const Weapons = ({
   proWeapons, weaponList, dex, str, proBonus, update, disabled,
@@ -127,18 +128,18 @@ const Weapons = ({
           <Spacer />
         </Row>
           <Row>
-            <BasicBox style={{ margin: '.75rem' }}>
+            <InputContainer>
             <InputLabel htmlFor="unique-category">Name</InputLabel>
                   <TextField
-                    style={{ width: '6rem' }}
+                    style={{ width: '7rem' }}
                     variant="outlined"
                     onChange={handleValueChange('name')}
                   />
-            </BasicBox>
-            <BasicBox style={{ margin: '.75rem' }}>
+            </InputContainer>
+            <InputContainer>
             <InputLabel htmlFor="unique-category">Category</InputLabel>
                   <Select
-                    style={{ width: '6rem' }}
+                    style={{ width: '7rem' }}
                     variant="outlined"
                     inputProps={{
                       name: 'category',
@@ -149,25 +150,25 @@ const Weapons = ({
                     onChange={handleUniqueSelect}
                   >
                   {
-                  weaponCategories.map(category => <MenuItem key={category} value={category}>{ category }</MenuItem>)
+                    weaponCategories.map(category => <MenuItem key={category} value={category}>{ category }</MenuItem>)
                   }
                   </Select>
-            </BasicBox>
-            <BasicBox style={{ margin: '.75rem' }}>
+            </InputContainer>
+            <InputContainer>
             <InputLabel htmlFor="unique-category">Damage Dice</InputLabel>
                   <TextField
-                    style={{ width: '6rem' }}
+                    style={{ width: '7rem' }}
                     variant="outlined"
                     placeholder="1d4 + 4"
                     onChange={handleValueChange('damage_dice')}
                   />
-            </BasicBox>
+            </InputContainer>
           </Row>
           <Row>
-            <BasicBox style={{ margin: '.75rem' }}>
+            <InputContainer>
             <InputLabel htmlFor="unique-damage-type">Damage Type</InputLabel>
                   <Select
-                    style={{ width: '6rem' }}
+                    style={{ width: '7rem' }}
                     variant="outlined"
                     inputProps={{
                       name: 'damage_type',
@@ -181,23 +182,23 @@ const Weapons = ({
                   damageTypes.map(damageType => <MenuItem key={damageType} value={damageType}>{ damageType }</MenuItem>)
                   }
                   </Select>
-            </BasicBox>
-            <BasicBox style={{ margin: '.75rem' }}>
+            </InputContainer>
+            <InputContainer>
               <InputLabel htmlFor="unique-category">Weight</InputLabel>
                   <TextField
-                    style={{ width: '6rem' }}
+                    style={{ width: '7rem' }}
                     variant="outlined"
                     onChange={handleValueChange('weight')}
                   />
-            </BasicBox>
-            <BasicBox style={{ margin: '.75rem' }}>
+            </InputContainer>
+            <InputContainer>
             <InputLabel htmlFor="unique-category">Properties</InputLabel>
                   <TextField
-                    style={{ width: '6rem' }}
+                    style={{ width: '7rem' }}
                     variant="outlined"
                     onChange={handleValueChange('properties')}
                   />
-            </BasicBox>
+            </InputContainer>
           </Row>
           <Row>
             <Button variant="contained" color="primary" className="submit-button" onClick={submitUniqueWeapon}>
@@ -232,6 +233,10 @@ const Weapons = ({
 };
 
 export default Weapons;
+
+const InputContainer = styled.div`
+  margin: 0.5rem;
+`;
 
 Weapons.propTypes = {
   proWeapons: PropTypes.string.isRequired,
