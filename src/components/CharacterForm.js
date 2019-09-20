@@ -1,7 +1,6 @@
-import React, { useState } from "react";
-import PropTypes from "prop-types";
-import styled from "styled-components";
-import { Card, Spacer, HeaderBar, ActionBar, BasicBox } from "./CustomStyled";
+import React, { useState } from 'react';
+import PropTypes from 'prop-types';
+import styled from 'styled-components';
 import {
   IconButton,
   FormControl,
@@ -12,9 +11,12 @@ import {
   FormControlLabel,
   Checkbox,
   TextField,
-  OutlinedInput
-} from "@material-ui/core";
-import { skillsArray } from "../services/helper";
+  OutlinedInput,
+} from '@material-ui/core';
+import {
+  Card, Spacer, HeaderBar, ActionBar, BasicBox,
+} from './CustomStyled';
+import { skillsArray } from '../services/helper';
 
 const CharacterForm = ({ races, classes, save }) => {
   const [values, setValues] = useState({});
@@ -23,7 +25,7 @@ const CharacterForm = ({ races, classes, save }) => {
     return e =>
       setValues({
         ...values,
-        [field]: numeric ? +e.target.value : e.target.value
+        [field]: numeric ? +e.target.value : e.target.value,
       });
   }
 
@@ -36,11 +38,12 @@ const CharacterForm = ({ races, classes, save }) => {
     const arr = values.proSkills || [];
     const i = arr.findIndex(skill => skill === e.target.value);
     if (i === -1) setValues({ ...values, proSkills: [...arr, e.target.value] });
-    else
+    else {
       setValues({
         ...values,
-        proSkills: [...arr.slice(0, i), ...arr.slice(i + 1)]
+        proSkills: [...arr.slice(0, i), ...arr.slice(i + 1)],
       });
+    }
   }
 
   async function addCharacter() {
@@ -55,32 +58,32 @@ const CharacterForm = ({ races, classes, save }) => {
         <Spacer />
         <ActionBar>
           <IconButton onClick={addCharacter}>
-            <i className='material-icons'>done</i>
+            <i className="material-icons">done</i>
           </IconButton>
         </ActionBar>
       </HeaderBar>
       <InfoRow>
         <TextField
-          variant='outlined'
-          label='Name'
-          onChange={handleValueChange("name")}
+          variant="outlined"
+          label="Name"
+          onChange={handleValueChange('name')}
         />
         <BasicBox>
           <TextField
-            variant='outlined'
-            label='HP'
-            type='number'
-            onChange={handleValueChange("maxHP", true)}
+            variant="outlined"
+            label="HP"
+            type="number"
+            onChange={handleValueChange('maxHP', true)}
           />
         </BasicBox>
       </InfoRow>
       <InfoRow>
-        <FormControl variant='outlined' style={{ minWidth: 120 }}>
-          <FormLabel htmlFor='race'>Race</FormLabel>
+        <FormControl variant="outlined" style={{ minWidth: 120 }}>
+          <FormLabel htmlFor="race">Race</FormLabel>
           <Select
-            value={values.race || ""}
+            value={values.race || ''}
             onChange={raceSelect}
-            input={<OutlinedInput id='race' />}
+            input={<OutlinedInput id="race" />}
           >
             {races.map(val => (
               <MenuItem key={val.name} value={val.name}>
@@ -90,12 +93,12 @@ const CharacterForm = ({ races, classes, save }) => {
           </Select>
         </FormControl>
         <Spacer />
-        <FormControl variant='outlined' style={{ minWidth: 120 }}>
-          <FormLabel htmlFor='class'>Class</FormLabel>
+        <FormControl variant="outlined" style={{ minWidth: 120 }}>
+          <FormLabel htmlFor="class">Class</FormLabel>
           <Select
-            value={values.class || ""}
-            onChange={handleValueChange("class")}
-            input={<OutlinedInput id='class' />}
+            value={values.class || ''}
+            onChange={handleValueChange('class')}
+            input={<OutlinedInput id="class" />}
           >
             {classes.map(val => (
               <MenuItem key={val.name} value={val.name}>
@@ -118,13 +121,13 @@ const CharacterForm = ({ races, classes, save }) => {
             control={
               <Checkbox
                 checked={
-                  (values.proSkills &&
-                    values.proSkills.indexOf(label) !== -1) ||
-                  false
+                  (values.proSkills
+                    && values.proSkills.indexOf(label) !== -1)
+                  || false
                 }
                 value={label}
                 onChange={toggleSKill}
-                color='primary'
+                color="primary"
               />
             }
             label={label}
@@ -140,7 +143,7 @@ export default CharacterForm;
 CharacterForm.propTypes = {
   save: PropTypes.func.isRequired,
   races: PropTypes.array.isRequired,
-  classes: PropTypes.array.isRequired
+  classes: PropTypes.array.isRequired,
 };
 
 const InfoRow = styled.div`

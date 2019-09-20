@@ -1,19 +1,19 @@
-import React, { useState, useEffect } from "react";
-import firebase from "firebase";
-import PropTypes from "prop-types";
-import styled from "styled-components";
-import { Fab, Button } from "@material-ui/core";
-import Profile from "../components/Profile";
-import Attributes from "../components/Attributes";
-import Skills from "../components/Skills";
-import { TopAnchor, Row } from "../components/CustomStyled";
-import dungeonService from "../services/dungeonService";
-import Weapons from "../components/Weapons";
-import Inventory from "../components/Inventory";
-import SpellBook from "./SpellBook";
-import { same, calculateModifier } from "../services/helper";
-import CharacterAdmin from "../components/CharacterAdmin";
-import Feats from "../components/Feats";
+import React, { useState, useEffect } from 'react';
+import firebase from 'firebase';
+import PropTypes from 'prop-types';
+import styled from 'styled-components';
+import { Fab, Button } from '@material-ui/core';
+import Profile from '../components/Profile';
+import Attributes from '../components/Attributes';
+import Skills from '../components/Skills';
+import { TopAnchor, Row } from '../components/CustomStyled';
+import dungeonService from '../services/dungeonService';
+import Weapons from '../components/Weapons';
+import Inventory from '../components/Inventory';
+import SpellBook from './SpellBook';
+import { same, calculateModifier } from '../services/helper';
+import CharacterAdmin from '../components/CharacterAdmin';
+import Feats from '../components/Feats';
 
 const CharacterSheet = ({ characterData }) => {
   const [characterBase, updateCharacterBase] = useState(characterData);
@@ -47,7 +47,7 @@ const CharacterSheet = ({ characterData }) => {
     if (!characterData) return;
     const result = await dungeonService.checkUserAuth(
       characterData.id,
-      user.email
+      user.email,
     );
     setAuthorized(result.authorized);
   }
@@ -78,24 +78,24 @@ const CharacterSheet = ({ characterData }) => {
         <TopAnchor>
           { !isDirty ? (
             <Fab
-              color='secondary'
-              size='small'
+              color="secondary"
+              size="small"
               onClick={ () => setEditMode(true) }
             >
-              <i className='material-icons'>edit</i>
+              <i className="material-icons">edit</i>
             </Fab>
           ) : (
-              <Fab color='secondary' size='small' onClick={ save }>
-                <i className='material-icons'>save</i>
+              <Fab color="secondary" size="small" onClick={ save }>
+                <i className="material-icons">save</i>
               </Fab>
             ) }
         </TopAnchor>
       ) }
       { editMode && (
         <Admin>
-          <Row style={ { justifyContent: "flex-end" } }>
+          <Row style={ { justifyContent: 'flex-end' } }>
             <Button onClick={ cancel }>Cancel</Button>
-            <Button onClick={ save } variant='contained' color='secondary'>
+            <Button onClick={ save } variant="contained" color="secondary">
               Save
             </Button>
           </Row>
@@ -105,7 +105,7 @@ const CharacterSheet = ({ characterData }) => {
       <ProfileArea>
         <Profile
           character={ character }
-          hitDice={ classInfo.hit_dice || "" }
+          hitDice={ classInfo.hit_dice || '' }
           update={ update }
           disabled={ !authorized }
           editing={ editMode }
@@ -114,7 +114,7 @@ const CharacterSheet = ({ characterData }) => {
       <StatsArea>
         <Attributes
           character={ character }
-          saves={ classInfo.prof_saving_throws || "" }
+          saves={ classInfo.prof_saving_throws || '' }
           update={ update }
           disabled={ !authorized || !editMode }
         />
@@ -125,7 +125,7 @@ const CharacterSheet = ({ characterData }) => {
       <WeaponsArea>
         <Weapons
           disabled={ !authorized }
-          proWeapons={ classInfo.prof_weapons || "" }
+          proWeapons={ classInfo.prof_weapons || '' }
           weaponList={ character.weapons || [] }
           dex={ character.dex }
           str={ character.str }
@@ -159,7 +159,7 @@ const CharacterSheet = ({ characterData }) => {
             mod={ calculateModifier(
               character[
               classInfo.spellcasting_ability.toLowerCase().substring(0, 3)
-              ], character.proBonus
+              ], character.proBonus,
             ) }
           />
         ) }
@@ -174,8 +174,8 @@ CharacterSheet.propTypes = {
   characterData: PropTypes.shape({
     name: PropTypes.string,
     race: PropTypes.string,
-    class: PropTypes.string
-  }).isRequired
+    class: PropTypes.string,
+  }).isRequired,
 };
 
 const SheetContainer = styled.div`

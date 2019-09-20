@@ -1,17 +1,17 @@
-import React, { useState, useEffect } from "react";
-import PropTypes from "prop-types";
-import styled from "styled-components";
+import React, { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
+import styled from 'styled-components';
 
-import { Fab, Divider } from "@material-ui/core";
-import { Link } from "react-router-dom";
-import CharacterSummary from "../components/CharacterSummary";
-import CharacterForm from "../components/CharacterForm";
-import DungeonService from "../services/dungeonService";
+import { Fab, Divider } from '@material-ui/core';
+import { Link } from 'react-router-dom';
+import CharacterSummary from '../components/CharacterSummary';
+import CharacterForm from '../components/CharacterForm';
+import DungeonService from '../services/dungeonService';
 import {
   BottomAnchor,
   TopAnchor,
   Column,
-} from "../components/CustomStyled";
+} from '../components/CustomStyled';
 
 function OwnerView({ owner }) {
   const [characters, updateCharacters] = useState([]);
@@ -57,11 +57,11 @@ function OwnerView({ owner }) {
     .filter(character => character.owner === owner)
     .map(character => (
       <CharacterSummary
-        key={ character.id }
-        character={ character }
-        highlight={ party.indexOf(character.id) !== -1 }
-        add={ () => toggleCharacter(character.id) }
-        linkTo={ `/character?id=${ character.id }` }
+        key={character.id}
+        character={character}
+        highlight={party.indexOf(character.id) !== -1}
+        add={() => toggleCharacter(character.id)}
+        linkTo={`/character?id=${character.id}`}
       />
     ));
 
@@ -69,11 +69,11 @@ function OwnerView({ owner }) {
     .filter(character => character.owner !== owner)
     .map(character => (
       <CharacterSummary
-        key={ character.id }
-        character={ character }
-        highlight={ party.indexOf(character.id) !== -1 }
-        add={ () => toggleCharacter(character.id) }
-        linkTo={ `/character?id=${ character.id }` }
+        key={character.id}
+        character={character}
+        highlight={party.indexOf(character.id) !== -1}
+        add={() => toggleCharacter(character.id)}
+        linkTo={`/character?id=${character.id}`}
       />
     ));
 
@@ -81,17 +81,17 @@ function OwnerView({ owner }) {
     <Column>
       <TopAnchor>
         <Fab
-          size='small'
-          color='secondary'
-          onClick={ () => setAdding(!isAdding) }
+          size="small"
+          color="secondary"
+          onClick={() => setAdding(!isAdding)}
         >
-          <i className='material-icons'>{ !isAdding ? "add" : "close" }</i>
+          <i className="material-icons">{ !isAdding ? 'add' : 'close' }</i>
         </Fab>
       </TopAnchor>
       <Grid>
         { ownCharacters }
         { isAdding && (
-          <CharacterForm races={ races } classes={ classes } save={ addCharacter } />
+          <CharacterForm races={races} classes={classes} save={addCharacter} />
         ) }
       </Grid>
       { !!otherCharacters.length && (
@@ -102,9 +102,9 @@ function OwnerView({ owner }) {
       ) }
       { !!party.length && (
         <BottomAnchor>
-          <Link to={ `/character?id=${ party.join() }` } style={ { zIndex: 10 } }>
-            <Fab color='secondary'>
-              <i className='material-icons'>group</i>
+          <Link to={`/character?id=${party.join()}`} style={{ zIndex: 10 }}>
+            <Fab color="secondary">
+              <i className="material-icons">group</i>
             </Fab>
           </Link>
         </BottomAnchor>
@@ -116,7 +116,7 @@ function OwnerView({ owner }) {
 export default OwnerView;
 
 OwnerView.propTypes = {
-  owner: PropTypes.string.isRequired
+  owner: PropTypes.string.isRequired,
 };
 
 const Grid = styled.div`

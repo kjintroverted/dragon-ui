@@ -27,7 +27,7 @@
         "react/destructuring-assignment":false,
         "no-use-before-define": 2,
         "implicit-arrow-linebreak":0,
-        "max-len": [2, {"code": 120, "tabWidth": 1, "ignoreUrls": true}],
+        "max-len": [2, {"code": 140, "tabWidth": 1, "ignoreUrls": true}],
         "react/prefer-stateless-function":0,
         "react/jsx-indent":0,
         "react/jsx-one-expression-per-line": 0

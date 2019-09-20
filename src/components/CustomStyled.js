@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
 export const Spacer = styled.span`
   flex: 1;
@@ -71,6 +71,7 @@ export const ActionBar = styled.span`
 export const Row = styled.div`
   display: flex;
   flex-wrap: wrap;
+  margin: .5rem;
   align-items: center;
 `;
 

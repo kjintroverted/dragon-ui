@@ -7,6 +7,7 @@ export function calculateModifier(x, z) {
 
 export function dexAttack(weapon) {
   if (weapon.category.toLowerCase().indexOf("range") !== -1) return true;
+  if (!weapon.properties) return false;
   const finesse = weapon.properties.find((prop) => {
     const text = prop.toLowerCase();
     return text.indexOf('finesse') !== -1;
@@ -15,6 +16,7 @@ export function dexAttack(weapon) {
 }
 
 export function isRangeWeapon(weapon) {
+  if (!weapon.properties) return false;
   const ranged = weapon.properties.find((prop) => {
     const text = prop.toLowerCase();
     return text.indexOf('range') !== -1;
