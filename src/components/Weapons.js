@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import {
-  IconButton, TextField, FormControl, FormLabel, Select, OutlinedInput, MenuItem, Button,
+  IconButton, TextField, FormControl, InputLabel, FormLabel, Select, OutlinedInput, MenuItem, Button,
 } from '@material-ui/core';
 import {
   Card, HeaderBar, ActionBar, Row, Spacer, Column, BasicBox,
@@ -17,6 +17,8 @@ const Weapons = ({
   const [isAddingUnique, setAddingUnique] = useState(false);
   const [weaponOptions, setWeaponOptions] = useState([]);
   const [selectedWeapon, setWeaponSelect] = useState({});
+  const [weaponCategories, setWeaponCategories] = useState([]);
+  const [damageTypes, setDamageTypes] = useState([]);
   const [uniqueWeapon, setUniqueWeapon] = useState({
     name: '',
     category: '',
@@ -26,8 +28,16 @@ const Weapons = ({
   });
 
   async function loadWeaponOptions() {
-    const result = await dungeonService.getWeapons();
-    setWeaponOptions(result);
+    const weapons = await dungeonService.getWeapons();
+    const uniqueCategories = new Set();
+    const uniqueDamageTypes = new Set();
+    weapons.map((weapon) => {
+      uniqueCategories.add(weapon.category);
+      uniqueDamageTypes.add(weapon.damage_type.trim());
+    });
+    setWeaponCategories([...uniqueCategories]);
+    setDamageTypes([...uniqueDamageTypes]);
+    setWeaponOptions(weapons);
   }
 
   function onWeaponChange(e) {
@@ -41,9 +51,17 @@ const Weapons = ({
     setWeaponSelect({});
   }
 
+  function handleUniqueSelect(event) {
+    setUniqueWeapon(oldWeapon => ({
+      ...oldWeapon,
+      [event.target.name]: event.target.value,
+    }));
+  }
+
   function handleValueChange(field) {
     return (e) => {
       const weapon = uniqueWeapon;
+      // TODO: splice based on commas to put into a list
       if (field === 'properties') {
         weapon[field] = [e.target.value];
       } else {
@@ -62,6 +80,7 @@ const Weapons = ({
   useEffect(() => {
     if (isAdding && !weaponOptions.length) loadWeaponOptions();
   }, [isAdding]);
+
   return (
     <Card>
       <HeaderBar>
@@ -108,60 +127,82 @@ const Weapons = ({
           <Spacer />
         </Row>
           <Row>
-          <BasicBox style={{ margin: '.75rem' }}>
-                <TextField
-                  style={{ width: '6rem' }}
-                  variant="outlined"
-                  label="Name"
-                  onChange={handleValueChange('name')}
-                />
-          </BasicBox>
-          <BasicBox style={{ margin: '.75rem' }}>
-                <TextField
-                  style={{ width: '6rem' }}
-                  variant="outlined"
-                  label="Category"
-                  onChange={handleValueChange('category')}
-                />
-          </BasicBox>
-          <BasicBox style={{ margin: '.75rem' }}>
-                <TextField
-                  style={{ width: '6rem' }}
-                  variant="outlined"
-                  placeholder="1d4 + 4"
-                  label="Damage Dice"
-                  onChange={handleValueChange('damage_dice')}
-                />
-          </BasicBox>
-          <BasicBox style={{ margin: '.75rem' }}>
-                <TextField
-                  style={{ width: '6rem' }}
-                  variant="outlined"
-                  label="Damage Type"
-                  onChange={handleValueChange('damage_type')}
-                />
-          </BasicBox>
-          <BasicBox style={{ margin: '.75rem' }}>
-                <TextField
-                  style={{ width: '6rem' }}
-                  variant="outlined"
-                  label="Weight"
-                  onChange={handleValueChange('weight')}
-                />
-          </BasicBox>
-          <BasicBox style={{ margin: '.75rem' }}>
-                <TextField
-                  style={{ width: '6rem' }}
-                  variant="outlined"
-                  label="Properties"
-                  onChange={handleValueChange('properties')}
-                />
-          </BasicBox>
+            <BasicBox style={{ margin: '.75rem' }}>
+            <InputLabel htmlFor="unique-category">Name</InputLabel>
+                  <TextField
+                    style={{ width: '6rem' }}
+                    variant="outlined"
+                    onChange={handleValueChange('name')}
+                  />
+            </BasicBox>
+            <BasicBox style={{ margin: '.75rem' }}>
+            <InputLabel htmlFor="unique-category">Category</InputLabel>
+                  <Select
+                    style={{ width: '6rem' }}
+                    variant="outlined"
+                    inputProps={{
+                      name: 'category',
+                      id: 'unique-category',
+                    }}
+                    input={<OutlinedInput id="weapon" />}
+                    value={uniqueWeapon.category}
+                    onChange={handleUniqueSelect}
+                  >
+                  {
+                  weaponCategories.map(category => <MenuItem key={category} value={category}>{ category }</MenuItem>)
+                  }
+                  </Select>
+            </BasicBox>
+            <BasicBox style={{ margin: '.75rem' }}>
+            <InputLabel htmlFor="unique-category">Damage Dice</InputLabel>
+                  <TextField
+                    style={{ width: '6rem' }}
+                    variant="outlined"
+                    placeholder="1d4 + 4"
+                    onChange={handleValueChange('damage_dice')}
+                  />
+            </BasicBox>
           </Row>
           <Row>
-          <Button variant="contained" color="primary" className="submit-button" onClick={submitUniqueWeapon}>
-            Submit Weapon
-          </Button>
+            <BasicBox style={{ margin: '.75rem' }}>
+            <InputLabel htmlFor="unique-damage-type">Damage Type</InputLabel>
+                  <Select
+                    style={{ width: '6rem' }}
+                    variant="outlined"
+                    inputProps={{
+                      name: 'damage_type',
+                      id: 'unique-damage-type',
+                    }}
+                    input={<OutlinedInput id="weapon" />}
+                    value={uniqueWeapon.damage_type}
+                    onChange={handleUniqueSelect}
+                  >
+                  {
+                  damageTypes.map(damageType => <MenuItem key={damageType} value={damageType}>{ damageType }</MenuItem>)
+                  }
+                  </Select>
+            </BasicBox>
+            <BasicBox style={{ margin: '.75rem' }}>
+              <InputLabel htmlFor="unique-category">Weight</InputLabel>
+                  <TextField
+                    style={{ width: '6rem' }}
+                    variant="outlined"
+                    onChange={handleValueChange('weight')}
+                  />
+            </BasicBox>
+            <BasicBox style={{ margin: '.75rem' }}>
+            <InputLabel htmlFor="unique-category">Properties</InputLabel>
+                  <TextField
+                    style={{ width: '6rem' }}
+                    variant="outlined"
+                    onChange={handleValueChange('properties')}
+                  />
+            </BasicBox>
+          </Row>
+          <Row>
+            <Button variant="contained" color="primary" className="submit-button" onClick={submitUniqueWeapon}>
+              Submit Weapon
+            </Button>
           </Row>
            </>
       }
