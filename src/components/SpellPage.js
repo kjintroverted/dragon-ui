@@ -36,7 +36,7 @@ const SpellPage = ({
 
   useEffect(() => {
     let slotArr = localStorage.getItem(level);
-    slotArr = !slotArr ? [] : JSON.parse(slotArr);
+    slotArr = !slotArr || slotArr.length !== slots ? [] : JSON.parse(slotArr);
     if (!slotArr.length) {
       for (let i = 0; i < slots; i++) {
         slotArr.push(false);

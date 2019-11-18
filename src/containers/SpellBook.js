@@ -28,12 +28,12 @@ const SpellBook = ({
     />);
 
   const spellContainers = classInfo.Level.map((val, i) => {
-    if (i > level - 1 || !classInfo[val][i]) return null;
+    if (i > level - 1 || !classInfo[val][level - 1]) return null;
     return (
       <SpellPage
         key={ `${ val }-level-spells` }
         level={ val }
-        slots={ +classInfo[val][i + 1] }
+        slots={ +classInfo[val][level - 1] }
         spells={ spellDetails || [] }
         addSpell={ disabled ? null : addSpell }
         forgetSpell={ disabled ? null : removeSpell }
