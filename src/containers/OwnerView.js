@@ -45,23 +45,26 @@ function OwnerView({ owner }) {
   }
 
   useEffect(() => {
-    getCharactersByOwner();
+    (async function getCharacters() {
+      const characterList = await DungeonService.getCharactersByOwner(owner);
+      updateCharacters(characterList || []);
+    })()
   }, [owner]);
 
   useEffect(() => {
     if (!isAdding || races.length || classes.length) return;
     loadBackgroundOptions();
-  }, [isAdding]);
+  }, [isAdding, classes.length, races.length]);
 
   const ownCharacters = characters
     .filter(character => character.owner === owner)
     .map(character => (
       <CharacterSummary
-        key={character.id}
-        character={character}
-        highlight={party.indexOf(character.id) !== -1}
-        add={() => toggleCharacter(character.id)}
-        linkTo={`/character?id=${character.id}`}
+        key={ character.id }
+        character={ character }
+        highlight={ party.indexOf(character.id) !== -1 }
+        add={ () => toggleCharacter(character.id) }
+        linkTo={ `/character?id=${ character.id }` }
       />
     ));
 
@@ -69,11 +72,11 @@ function OwnerView({ owner }) {
     .filter(character => character.owner !== owner)
     .map(character => (
       <CharacterSummary
-        key={character.id}
-        character={character}
-        highlight={party.indexOf(character.id) !== -1}
-        add={() => toggleCharacter(character.id)}
-        linkTo={`/character?id=${character.id}`}
+        key={ character.id }
+        character={ character }
+        highlight={ party.indexOf(character.id) !== -1 }
+        add={ () => toggleCharacter(character.id) }
+        linkTo={ `/character?id=${ character.id }` }
       />
     ));
 
@@ -83,7 +86,7 @@ function OwnerView({ owner }) {
         <Fab
           size="small"
           color="secondary"
-          onClick={() => setAdding(!isAdding)}
+          onClick={ () => setAdding(!isAdding) }
         >
           <i className="material-icons">{ !isAdding ? 'add' : 'close' }</i>
         </Fab>
@@ -91,7 +94,7 @@ function OwnerView({ owner }) {
       <Grid>
         { ownCharacters }
         { isAdding && (
-          <CharacterForm races={races} classes={classes} save={addCharacter} />
+          <CharacterForm races={ races } classes={ classes } save={ addCharacter } />
         ) }
       </Grid>
       { !!otherCharacters.length && (
@@ -102,7 +105,7 @@ function OwnerView({ owner }) {
       ) }
       { !!party.length && (
         <BottomAnchor>
-          <Link to={`/character?id=${party.join()}`} style={{ zIndex: 10 }}>
+          <Link to={ `/character?id=${ party.join() }` } style={ { zIndex: 10 } }>
             <Fab color="secondary">
               <i className="material-icons">group</i>
             </Fab>

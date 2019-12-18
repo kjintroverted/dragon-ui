@@ -32,7 +32,7 @@ const Weapons = ({
     const weapons = await dungeonService.getWeapons();
     const uniqueCategories = new Set();
     const uniqueDamageTypes = new Set();
-    weapons.map((weapon) => {
+    weapons.forEach((weapon) => {
       uniqueCategories.add(weapon.category);
       uniqueDamageTypes.add(weapon.damage_type.trim());
     });
@@ -80,7 +80,7 @@ const Weapons = ({
 
   useEffect(() => {
     if (isAdding && !weaponOptions.length) loadWeaponOptions();
-  }, [isAdding]);
+  }, [isAdding, weaponOptions.length]);
 
   return (
     <Card>
