@@ -15,34 +15,35 @@ function App() {
   async function login() {
     const provider = new firebase.auth.GoogleAuthProvider();
     const { user: info } = await firebase.auth().signInWithPopup(provider);
-    return { name: info.displayName, email: info.email, photo: info.photoURL };
+    updateUser({ name: info.displayName, email: info.email, photo: info.photoURL });
   }
 
-  useEffect(() => {
-    (async function getUser() {
-      const info = await login();
-      updateUser(info);
-    })();
-  }, []);
+  firebase.auth().onAuthStateChanged(function (user) {
+    if (user) {
+      updateUser({ name: user.displayName, email: user.email, photo: user.photoURL });
+    } else {
+      login();
+    }
+  });
 
   return (
     <Router>
       <div className='App '>
-        <NavBar user={user} />
-        {user && (
+        <NavBar user={ user } />
+        { user && (
           <Content>
             <Route
               path='/'
               exact
-              component={() => <OwnerView owner={user.email} />}
+              component={ () => <OwnerView owner={ user.email } /> }
             />
             <Route
               path='/character'
               exact
-              component={props => <PartyView {...props} />}
+              component={ props => <PartyView { ...props } /> }
             />
           </Content>
-        )}
+        ) }
       </div>
     </Router>
   );
