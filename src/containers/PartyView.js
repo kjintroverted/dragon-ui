@@ -19,10 +19,6 @@ function PartyView({ location }) {
   const [characters, setCharacters] = useState([]);
   const [focus, setFocus] = useState(null);
 
-  function getCharacter(id) {
-    return characters.find(c => c.id === id);
-  }
-
   function clearInitiative() {
     const { email } = firebase.auth().currentUser;
     characters
@@ -49,13 +45,14 @@ function PartyView({ location }) {
     };
 
     return () => socket.close();
-  }, []);
+  }, [location.search]);
 
   useEffect(() => {
     const id = !focus ? idList[0] : focus.id || idList[0];
     if (!id) return;
-    setFocus(getCharacter(id));
-  }, [characters, idList]);
+    setFocus(characters.find(c => c.id === id));
+  }, [characters, idList, focus]);
+
   if (!focus) return null;
 
   return (

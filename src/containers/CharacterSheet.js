@@ -43,15 +43,6 @@ const CharacterSheet = ({ characterData }) => {
     updateCharacter(characterBase);
   }
 
-  async function checkAuthorized(user) {
-    if (!characterData) return;
-    const result = await dungeonService.checkUserAuth(
-      characterData.id,
-      user.email,
-    );
-    setAuthorized(result.authorized);
-  }
-
   async function getClassInfo(className) {
     if (!className) return;
     const result = await dungeonService.getClass(className);
@@ -66,7 +57,14 @@ const CharacterSheet = ({ characterData }) => {
 
   useEffect(() => {
     updateCharacter(characterData);
-    checkAuthorized(firebase.auth().currentUser);
+    (async function checkAuthorized(user) {
+      if (!characterData) return;
+      const result = await dungeonService.checkUserAuth(
+        characterData.id,
+        user.email,
+      );
+      setAuthorized(result.authorized);
+    })(firebase.auth().currentUser)
     getClassInfo(characterData.class);
     getRaceInfo(characterData.race);
     setEditMode(false);

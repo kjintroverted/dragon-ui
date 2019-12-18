@@ -32,7 +32,7 @@ const SpellPage = ({
       spells
         .filter(spell => (spell.level === 'Cantrip' && level === 'Cantrip') || spell.level === `${ level }-level`),
     );
-  }, [spells]);
+  }, [spells, level]);
 
   useEffect(() => {
     let slotArr = localStorage.getItem(level);
@@ -43,11 +43,11 @@ const SpellPage = ({
       }
     }
     setOpenSlots(slotArr);
-  }, [slots]);
+  }, [slots, level]);
 
   useEffect(() => {
     localStorage.setItem(level, JSON.stringify(openSlots));
-  }, [openSlots]);
+  }, [openSlots, level]);
 
   const spellLookupButton = !showResults
     ? <Button color="secondary" onClick={ loadSpellSearch }>See Library</Button>

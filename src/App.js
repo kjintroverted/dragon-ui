@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import firebase from "firebase";
 import { BrowserRouter as Router, Route } from "react-router-dom";
@@ -15,34 +15,38 @@ function App() {
   async function login() {
     const provider = new firebase.auth.GoogleAuthProvider();
     const { user: info } = await firebase.auth().signInWithPopup(provider);
-    return { name: info.displayName, email: info.email, photo: info.photoURL };
+    updateUser({ name: info.displayName, email: info.email, photo: info.photoURL });
   }
 
-  useEffect(() => {
-    (async function getUser() {
-      const info = await login();
-      updateUser(info);
-    })();
-  }, []);
+  firebase.auth().onAuthStateChanged(function (info) {
+    if (info) {
+      console.log("new user");
+      if (!user)
+        updateUser({ name: info.displayName, email: info.email, photo: info.photoURL });
+    } else {
+      updateUser(null)
+      login();
+    }
+  });
 
   return (
     <Router>
       <div className='App '>
-        <NavBar user={user} />
-        {user && (
+        <NavBar user={ user } />
+        { user && (
           <Content>
             <Route
               path='/'
               exact
-              component={() => <OwnerView owner={user.email} />}
+              component={ () => <OwnerView owner={ user.email } /> }
             />
             <Route
               path='/character'
               exact
-              component={props => <PartyView {...props} />}
+              component={ props => <PartyView { ...props } /> }
             />
           </Content>
-        )}
+        ) }
       </div>
     </Router>
   );

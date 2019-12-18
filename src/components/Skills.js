@@ -28,7 +28,7 @@ const Skills = ({ character, editing, update }) => {
     const list = !query ? skillsArray
       : skillsArray.filter(({ label }) => label.toLowerCase().indexOf(lowerQuery) === 0);
     setDisplay(list);
-  });
+  }, [query]);
 
   return (
     <Card>

@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { IconButton, TextField, Divider } from '@material-ui/core';
+import { IconButton, TextField } from '@material-ui/core';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import {
@@ -12,7 +12,7 @@ function CharacterSummary({
   character, save, add, linkTo, open, highlight,
 }) {
   return (
-    <Card style={highlight ? { background: 'lightblue' } : {}}>
+    <Card style={ highlight ? { background: 'lightblue' } : {} }>
       <HeaderBar>
         <Column>
           <h4>{ character.name }</h4>
@@ -21,33 +21,33 @@ function CharacterSummary({
         <Spacer />
         <ActionBar>
           { linkTo
-            && <Link to={linkTo}>
+            && <Link to={ linkTo }>
               <IconButton>
                 <i className="material-icons">fullscreen</i>
               </IconButton>
-               </Link>
+            </Link>
           }
           { open
-            && <IconButton onClick={open}>
+            && <IconButton onClick={ open }>
               <i className="material-icons">fullscreen</i>
-               </IconButton>
+            </IconButton>
           }
           { add
-            && <IconButton onClick={add}>
+            && <IconButton onClick={ add }>
               <i className="material-icons">group_add</i>
-               </IconButton>
+            </IconButton>
           }
           { save
-            && <IconButton onClick={save}>
+            && <IconButton onClick={ save }>
               <i className="material-icons">save</i>
-               </IconButton>
+            </IconButton>
           }
         </ActionBar>
       </HeaderBar>
       <InfoRow>
-        <TextField variant="outlined" disabled type="number" label="Level" value={character.level} />
-        <TextField variant="outlined" disabled type="number" label="Hit Points" value={character.hp} />
-        <TextField variant="outlined" disabled type="number" label="Initiative" value={character.initiative || ''} />
+        <TextField variant="outlined" disabled type="number" label="Level" value={ character.level } />
+        <TextField variant="outlined" disabled type="number" label="Hit Points" value={ character.hp } />
+        <TextField variant="outlined" disabled type="number" label="Initiative" value={ character.initiative || '' } />
       </InfoRow>
       <FooterBar>
         <p>Created by <b>{ character.owner }</b></p>

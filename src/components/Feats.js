@@ -19,15 +19,6 @@ const Feats = ({ featIDs, traits, update, disabled }) => {
   const [featSearchResults, setSearchResults] = useState([]);
   const [adding, setIsAdding] = useState(false);
 
-  async function getAllFeats() {
-    const results = await dungeonService.getFeats();
-    setSearchArr(results);
-  }
-
-  function loadFeatSearch() {
-    if (!featSearchArr.length) getAllFeats();
-  }
-
   function updateSearchResults() {
     setSearchResults(featSearchArr.filter(feat => feat.name.toLowerCase().indexOf(searchQuery) !== -1))
   }
@@ -52,12 +43,17 @@ const Feats = ({ featIDs, traits, update, disabled }) => {
   }, [featIDs]);
 
   useEffect(() => {
-    if (adding) loadFeatSearch()
-    if (!adding) {
+    if (adding) {
+      if (!featSearchArr.length) (async function getAllFeats() {
+        const results = await dungeonService.getFeats();
+        setSearchArr(results);
+      })()
+    }
+    else {
       setQuery("")
       setSearchResults([])
     }
-  }, [adding]);
+  }, [adding, featSearchArr.length]);
 
   return (
     <Card>
