@@ -18,10 +18,13 @@ function App() {
     updateUser({ name: info.displayName, email: info.email, photo: info.photoURL });
   }
 
-  firebase.auth().onAuthStateChanged(function (user) {
-    if (user) {
-      updateUser({ name: user.displayName, email: user.email, photo: user.photoURL });
+  firebase.auth().onAuthStateChanged(function (info) {
+    if (info) {
+      console.log("new user");
+      if (!user)
+        updateUser({ name: info.displayName, email: info.email, photo: info.photoURL });
     } else {
+      updateUser(null)
       login();
     }
   });
