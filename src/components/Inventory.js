@@ -11,6 +11,7 @@ const Inventory = ({
   itemList, gold, update, disabled,
 }) => {
   const [isAdding, setAdding] = useState(false);
+  const [isEditing, setEditing] = useState(false);
   const [itemValues, setItemValues] = useState({});
   const [goldValue, setGold] = useState(gold);
   const [showDesc, setDescVisible] = useState(itemList.map(() => false));
@@ -47,10 +48,13 @@ const Inventory = ({
       <HeaderBar>
         <h2>Inventory</h2>
         <Spacer />
-        { !disabled
-          && <ActionBar>
+        { !disabled &&
+          <ActionBar>
             <IconButton onClick={ () => setAdding(!isAdding) }>
               <i className="material-icons">{ isAdding ? 'close' : 'add' }</i>
+            </IconButton>
+            <IconButton onClick={ () => setEditing(!isEditing) }>
+              <i className="material-icons">{ isEditing ? 'check' : 'edit' }</i>
             </IconButton>
           </ActionBar>
         }
@@ -104,6 +108,12 @@ const Inventory = ({
         itemList.map((item, i) => (
           <Column key={ `${ item.name }` }>
             <Row style={ { alignItems: 'center' } }>
+              {
+                isEditing &&
+                <IconButton color="secondary" onClick={ () => remove(i) }>
+                  <i className="material-icons">delete</i>
+                </IconButton>
+              }
               <h4 className="min-margin">{ item.name }</h4>
               {
                 (item.description || item.goldCost) &&
@@ -112,10 +122,7 @@ const Inventory = ({
                 </IconButton>
               }
               <Spacer />
-              { !disabled &&
-                <IconButton color="secondary" onClick={ () => remove(i) }>
-                  <i className="material-icons">close</i>
-                </IconButton>
+              { !disabled
               }
             </Row>
             { showDesc[i] &&
