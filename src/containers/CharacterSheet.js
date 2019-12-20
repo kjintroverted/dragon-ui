@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import firebase from 'firebase';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { Fab, Button } from '@material-ui/core';
+import { Fab } from '@material-ui/core';
 import Profile from '../components/Profile';
 import Attributes from '../components/Attributes';
 import Skills from '../components/Skills';
@@ -83,25 +83,32 @@ const CharacterSheet = ({ characterData }) => {
               <i className="material-icons">edit</i>
             </Fab>
           ) : (
-              <Fab color="secondary" size="small" style={{ position: 'fixed', zIndex: '1' }} onClick={save}>
+            <SaveBar>
+              <Fab color="secondary" size="small" style={{ marginRight: '1rem' }} onClick={cancel}>
+                  <i className="material-icons">clear</i>
+              </Fab>
+              <Fab color="secondary" size="small" onClick={save}>
                 <i className="material-icons">save</i>
               </Fab>
+            </SaveBar>
           ) }
         </TopAnchor>
       ) }
       { editMode && (
-        <Admin>
-          <Row style={{
-            position: 'fixed', justifyContent: 'flex-end', width: '85%', zIndex: '1',
-          }}
-          >
-            <Button onClick={cancel}>Cancel</Button>
-            <Button onClick={save} variant="contained" color="secondary">
-              Save
-            </Button>
-          </Row>
-          <CharacterAdmin character={character} update={update} />
-        </Admin>
+        <>
+          <SaveBar>
+                <Fab color="secondary" size="small" style={{ marginRight: '1rem' }} onClick={cancel}>
+                    <i className="material-icons">clear</i>
+                </Fab>
+                <div />
+                <Fab color="secondary" size="small" onClick={save}>
+                    <i className="material-icons">save</i>
+                </Fab>
+          </SaveBar>
+          <Admin>
+            <CharacterAdmin character={character} update={update} />
+          </Admin>
+        </>
       ) }
       <ProfileArea>
         <Profile
@@ -200,9 +207,17 @@ const SheetContainer = styled.div`
   `;
 
 const Admin = styled.div`
+    border-top:'1rem';
     grid-area: admin;
     display: flex;
     flex-direction: column;
+  `;
+
+const SaveBar = styled.div`
+  position:fixed;
+  display:flex;
+  flex-direction: row;
+  z-index:1;
   `;
 const ProfileArea = styled.div`
     grid-area: pro;
