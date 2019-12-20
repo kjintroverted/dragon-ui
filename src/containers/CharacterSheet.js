@@ -83,7 +83,7 @@ const CharacterSheet = ({ characterData }) => {
               <i className="material-icons">edit</i>
             </Fab>
           ) : (
-              <Fab color="secondary" size="small" onClick={save}>
+              <Fab color="secondary" size="small" style={{ position: 'fixed', zIndex: '1' }} onClick={save}>
                 <i className="material-icons">save</i>
               </Fab>
           ) }
@@ -92,7 +92,7 @@ const CharacterSheet = ({ characterData }) => {
       { editMode && (
         <Admin>
           <Row style={{
-            position: 'fixed', justifyContent: 'flex-end', width: '65%',
+            position: 'fixed', justifyContent: 'flex-end', width: '65%', zIndex: '1',
           }}
           >
             <Button onClick={cancel}>Cancel</Button>
