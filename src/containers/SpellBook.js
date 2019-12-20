@@ -6,6 +6,7 @@ import dungeonService from '../services/dungeonService';
 const SpellBook = ({
   spells, classInfo, level, mod, update, disabled
 }) => {
+
   const [spellDetails, setSpellDetails] = useState([]);
 
   function addSpell(spell) {
@@ -20,6 +21,7 @@ const SpellBook = ({
   const cantrips = (
     <SpellPage
       level="Cantrip"
+      ability={ classInfo.spellcasting_ability }
       slots={ 0 }
       spells={ spellDetails || [] }
       addSpell={ disabled ? null : addSpell }
@@ -27,13 +29,14 @@ const SpellBook = ({
       mod={ mod }
     />);
 
-  const spellContainers = classInfo.Level.map((val, i) => {
-    if (i > level - 1 || !classInfo[val][level - 1]) return null;
+  const spellContainers = classInfo.info.Level.map((val, i) => {
+    if (i > level - 1 || !classInfo.info[val][level - 1]) return null;
     return (
       <SpellPage
         key={ `${ val }-level-spells` }
         level={ val }
-        slots={ +classInfo[val][level - 1] }
+        ability={ classInfo.spellcasting_ability }
+        slots={ +classInfo.info[val][level - 1] }
         spells={ spellDetails || [] }
         addSpell={ disabled ? null : addSpell }
         forgetSpell={ disabled ? null : removeSpell }
@@ -65,6 +68,7 @@ export default SpellBook;
 SpellBook.propTypes = {
   spells: PropTypes.arrayOf(PropTypes.string).isRequired,
   classInfo: PropTypes.shape({
+    spellcasting_ability: PropTypes.string,
     info: PropTypes.shape({
       '1st': PropTypes.arrayOf(PropTypes.string),
       '2nd': PropTypes.arrayOf(PropTypes.string),

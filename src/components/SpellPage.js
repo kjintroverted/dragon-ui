@@ -10,7 +10,7 @@ import dungeonService from '../services/dungeonService';
 import SpellDetail from './SpellDetail';
 
 const SpellPage = ({
-  level, spells, slots, addSpell, forgetSpell, mod,
+  level, ability, spells, slots, addSpell, forgetSpell, mod,
 }) => {
   const [spellList, setSpellList] = useState([]);
   const [openSlots, setOpenSlots] = useState([]);
@@ -58,7 +58,7 @@ const SpellPage = ({
       <HeaderBar>
         <Column>
           <h2>{ level } Level Spells</h2>
-          <p><b>Modifier:</b> { mod } | <b>DC:</b> { 8 + +mod }</p>
+          <p><b>{ ability.slice(0, 3) }. Mod:</b> { mod } | <b>DC:</b> { 8 + +mod }</p>
         </Column>
         <Spacer />
         <ActionBar>
@@ -124,6 +124,7 @@ export default SpellPage;
 
 SpellPage.propTypes = {
   level: PropTypes.string.isRequired,
+  ability: PropTypes.string.isRequired,
   spells: PropTypes.arrayOf(PropTypes.shape({
     name: PropTypes.string,
     desc: PropTypes.string,
@@ -131,7 +132,7 @@ SpellPage.propTypes = {
     casting_time: PropTypes.string,
   })).isRequired,
   slots: PropTypes.number.isRequired,
-  addSpell: PropTypes.func.isRequired,
-  forgetSpell: PropTypes.func.isRequired,
+  addSpell: PropTypes.func,
+  forgetSpell: PropTypes.func,
   mod: PropTypes.string.isRequired,
 };
