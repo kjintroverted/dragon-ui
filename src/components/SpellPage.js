@@ -131,7 +131,7 @@ SpellPage.propTypes = {
     casting_time: PropTypes.string,
   })).isRequired,
   slots: PropTypes.number.isRequired,
-  addSpell: PropTypes.func.isRequired,
-  forgetSpell: PropTypes.func.isRequired,
+  addSpell: PropTypes.func,
+  forgetSpell: PropTypes.func,
   mod: PropTypes.string.isRequired,
 };
