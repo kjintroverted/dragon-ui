@@ -150,7 +150,7 @@ const CharacterSheet = ({ characterData }) => {
         { classInfo && classInfo.spellcasting_ability && (
           <SpellBook
             disabled={ !authorized }
-            classInfo={ classInfo.info }
+            classInfo={ classInfo }
             level={ character.level }
             spells={ character.spells || [] }
             update={ spells => update({ ...character, spells }) }
