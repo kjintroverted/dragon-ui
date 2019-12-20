@@ -6,7 +6,7 @@ import { Fab } from '@material-ui/core';
 import Profile from '../components/Profile';
 import Attributes from '../components/Attributes';
 import Skills from '../components/Skills';
-import { TopAnchor, Row } from '../components/CustomStyled';
+import { TopAnchor } from '../components/CustomStyled';
 import dungeonService from '../services/dungeonService';
 import Weapons from '../components/Weapons';
 import Inventory from '../components/Inventory';
