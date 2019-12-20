@@ -23,6 +23,7 @@ const Inventory = ({
   }
 
   function addItem() {
+    if (!itemValues.qty) itemValues.qty = 1;
     update(goldValue, [...itemList, itemValues]);
     setAdding(false);
   }
