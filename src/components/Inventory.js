@@ -4,15 +4,17 @@ import {
   IconButton, TextField, Divider,
 } from '@material-ui/core';
 import {
-  Card, HeaderBar, ActionBar, Row, Spacer, Column,
+  Card, HeaderBar, ActionBar, Row, Spacer, Column, BasicBox
 } from './CustomStyled';
 
 const Inventory = ({
   itemList, gold, update, disabled,
 }) => {
   const [isAdding, setAdding] = useState(false);
+  const [isEditing, setEditing] = useState(false);
   const [itemValues, setItemValues] = useState({});
   const [goldValue, setGold] = useState(gold);
+  const [showDesc, setDescVisible] = useState(itemList.map(() => false));
 
   function handleChange(field, numeric) {
     return (e) => {
@@ -21,6 +23,7 @@ const Inventory = ({
   }
 
   function addItem() {
+    if (!itemValues.qty) itemValues.qty = 1;
     update(goldValue, [...itemList, itemValues]);
     setAdding(false);
   }
@@ -35,6 +38,21 @@ const Inventory = ({
     update(goldValue, [...itemList.slice(0, i), ...itemList.slice(i + 1)]);
   }
 
+  function toggleDesc(i) {
+    setDescVisible([...showDesc.slice(0, i), !showDesc[i], ...showDesc.slice(i + 1)]);
+  }
+
+  function updateQty(i) {
+    const item = itemList[i];
+    return (e) => {
+      const qty = +e.target.value;
+      update(
+        goldValue,
+        [...itemList.slice(0, i), { ...item, qty }, ...itemList.slice(i + 1)]
+      )
+    }
+  }
+
   useEffect(() => setGold(gold), [gold]);
 
   return (
@@ -42,10 +60,13 @@ const Inventory = ({
       <HeaderBar>
         <h2>Inventory</h2>
         <Spacer />
-        { !disabled
-          && <ActionBar>
+        { !disabled &&
+          <ActionBar>
             <IconButton onClick={ () => setAdding(!isAdding) }>
               <i className="material-icons">{ isAdding ? 'close' : 'add' }</i>
+            </IconButton>
+            <IconButton onClick={ () => setEditing(!isEditing) }>
+              <i className="material-icons">{ isEditing ? 'check' : 'edit' }</i>
             </IconButton>
           </ActionBar>
         }
@@ -68,6 +89,14 @@ const Inventory = ({
               label="Name"
               value={ itemValues.name || '' }
               onChange={ handleChange('name') }
+            />
+            <TextField
+              style={ { maxWidth: 100 } }
+              variant="outlined"
+              type="number"
+              label="Qty"
+              value={ itemValues.qty || '' }
+              onChange={ handleChange('qty', true) }
             />
             <Spacer />
             <IconButton onClick={ addItem }>
@@ -99,16 +128,35 @@ const Inventory = ({
         itemList.map((item, i) => (
           <Column key={ `${ item.name }` }>
             <Row style={ { alignItems: 'center' } }>
-              <h4 className="min-margin">{ item.name }</h4>
-              <p className="min-margin"> ({ item.goldCost }gp)</p>
-              <Spacer />
-              { !disabled &&
+              { isEditing &&
                 <IconButton color="secondary" onClick={ () => remove(i) }>
-                  <i className="material-icons">close</i>
+                  <i className="material-icons">delete</i>
                 </IconButton>
               }
+              <h4 className="min-margin">{ item.name }</h4>
+              {
+                (item.description || !!item.goldCost) &&
+                <IconButton onClick={ () => toggleDesc(i) }>
+                  <i className="material-icons">{ showDesc[i] ? 'cancel' : 'info' }</i>
+                </IconButton>
+              }
+              <Spacer />
+              <BasicBox>
+                <TextField
+                  variant="outlined"
+                  type="number"
+                  disabled={ disabled }
+                  label="Qty"
+                  value={ item.qty }
+                  onChange={ updateQty(i) } />
+              </BasicBox>
             </Row>
-            { item.description && <p className="min-margin">{ item.description }</p> }
+            { showDesc[i] &&
+              <p className="min-margin">
+                { item.description ? item.description : null }
+                { !item.goldCost ? null : `(${ item.goldCost } gp)` }
+              </p>
+            }
             <Divider />
           </Column>
         ))
