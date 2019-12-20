@@ -92,7 +92,7 @@ const CharacterSheet = ({ characterData }) => {
       { editMode && (
         <Admin>
           <Row style={{
-            position: 'fixed', justifyContent: 'flex-end', width: '65%', zIndex: '1',
+            position: 'fixed', justifyContent: 'flex-end', width: '85%', zIndex: '1',
           }}
           >
             <Button onClick={cancel}>Cancel</Button>
