@@ -30,7 +30,7 @@ const CharacterAdmin = ({ character, update }) => {
 
   return (
     <Card>
-      <HeaderBar>
+      <HeaderBar style={{ marginTop: '2.5rem' }}>
         <h2>Authorized Users</h2>
       </HeaderBar>
       <Row>

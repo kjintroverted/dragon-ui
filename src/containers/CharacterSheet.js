@@ -2,11 +2,11 @@ import React, { useState, useEffect } from 'react';
 import firebase from 'firebase';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { Fab, Button } from '@material-ui/core';
+import { Fab } from '@material-ui/core';
 import Profile from '../components/Profile';
 import Attributes from '../components/Attributes';
 import Skills from '../components/Skills';
-import { TopAnchor, Row } from '../components/CustomStyled';
+import { TopAnchor } from '../components/CustomStyled';
 import dungeonService from '../services/dungeonService';
 import Weapons from '../components/Weapons';
 import Inventory from '../components/Inventory';
@@ -64,7 +64,7 @@ const CharacterSheet = ({ characterData }) => {
         user.email,
       );
       setAuthorized(result.authorized);
-    })(firebase.auth().currentUser)
+    }(firebase.auth().currentUser));
     getClassInfo(characterData.class);
     getRaceInfo(characterData.race);
     setEditMode(false);
@@ -78,87 +78,98 @@ const CharacterSheet = ({ characterData }) => {
             <Fab
               color="secondary"
               size="small"
-              onClick={ () => setEditMode(true) }
+              onClick={() => setEditMode(true)}
             >
               <i className="material-icons">edit</i>
             </Fab>
           ) : (
-              <Fab color="secondary" size="small" onClick={ save }>
+            <SaveBar>
+              <Fab color="secondary" size="small" style={{ marginRight: '1rem' }} onClick={cancel}>
+                  <i className="material-icons">clear</i>
+              </Fab>
+              <Fab color="secondary" size="small" onClick={save}>
                 <i className="material-icons">save</i>
               </Fab>
-            ) }
+            </SaveBar>
+          ) }
         </TopAnchor>
       ) }
       { editMode && (
-        <Admin>
-          <Row style={ { justifyContent: 'flex-end' } }>
-            <Button onClick={ cancel }>Cancel</Button>
-            <Button onClick={ save } variant="contained" color="secondary">
-              Save
-            </Button>
-          </Row>
-          <CharacterAdmin character={ character } update={ update } />
-        </Admin>
+        <>
+          <SaveBar>
+                <Fab color="secondary" size="small" style={{ marginRight: '1rem' }} onClick={cancel}>
+                    <i className="material-icons">clear</i>
+                </Fab>
+                <div />
+                <Fab color="secondary" size="small" onClick={save}>
+                    <i className="material-icons">save</i>
+                </Fab>
+          </SaveBar>
+          <Admin>
+            <CharacterAdmin character={character} update={update} />
+          </Admin>
+        </>
       ) }
       <ProfileArea>
         <Profile
-          character={ character }
-          hitDice={ classInfo.hit_dice || '' }
-          update={ update }
-          disabled={ !authorized }
-          editing={ editMode }
+          character={character}
+          hitDice={classInfo.hit_dice || ''}
+          update={update}
+          disabled={!authorized}
+          editing={editMode}
         />
       </ProfileArea>
       <StatsArea>
         <Attributes
-          character={ character }
-          saves={ classInfo.prof_saving_throws || '' }
-          update={ update }
-          disabled={ !authorized || !editMode }
+          character={character}
+          saves={classInfo.prof_saving_throws || ''}
+          update={update}
+          disabled={!authorized || !editMode}
         />
       </StatsArea>
       <SkillsArea>
-        <Skills character={ character } editing={ editMode } update={ update } />
+        <Skills character={character} editing={editMode} update={update} />
       </SkillsArea>
       <WeaponsArea>
         <Weapons
-          disabled={ !authorized }
-          proWeapons={ classInfo.prof_weapons || '' }
-          weaponList={ character.weapons || [] }
-          dex={ character.dex }
-          str={ character.str }
-          proBonus={ character.proBonus }
-          update={ weapons => update({ ...character, weapons }) }
+          disabled={!authorized}
+          proWeapons={classInfo.prof_weapons || ''}
+          weaponList={character.weapons || []}
+          dex={character.dex}
+          str={character.str}
+          proBonus={character.proBonus}
+          update={weapons => update({ ...character, weapons })}
         />
       </WeaponsArea>
       <EquipmentArea>
         <Inventory
-          disabled={ !authorized }
-          itemList={ character.inventory || [] }
-          gold={ character.gold }
-          update={ (gold, inventory) =>
+          disabled={!authorized}
+          itemList={character.inventory || []}
+          gold={character.gold}
+          update={(gold, inventory) =>
             update({ ...character, gold, inventory })
           }
         />
       </EquipmentArea>
       <Misc>
         <Feats
-          disabled={ !authorized }
-          traits={ raceInfo.traits || [] }
-          featIDs={ character.feats || [] }
-          update={ feats => update({ ...character, feats }) } />
+          disabled={!authorized}
+          traits={raceInfo.traits || []}
+          featIDs={character.feats || []}
+          update={feats => update({ ...character, feats })}
+        />
         { classInfo && classInfo.spellcasting_ability && (
           <SpellBook
-            disabled={ !authorized }
-            classInfo={ classInfo }
-            level={ character.level }
-            spells={ character.spells || [] }
-            update={ spells => update({ ...character, spells }) }
-            mod={ calculateModifier(
+            disabled={!authorized}
+            classInfo={classInfo}
+            level={character.level}
+            spells={character.spells || []}
+            update={spells => update({ ...character, spells })}
+            mod={calculateModifier(
               character[
-              classInfo.spellcasting_ability.toLowerCase().substring(0, 3)
+                classInfo.spellcasting_ability.toLowerCase().substring(0, 3)
               ], character.proBonus,
-            ) }
+            )}
           />
         ) }
       </Misc>
@@ -196,9 +207,17 @@ const SheetContainer = styled.div`
   `;
 
 const Admin = styled.div`
+    border-top:'1rem';
     grid-area: admin;
     display: flex;
     flex-direction: column;
+  `;
+
+const SaveBar = styled.div`
+  position:fixed;
+  display:flex;
+  flex-direction: row;
+  z-index:1;
   `;
 const ProfileArea = styled.div`
     grid-area: pro;
