@@ -20,7 +20,6 @@ function App() {
 
   firebase.auth().onAuthStateChanged(function (info) {
     if (info) {
-      console.log("new user");
       if (!user)
         updateUser({ name: info.displayName, email: info.email, photo: info.photoURL });
     } else {
