@@ -13,6 +13,7 @@ const Inventory = ({
   const [isAdding, setAdding] = useState(false);
   const [itemValues, setItemValues] = useState({});
   const [goldValue, setGold] = useState(gold);
+  const [showDesc, setDescVisible] = useState(itemList.map(() => false));
 
   function handleChange(field, numeric) {
     return (e) => {
@@ -33,6 +34,10 @@ const Inventory = ({
 
   function remove(i) {
     update(goldValue, [...itemList.slice(0, i), ...itemList.slice(i + 1)]);
+  }
+
+  function toggleDesc(i) {
+    setDescVisible([...showDesc.slice(0, i), !showDesc[i], ...showDesc.slice(i + 1)]);
   }
 
   useEffect(() => setGold(gold), [gold]);
@@ -100,7 +105,12 @@ const Inventory = ({
           <Column key={ `${ item.name }` }>
             <Row style={ { alignItems: 'center' } }>
               <h4 className="min-margin">{ item.name }</h4>
-              <p className="min-margin"> ({ item.goldCost }gp)</p>
+              {
+                (item.description || item.goldCost) &&
+                <IconButton onClick={ () => toggleDesc(i) }>
+                  <i className="material-icons">{ showDesc[i] ? 'cancel' : 'info' }</i>
+                </IconButton>
+              }
               <Spacer />
               { !disabled &&
                 <IconButton color="secondary" onClick={ () => remove(i) }>
@@ -108,7 +118,12 @@ const Inventory = ({
                 </IconButton>
               }
             </Row>
-            { item.description && <p className="min-margin">{ item.description }</p> }
+            { showDesc[i] &&
+              <p className="min-margin">
+                { item.description ? item.description : null }
+                { !item.goldCost ? null : `(${ item.goldCost } gp)` }
+              </p>
+            }
             <Divider />
           </Column>
         ))
