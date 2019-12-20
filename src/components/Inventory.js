@@ -4,7 +4,7 @@ import {
   IconButton, TextField, Divider,
 } from '@material-ui/core';
 import {
-  Card, HeaderBar, ActionBar, Row, Spacer, Column,
+  Card, HeaderBar, ActionBar, Row, Spacer, Column, BasicBox
 } from './CustomStyled';
 
 const Inventory = ({
@@ -39,6 +39,17 @@ const Inventory = ({
 
   function toggleDesc(i) {
     setDescVisible([...showDesc.slice(0, i), !showDesc[i], ...showDesc.slice(i + 1)]);
+  }
+
+  function updateQty(i) {
+    const item = itemList[i];
+    return (e) => {
+      const qty = +e.target.value;
+      update(
+        goldValue,
+        [...itemList.slice(0, i), { ...item, qty }, ...itemList.slice(i + 1)]
+      )
+    }
   }
 
   useEffect(() => setGold(gold), [gold]);
@@ -122,8 +133,15 @@ const Inventory = ({
                 </IconButton>
               }
               <Spacer />
-              { !disabled
-              }
+              <BasicBox>
+                <TextField
+                  variant="outlined"
+                  type="number"
+                  disabled={ disabled }
+                  label="Qty"
+                  value={ item.qty }
+                  onChange={ updateQty(i) } />
+              </BasicBox>
             </Row>
             { showDesc[i] &&
               <p className="min-margin">
