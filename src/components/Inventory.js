@@ -128,8 +128,7 @@ const Inventory = ({
         itemList.map((item, i) => (
           <Column key={ `${ item.name }` }>
             <Row style={ { alignItems: 'center' } }>
-              {
-                isEditing &&
+              { isEditing &&
                 <IconButton color="secondary" onClick={ () => remove(i) }>
                   <i className="material-icons">delete</i>
                 </IconButton>

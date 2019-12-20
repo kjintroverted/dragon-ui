@@ -14,6 +14,7 @@ import dungeonService from '../services/dungeonService';
 const Weapons = ({
   proWeapons, weaponList, dex, str, proBonus, update, disabled,
 }) => {
+  const [isEditing, setEditing] = useState(false);
   const [isAdding, setAdding] = useState(false);
   const [isAddingUnique, setAddingUnique] = useState(false);
   const [weaponOptions, setWeaponOptions] = useState([]);
@@ -52,6 +53,10 @@ const Weapons = ({
     setWeaponSelect({});
   }
 
+  function remove(i) {
+    update([...weaponList.slice(0, i), ...weaponList.slice(i + 1)])
+  }
+
   function handleUniqueSelect(event) {
     setUniqueWeapon(oldWeapon => ({
       ...oldWeapon,
@@ -75,6 +80,7 @@ const Weapons = ({
   function submitUniqueWeapon() {
     update([...weaponList, uniqueWeapon]);
     setAddingUnique(false);
+    setAdding(false);
     setUniqueWeapon({});
   }
 
@@ -87,10 +93,13 @@ const Weapons = ({
       <HeaderBar>
         <h2>Weapons</h2>
         <Spacer />
-        { !disabled
-          && <ActionBar>
+        { !disabled &&
+          <ActionBar>
             <IconButton onClick={ () => { setAdding(!isAdding); setAddingUnique(false); } }>
               <i className="material-icons">{ isAdding ? 'close' : 'add' }</i>
+            </IconButton>
+            <IconButton onClick={ () => setEditing(!isEditing) }>
+              <i className="material-icons">{ isEditing ? 'check' : 'edit' }</i>
             </IconButton>
           </ActionBar>
         }
@@ -208,7 +217,7 @@ const Weapons = ({
         </>
       }
       { // DISPLAY ALL WEAPONS
-        weaponList.map((weapon) => {
+        weaponList.map((weapon, i) => {
           const dexCheck = dexAttack(weapon);
           const proMod = isProWeapon(weapon, proWeapons) ? proBonus : 0;
           const atkMod = dexCheck ? calculateModifier(dex, proMod) : calculateModifier(str, proMod);
@@ -218,6 +227,11 @@ const Weapons = ({
 
           return (
             <Row key={ `${ weapon.name }` }>
+              { isEditing &&
+                <IconButton color="secondary" onClick={ () => remove(i) }>
+                  <i className="material-icons">delete</i>
+                </IconButton>
+              }
               <Column>
                 <h3 className="min-margin">{ weapon.name }</h3>
                 <p className="min-margin">{ weapon.damage_type }</p>
