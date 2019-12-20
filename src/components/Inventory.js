@@ -89,6 +89,14 @@ const Inventory = ({
               value={ itemValues.name || '' }
               onChange={ handleChange('name') }
             />
+            <TextField
+              style={ { maxWidth: 100 } }
+              variant="outlined"
+              type="number"
+              label="Qty"
+              value={ itemValues.qty || '' }
+              onChange={ handleChange('qty', true) }
+            />
             <Spacer />
             <IconButton onClick={ addItem }>
               <i className="material-icons">done</i>
@@ -127,7 +135,7 @@ const Inventory = ({
               }
               <h4 className="min-margin">{ item.name }</h4>
               {
-                (item.description || item.goldCost) &&
+                (item.description || !!item.goldCost) &&
                 <IconButton onClick={ () => toggleDesc(i) }>
                   <i className="material-icons">{ showDesc[i] ? 'cancel' : 'info' }</i>
                 </IconButton>
