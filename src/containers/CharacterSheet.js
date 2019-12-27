@@ -119,8 +119,9 @@ const CharacterSheet = ({ characterData }) => {
           disabled={ !authorized }
           editing={ editMode }
         />
-        { character.hp <= 0 &&
+        { character.hp <= 0 ?
           <DeathSavingThrows id={ character.id } />
+          : localStorage.clear(`deathsaves_${ character.id }`)
         }
       </ProfileArea>
       <StatsArea>
