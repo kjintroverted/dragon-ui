@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Checkbox from '@material-ui/core/Checkbox';
 import { withStyles } from '@material-ui/core/styles';
 import { green, red } from '@material-ui/core/colors';
 import styled from 'styled-components';
 import { Row, Card } from './CustomStyled';
 
-const DeathSavingThrows = () => {
+const DeathSavingThrows = ({ id }) => {
   const [checked, setChecked] = useState({
     success1: false,
     success2: false,
@@ -15,8 +15,20 @@ const DeathSavingThrows = () => {
     failure3: false,
   });
 
+  useEffect(() => {
+    // CHECK LOCAL STORAGE FOR SAVE DATA
+    let data = localStorage.getItem(`deathsaves_${ id }`);
+    if (!data) return;
+    data = JSON.parse(data);
+    console.log(data);
+    setChecked(data);
+  }, [id])
+
   const handleChange = (event) => {
-    setChecked({ ...checked, [event.target.name]: event.target.checked });
+    const updatedChecks = { ...checked, [event.target.name]: event.target.checked };
+    // UPDATE LOCAL STORAGE
+    localStorage.setItem(`deathsaves_${ id }`, JSON.stringify(updatedChecks));
+    setChecked(updatedChecks);
   };
 
   return (
@@ -26,21 +38,21 @@ const DeathSavingThrows = () => {
         <Row>
           <h3 style={ { margin: 0 } }>Success</h3>
           <GreenCheckbox
-            checked={ checked.success1.checked }
+            checked={ checked.success1 }
             onChange={ handleChange }
             name="success1"
             value="primary"
             inputProps={ { 'aria-label': 'primary checkbox' } }
           />
           <GreenCheckbox
-            checked={ checked.success2.checked }
+            checked={ checked.success2 }
             onChange={ handleChange }
             name="success2"
             value="primary"
             inputProps={ { 'aria-label': 'primary checkbox' } }
           />
           <GreenCheckbox
-            checked={ checked.success3.checked }
+            checked={ checked.success3 }
             onChange={ handleChange }
             name="success3"
             value="primary"
@@ -50,21 +62,21 @@ const DeathSavingThrows = () => {
         <Row>
           <h3 style={ { margin: 0 } }>Failure</h3>
           <RedCheckbox
-            checked={ checked.failure1.checked }
+            checked={ checked.failure1 }
             onChange={ handleChange }
             name="failure1"
             value="primary"
             inputProps={ { 'aria-label': 'primary checkbox' } }
           />
           <RedCheckbox
-            checked={ checked.failure2.checked }
+            checked={ checked.failure2 }
             onChange={ handleChange }
             name="failure2"
             value="primary"
             inputProps={ { 'aria-label': 'primary checkbox' } }
           />
           <RedCheckbox
-            checked={ checked.failure3.checked }
+            checked={ checked.failure3 }
             onChange={ handleChange }
             name="failure3"
             value="primary"

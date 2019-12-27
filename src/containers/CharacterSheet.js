@@ -120,7 +120,7 @@ const CharacterSheet = ({ characterData }) => {
           editing={ editMode }
         />
         { character.hp <= 0 &&
-          <DeathSavingThrows />
+          <DeathSavingThrows id={ character.id } />
         }
       </ProfileArea>
       <StatsArea>
