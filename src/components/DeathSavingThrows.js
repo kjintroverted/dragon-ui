@@ -20,7 +20,6 @@ const DeathSavingThrows = ({ id }) => {
     let data = localStorage.getItem(`deathsaves_${ id }`);
     if (!data) return;
     data = JSON.parse(data);
-    console.log(data);
     setChecked(data);
   }, [id])
 
