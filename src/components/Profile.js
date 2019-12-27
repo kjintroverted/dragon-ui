@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { Badge, TextField, Chip, IconButton } from '@material-ui/core';
+import {
+  Badge, TextField, Chip, IconButton,
+} from '@material-ui/core';
 import {
   Card, Column, Row, BasicBox, Spacer, HeaderBar,
 } from './CustomStyled';
@@ -10,7 +12,6 @@ import { calculateModifier } from '../services/helper';
 const Profile = ({
   character, hitDice, update, disabled, editing,
 }) => {
-
   const [values, setValues] = useState({});
 
   function onValueChange(field) {
@@ -28,15 +29,15 @@ const Profile = ({
     return () => {
       const array = character[field] || [];
       update({ ...character, [field]: [...array, values[valueField]] });
-      setValues({ ...values, [valueField]: "" });
+      setValues({ ...values, [valueField]: '' });
     };
   }
 
   function remove(field, i) {
     return () => {
-      let array = [
+      const array = [
         ...character[field].slice(0, i),
-        ...character[field].slice(i + 1)
+        ...character[field].slice(i + 1),
       ];
       update({ ...character, [field]: array });
     };
@@ -133,66 +134,69 @@ const Profile = ({
         </Badge>
       </Row>
       {/* LANGUAGES */ }
-      { editing && !disabled ?
+      { editing && !disabled
         // ADD NEW LANGUAGES
-        <>
+        ? <>
           <HeaderBar style={ { marginTop: '1em' } }>
             Known Languages
           </HeaderBar>
           <Row>
-            { character.languages &&
-              character.languages.map((lang, i) => (
+            { character.languages
+              && character.languages.map((lang, i) => (
                 <Chip
                   key={ `pro-${ lang }` }
                   label={ lang }
-                  onDelete={ editing && !disabled ? remove("languages", i) : null }
-                  color='primary'
+                  onDelete={ editing && !disabled ? remove('languages', i) : null }
+                  color="primary"
                 />
               )) }
 
             <TextField
-              label='New Language'
-              value={ values.newLang || "" }
-              onChange={ onValueChange("newLang") }
+              label="New Language"
+              value={ values.newLang || '' }
+              onChange={ onValueChange('newLang') }
             />
-            <IconButton color='primary' onClick={ add("languages", "newLang") }>
-              <i className='material-icons'>done</i>
+            <IconButton color="primary" onClick={ add('languages', 'newLang') }>
+              <i className="material-icons">done</i>
             </IconButton>
           </Row>
-        </> :
-        // DISPLAY LANGUAGES
-        <Info><b>Known Languages:</b> { character.languages && character.languages.length ? character.languages.join() : <i>none</i> }</Info>
+        </>
+        // DISPLAY LANGUAGES/TOOLS AND SAVING THROWS
+        : <Row style={ { justifyContent: 'space-between' } }>
+          <Column>
+            <Info><b>Known Languages:</b> { character.languages && character.languages.length ? character.languages.join() : <i>none</i> }</Info>
+            <Info><b>Tools Proficiencies:</b> { character.proTools && character.proTools.length ? character.proTools.join() : <i>none</i> }</Info>
+          </Column>
+        </Row>
       }
       {/* TOOLS */ }
-      { editing && !disabled ?
+      { editing && !disabled
         // ADD NEW TOOLS
-        <>
+        && <>
           <HeaderBar style={ { marginTop: '1em' } }>
             Tool Proficiencies
           </HeaderBar>
           <Row>
-            { character.proTools &&
-              character.proTools.map((tool, i) => (
+            { character.proTools
+              && character.proTools.map((tool, i) => (
                 <Chip
                   key={ `pro-${ tool }` }
                   label={ tool }
-                  onDelete={ editing && !disabled ? remove("proTools", i) : null }
-                  color='primary'
+                  onDelete={ editing && !disabled ? remove('proTools', i) : null }
+                  color="primary"
                 />
               )) }
 
             <TextField
-              label='New Tool'
-              value={ values.newTool || "" }
-              onChange={ onValueChange("newTool") }
+              label="New Tool"
+              value={ values.newTool || '' }
+              onChange={ onValueChange('newTool') }
             />
-            <IconButton color='primary' onClick={ add("proTools", "newTool") }>
-              <i className='material-icons'>done</i>
+            <IconButton color="primary" onClick={ add('proTools', 'newTool') }>
+              <i className="material-icons">done</i>
             </IconButton>
           </Row>
-        </> :
-        // DISPLAY TOOLS
-        <Info><b>Tools Proficiencies:</b> { character.proTools && character.proTools.length ? character.proTools.join() : <i>none</i> }</Info>
+        </>
       }
     </Card>
   );
@@ -215,4 +219,4 @@ Profile.propTypes = {
 const Info = styled.p`
   margin: 3px 0px;
   font-size: .8em;
-`
+`;
