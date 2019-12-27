@@ -7,7 +7,6 @@ import {
 import {
   Card, Column, Row, BasicBox, Spacer, HeaderBar,
 } from './CustomStyled';
-import DeathSavingThrows from './DeathSavingThrows';
 import { calculateModifier } from '../services/helper';
 
 const Profile = ({

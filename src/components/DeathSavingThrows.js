@@ -3,7 +3,7 @@ import Checkbox from '@material-ui/core/Checkbox';
 import { withStyles } from '@material-ui/core/styles';
 import { green, red } from '@material-ui/core/colors';
 import styled from 'styled-components';
-import { Row } from './CustomStyled';
+import { Row, Card } from './CustomStyled';
 
 const DeathSavingThrows = () => {
   const [checked, setChecked] = useState({
@@ -20,65 +20,69 @@ const DeathSavingThrows = () => {
   };
 
   return (
-    <SavingThrowsContainer>
-      <h2 style={ { margin: 0 } }>Death Saving Throws</h2>
-      <Row style={ { justifyContent: 'flex-end' } }>
-        <h3 style={ { margin: 0 } }>Success</h3>
-        <GreenCheckbox
-          checked={ checked.success1.checked }
-          onChange={ handleChange }
-          name="success1"
-          value="primary"
-          inputProps={ { 'aria-label': 'primary checkbox' } }
-        />
-        <GreenCheckbox
-          checked={ checked.success2.checked }
-          onChange={ handleChange }
-          name="success2"
-          value="primary"
-          inputProps={ { 'aria-label': 'primary checkbox' } }
-        />
-        <GreenCheckbox
-          checked={ checked.success3.checked }
-          onChange={ handleChange }
-          name="success3"
-          value="primary"
-          inputProps={ { 'aria-label': 'primary checkbox' } }
-        />
-      </Row>
-      <Row style={ { justifyContent: 'flex-end' } }>
-        <h3 style={ { margin: 0 } }>Failure</h3>
-        <RedCheckbox
-          checked={ checked.failure1.checked }
-          onChange={ handleChange }
-          name="failure1"
-          value="primary"
-          inputProps={ { 'aria-label': 'primary checkbox' } }
-        />
-        <RedCheckbox
-          checked={ checked.failure2.checked }
-          onChange={ handleChange }
-          name="failure2"
-          value="primary"
-          inputProps={ { 'aria-label': 'primary checkbox' } }
-        />
-        <RedCheckbox
-          checked={ checked.failure3.checked }
-          onChange={ handleChange }
-          name="failure3"
-          value="primary"
-          inputProps={ { 'aria-label': 'primary checkbox' } }
-        />
-      </Row>
-    </SavingThrowsContainer>
+    <Card>
+      <SavingThrowsContainer>
+        <h2 style={ { margin: 0 } }>Death Saving Throws</h2>
+        <Row>
+          <h3 style={ { margin: 0 } }>Success</h3>
+          <GreenCheckbox
+            checked={ checked.success1.checked }
+            onChange={ handleChange }
+            name="success1"
+            value="primary"
+            inputProps={ { 'aria-label': 'primary checkbox' } }
+          />
+          <GreenCheckbox
+            checked={ checked.success2.checked }
+            onChange={ handleChange }
+            name="success2"
+            value="primary"
+            inputProps={ { 'aria-label': 'primary checkbox' } }
+          />
+          <GreenCheckbox
+            checked={ checked.success3.checked }
+            onChange={ handleChange }
+            name="success3"
+            value="primary"
+            inputProps={ { 'aria-label': 'primary checkbox' } }
+          />
+        </Row>
+        <Row>
+          <h3 style={ { margin: 0 } }>Failure</h3>
+          <RedCheckbox
+            checked={ checked.failure1.checked }
+            onChange={ handleChange }
+            name="failure1"
+            value="primary"
+            inputProps={ { 'aria-label': 'primary checkbox' } }
+          />
+          <RedCheckbox
+            checked={ checked.failure2.checked }
+            onChange={ handleChange }
+            name="failure2"
+            value="primary"
+            inputProps={ { 'aria-label': 'primary checkbox' } }
+          />
+          <RedCheckbox
+            checked={ checked.failure3.checked }
+            onChange={ handleChange }
+            name="failure3"
+            value="primary"
+            inputProps={ { 'aria-label': 'primary checkbox' } }
+          />
+        </Row>
+      </SavingThrowsContainer>
+    </Card>
   );
 };
 
 export default DeathSavingThrows;
 
 const SavingThrowsContainer = styled.div`
-  margin: 3px 0px;
+  display: flex;
+  flex-wrap: wrap;
   font-size: .8em;
+  justify-content: space-between;
 `;
 
 const GreenCheckbox = withStyles({
