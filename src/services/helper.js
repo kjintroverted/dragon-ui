@@ -2,11 +2,11 @@
 export function calculateModifier(x, z) {
   let y = Math.floor((x - 10) / 2);
   y = z ? y + z : y;
-  return y < 0 ? `${ y }` : `+${ y }`;
+  return y < 0 ? `${y}` : `+${y}`;
 }
 
 export function dexAttack(weapon) {
-  if (weapon.category.toLowerCase().indexOf("range") !== -1) return true;
+  if (weapon.category.toLowerCase().indexOf('range') !== -1) return true;
   if (!weapon.properties) return false;
   const finesse = weapon.properties.find((prop) => {
     const text = prop.toLowerCase();

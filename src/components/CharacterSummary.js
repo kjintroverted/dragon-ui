@@ -6,6 +6,7 @@ import { Link } from 'react-router-dom';
 import {
   Card, HeaderBar, Spacer, ActionBar, Column, FooterBar,
 } from './CustomStyled';
+import { calculateModifier } from '../services/helper';
 
 
 function CharacterSummary({
@@ -15,7 +16,7 @@ function CharacterSummary({
     <Card style={ highlight ? { background: 'lightblue' } : {} }>
       <HeaderBar>
         <Column>
-          <h4>{ character.name }</h4>
+          <b>{ character.name }</b>
           <p>{ character.race } { character.class }</p>
         </Column>
         <Spacer />
@@ -49,6 +50,7 @@ function CharacterSummary({
         <TextField variant="outlined" disabled type="number" label="Hit Points" value={ character.hp } />
         <TextField variant="outlined" disabled type="number" label="Initiative" value={ character.initiative || '' } />
       </InfoRow>
+      <Perception>Passive Perception: { 10 + parseInt(calculateModifier(character.wis)) }</Perception>
       <FooterBar>
         <p>Created by <b>{ character.owner }</b></p>
       </FooterBar>
@@ -82,4 +84,9 @@ CharacterSummary.defaultProps = {
 const InfoRow = styled.div`
       display: flex;
       margin-top: .62em;
+    `;
+
+const Perception = styled.text`
+      font-size: 12px;
+      font-style: italic;
     `;

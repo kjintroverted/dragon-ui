@@ -10,7 +10,6 @@ import { calculateModifier } from '../services/helper';
 function Attributes({
   character, saves, update, disabled,
 }) {
-
   function onChange(field) {
     return (e) => {
       const val = +e.target.value;
@@ -28,70 +27,70 @@ function Attributes({
         <h2>Stats</h2>
       </HeaderBar>
       <StatGrid>
-        <Badge badgeContent={ !disabled ? calculateModifier(character.str) : character.str } color="secondary">
+        <Badge badgeContent={!disabled ? calculateModifier(character.str) : character.str} color="secondary">
           <TextField
             variant="outlined"
-            disabled={ disabled }
-            type={ !disabled ? "number" : "mod" }
+            disabled={disabled}
+            type={!disabled ? 'number' : 'mod'}
             label="Strength"
-            value={ !disabled ? character.str : calculateModifier(character.str) }
-            onChange={ onChange('str') }
-            helperText={ `Save: ${ calculateModifier(character.str, getSaveBonus("str")) }` }
+            value={!disabled ? character.str : calculateModifier(character.str)}
+            onChange={onChange('str')}
+            helperText={`Save: ${calculateModifier(character.str, getSaveBonus('str'))}`}
           />
         </Badge>
-        <Badge badgeContent={ !disabled ? calculateModifier(character.dex) : character.dex } color="secondary">
+        <Badge badgeContent={!disabled ? calculateModifier(character.dex) : character.dex} color="secondary">
           <TextField
             variant="outlined"
-            disabled={ disabled }
-            type={ !disabled ? "number" : "mod" }
+            disabled={disabled}
+            type={!disabled ? 'number' : 'mod'}
             label="Dexterity"
-            value={ !disabled ? character.dex : calculateModifier(character.dex) }
-            onChange={ onChange('dex') }
-            helperText={ `Save: ${ calculateModifier(character.dex, getSaveBonus("dex")) }` }
+            value={!disabled ? character.dex : calculateModifier(character.dex)}
+            onChange={onChange('dex')}
+            helperText={`Save: ${calculateModifier(character.dex, getSaveBonus('dex'))}`}
           />
         </Badge>
-        <Badge badgeContent={ !disabled ? calculateModifier(character.con) : character.con } color="secondary">
+        <Badge badgeContent={!disabled ? calculateModifier(character.con) : character.con} color="secondary">
           <TextField
             variant="outlined"
-            disabled={ disabled }
-            type={ !disabled ? "number" : "mod" }
+            disabled={disabled}
+            type={!disabled ? 'number' : 'mod'}
             label="Constitution"
-            value={ !disabled ? character.con : calculateModifier(character.con) }
-            onChange={ onChange('con') }
-            helperText={ `Save: ${ calculateModifier(character.con, getSaveBonus("con")) }` }
+            value={!disabled ? character.con : calculateModifier(character.con)}
+            onChange={onChange('con')}
+            helperText={`Save: ${calculateModifier(character.con, getSaveBonus('con'))}`}
           />
         </Badge>
-        <Badge badgeContent={ !disabled ? calculateModifier(character.int) : character.int } color="secondary">
+        <Badge badgeContent={!disabled ? calculateModifier(character.int) : character.int} color="secondary">
           <TextField
             variant="outlined"
-            disabled={ disabled }
-            type={ !disabled ? "number" : "mod" }
+            disabled={disabled}
+            type={!disabled ? 'number' : 'mod'}
             label="Intelligence"
-            value={ !disabled ? character.int : calculateModifier(character.int) }
-            onChange={ onChange('int') }
-            helperText={ `Save: ${ calculateModifier(character.int, getSaveBonus("int")) }` }
+            value={!disabled ? character.int : calculateModifier(character.int)}
+            onChange={onChange('int')}
+            helperText={`Save: ${calculateModifier(character.int, getSaveBonus('int'))}`}
           />
         </Badge>
-        <Badge badgeContent={ !disabled ? calculateModifier(character.wis) : character.wis } color="secondary">
+        <Badge badgeContent={!disabled ? calculateModifier(character.wis) : character.wis} color="secondary">
           <TextField
             variant="outlined"
-            disabled={ disabled }
-            type={ !disabled ? "number" : "mod" }
+            disabled={disabled}
+            type={!disabled ? 'number' : 'mod'}
             label="Wisdom"
-            value={ !disabled ? character.wis : calculateModifier(character.wis) }
-            onChange={ onChange('wis') }
-            helperText={ `Save: ${ calculateModifier(character.wis, getSaveBonus("wis")) }` }
+            value={!disabled ? character.wis : calculateModifier(character.wis)}
+            onChange={onChange('wis')}
+            helperText={`Save: ${calculateModifier(character.wis, getSaveBonus('wis'))}`}
           />
         </Badge>
-        <Badge badgeContent={ !disabled ? calculateModifier(character.cha) : character.cha } color="secondary">
+        <Badge badgeContent={!disabled ? calculateModifier(character.cha) : character.cha} color="secondary">
           <TextField
             variant="outlined"
-            disabled={ disabled }
-            type={ !disabled ? "number" : "mod" }
+            disabled={disabled}
+            type={!disabled ? 'number' : 'mod'}
             label="Charisma"
-            value={ !disabled ? character.cha : calculateModifier(character.cha) }
-            onChange={ onChange('cha') }
-            helperText={ `Save: ${ calculateModifier(character.cha, getSaveBonus("cha")) }` }
+            value={!disabled ? character.cha : calculateModifier(character.cha)}
+            onChange={onChange('cha')}
+            helperText={`Save: ${calculateModifier(character.cha, getSaveBonus('cha'))}`}
           />
         </Badge>
       </StatGrid>
