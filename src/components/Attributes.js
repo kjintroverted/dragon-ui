@@ -94,7 +94,6 @@ function Attributes({
           />
         </Badge>
       </StatGrid>
-          <p><i>Passive Perception: {10 + parseInt(calculateModifier(character.wis))}</i></p>
     </Card>
   );
 }
