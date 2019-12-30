@@ -4,7 +4,7 @@ import {
   IconButton, TextField, Divider,
 } from '@material-ui/core';
 import {
-  Card, HeaderBar, ActionBar, Row, Spacer, Column, BasicBox
+  Card, HeaderBar, ActionBar, Row, Spacer, Column, BasicBox,
 } from './CustomStyled';
 
 const Inventory = ({
@@ -26,6 +26,7 @@ const Inventory = ({
     if (!itemValues.qty) itemValues.qty = 1;
     update(goldValue, [...itemList, itemValues]);
     setAdding(false);
+    setItemValues({});
   }
 
   function changeGold(e) {
@@ -48,9 +49,9 @@ const Inventory = ({
       const qty = +e.target.value;
       update(
         goldValue,
-        [...itemList.slice(0, i), { ...item, qty }, ...itemList.slice(i + 1)]
-      )
-    }
+        [...itemList.slice(0, i), { ...item, qty }, ...itemList.slice(i + 1)],
+      );
+    };
   }
 
   useEffect(() => setGold(gold), [gold]);
@@ -60,15 +61,20 @@ const Inventory = ({
       <HeaderBar>
         <h2>Inventory</h2>
         <Spacer />
-        { !disabled &&
-          <ActionBar>
-            <IconButton onClick={ () => setAdding(!isAdding) }>
+        { !disabled
+          && <ActionBar>
+            <IconButton onClick={() => setAdding(!isAdding)}>
               <i className="material-icons">{ isAdding ? 'close' : 'add' }</i>
             </IconButton>
-            <IconButton onClick={ () => setEditing(!isEditing) }>
+            <IconButton onClick={() => {
+              setEditing(!isEditing);
+              setItemValues({});
+            }
+              }
+            >
               <i className="material-icons">{ isEditing ? 'check' : 'edit' }</i>
             </IconButton>
-          </ActionBar>
+             </ActionBar>
         }
       </HeaderBar>
       { // ADD NEW ITEM
@@ -76,86 +82,87 @@ const Inventory = ({
         && <Column>
           <Row>
             <TextField
-              style={ { maxWidth: 100 } }
+              style={{ maxWidth: 100 }}
               variant="outlined"
               type="number"
               label="Value (gp)"
-              value={ itemValues.goldCost || '' }
-              onChange={ handleChange('goldCost', true) }
+              value={itemValues.goldCost || ''}
+              onChange={handleChange('goldCost', true)}
             />
             <TextField
-              style={ { maxWidth: 150 } }
+              style={{ maxWidth: 150 }}
               variant="outlined"
               label="Name"
-              value={ itemValues.name || '' }
-              onChange={ handleChange('name') }
+              value={itemValues.name || ''}
+              onChange={handleChange('name')}
             />
             <TextField
-              style={ { maxWidth: 100 } }
+              style={{ maxWidth: 100 }}
               variant="outlined"
               type="number"
               label="Qty"
-              value={ itemValues.qty || '' }
-              onChange={ handleChange('qty', true) }
+              value={itemValues.qty || ''}
+              onChange={handleChange('qty', true)}
             />
             <Spacer />
-            <IconButton onClick={ addItem }>
+            <IconButton onClick={addItem}>
               <i className="material-icons">done</i>
             </IconButton>
           </Row>
           <TextField
             variant="outlined"
             label="Description (optional)"
-            value={ itemValues.description || '' }
-            onChange={ handleChange('description') }
+            value={itemValues.description || ''}
+            onChange={handleChange('description')}
           />
-        </Column>
+           </Column>
       }
 
-      <Row style={ { justifyContent: 'flex-end' } }>
+      <Row style={{ justifyContent: 'flex-end' }}>
         <TextField
-          disabled={ disabled }
-          style={ { maxWidth: 150 } }
+          disabled={disabled}
+          style={{ maxWidth: 150 }}
           variant="outlined"
           type="number"
           label="Gold Pieces"
-          value={ goldValue || 0 }
-          onChange={ changeGold }
+          value={goldValue || 0}
+          onChange={changeGold}
         />
       </Row>
 
       { // DISPLAY ALL ITEMS
         itemList.map((item, i) => (
-          <Column key={ `${ item.name }` }>
-            <Row style={ { alignItems: 'center' } }>
-              { isEditing &&
-                <IconButton color="secondary" onClick={ () => remove(i) }>
+          <Column key={`${item.name}`}>
+            <Row style={{ alignItems: 'center' }}>
+              { isEditing
+                && <IconButton color="secondary" onClick={() => remove(i)}>
                   <i className="material-icons">delete</i>
-                </IconButton>
+                   </IconButton>
               }
               <h4 className="min-margin">{ item.name }</h4>
               {
-                (item.description || !!item.goldCost) &&
-                <IconButton onClick={ () => toggleDesc(i) }>
+                (item.description || !!item.goldCost)
+                && <IconButton onClick={() => toggleDesc(i)}>
                   <i className="material-icons">{ showDesc[i] ? 'cancel' : 'info' }</i>
-                </IconButton>
+                   </IconButton>
               }
               <Spacer />
               <BasicBox>
                 <TextField
                   variant="outlined"
                   type="number"
-                  disabled={ disabled }
+                  disabled={disabled}
                   label="Qty"
-                  value={ item.qty }
-                  onChange={ updateQty(i) } />
+                  value={item.qty}
+                  onChange={updateQty(i)}
+                />
               </BasicBox>
             </Row>
-            { showDesc[i] &&
-              <p className="min-margin">
+            { showDesc[i]
+              && <p className="min-margin">
                 { item.description ? item.description : null }
-                { !item.goldCost ? null : `(${ item.goldCost } gp)` }
-              </p>
+                { !item.goldCost ? null : `(${item.goldCost} gp)` }
+                 </p>
             }
             <Divider />
           </Column>
