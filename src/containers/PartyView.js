@@ -22,8 +22,6 @@ function PartyView({ location, name }) {
 
   function clearInitiative() {
     const { email } = firebase.auth().currentUser;
-    const updated = localStorage.getItem('parties');
-    console.dir(JSON.parse(updated));
     characters
       .forEach(async (character) => {
         const { authorized } = await DungeonService.checkUserAuth(character.id, email);
@@ -34,9 +32,6 @@ function PartyView({ location, name }) {
   async function saveParty(event) {
     event.preventDefault();
     const parties = localStorage.getItem('parties');
-    console.dir(parties);
-    console.dir(partyName);
-    console.dir(characters);
     await localStorage.setItem('parties', JSON.stringify({ ...parties, [partyName]: characters }));
   }
 

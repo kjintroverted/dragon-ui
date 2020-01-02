@@ -12,9 +12,11 @@ import {
   TopAnchor,
   Column,
 } from '../components/CustomStyled';
+import PartyCard from '../components/PartyCard';
 
 function OwnerView({ owner }) {
   const [characters, updateCharacters] = useState([]);
+  const [parties, updateParties] = useState([]);
   const [classes, setClasses] = useState([]);
   const [races, setRaces] = useState([]);
   const [party, updateParty] = useState([]);
@@ -49,6 +51,7 @@ function OwnerView({ owner }) {
       const characterList = await DungeonService.getCharactersByOwner(owner);
       updateCharacters(characterList || []);
     }());
+    updateParties(JSON.parse(localStorage.getItem('parties')));
   }, [owner]);
 
   useEffect(() => {
@@ -80,8 +83,14 @@ function OwnerView({ owner }) {
       />
     ));
 
+  const ownerParties = parties
+    .map((ownerParty, index) => (
+        <PartyCard name={index} party={ownerParty} />
+    ));
+
   return (
     <Column>
+    {console.log(parties, 'owner')}
       <TopAnchor>
         <Fab
           size="small"
@@ -95,6 +104,11 @@ function OwnerView({ owner }) {
         { ownCharacters }
         { isAdding && (
           <CharacterForm races={races} classes={classes} save={addCharacter} />
+        ) }
+      </Grid>
+      <Grid>
+        { ownerParties.length && (
+          { ownerParties }
         ) }
       </Grid>
       { !!otherCharacters.length && (
