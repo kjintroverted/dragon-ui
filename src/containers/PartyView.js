@@ -1,38 +1,44 @@
-import React, { useState, useEffect } from "react";
-import firebase from "firebase";
-import PropTypes from "prop-types";
-import styled from "styled-components";
-import { Fab, Button } from "@material-ui/core";
-import DungeonService from "../services/dungeonService";
+import React, { useState, useEffect } from 'react';
+import firebase from 'firebase';
+import PropTypes from 'prop-types';
+import styled from 'styled-components';
+import { Fab, Button, TextField } from '@material-ui/core';
+import DungeonService from '../services/dungeonService';
 import {
   SideBar,
   SideBarToggle,
   ContentWithSideBar,
-  RowCenter
-} from "../components/CustomStyled";
-import CharacterSummary from "../components/CharacterSummary";
-import CharacterSheet from "./CharacterSheet";
+  RowCenter,
+} from '../components/CustomStyled';
+import CharacterSummary from '../components/CharacterSummary';
+import CharacterSheet from './CharacterSheet';
 
-function PartyView({ location }) {
+function PartyView({ location, name = '' }) {
   const [sidebar, setSidebar] = useState(false);
   const [idList, setIDList] = useState([]);
   const [characters, setCharacters] = useState([]);
   const [focus, setFocus] = useState(null);
+  const [partyName, setPartyName] = useState(name);
 
   function clearInitiative() {
     const { email } = firebase.auth().currentUser;
     characters
-      .forEach(async character => {
-        const { authorized } = await DungeonService.checkUserAuth(character.id, email)
-        if (authorized) DungeonService.saveCharacter({ ...character, initiative: null })
-      })
+      .forEach(async (character) => {
+        const { authorized } = await DungeonService.checkUserAuth(character.id, email);
+        if (authorized) DungeonService.saveCharacter({ ...character, initiative: null });
+      });
+  }
+
+  function saveParty(event) {
+    event.preventDefault();
+    localStorage.setItem(partyName, characters);
   }
 
   useEffect(() => {
-    const ids = location.search.split("id=")[1].split(",");
+    const ids = location.search.split('id=')[1].split(',');
     setIDList(ids);
     const socket = DungeonService.watchCharacters(ids);
-    socket.onmessage = event => {
+    socket.onmessage = (event) => {
       const updatedCharacters = JSON.parse(event.data).sort((a, b) => {
         if (!a.initiative) {
           if (!b.initiative) return 0;
@@ -58,28 +64,33 @@ function PartyView({ location }) {
   return (
     <ContentWithSideBar>
       <Content>
-
         <RowCenter>
-          <CharacterSheet characterData={ focus } />
+          <CharacterSheet characterData={focus} />
         </RowCenter>
         { characters.length > 1 && (
           <>
-            <SideBar className={ sidebar ? "open" : "" }>
-              <Button color="secondary" onClick={ clearInitiative }>Clear Initiative</Button>
+            <SideBar className={sidebar ? 'open' : ''}>
+              <PartyActions>
+                <form onSubmit={saveParty}>
+                  <TextField onChange={(event) => { setPartyName(event.target.value); }} label="PartyName" />
+                  <Button color="primary" variant="contained" type="submit">Save Party</Button>
+                </form>
+                <Button color="secondary" onClick={clearInitiative}>Clear Initiative</Button>
+              </PartyActions>
               <SideContainer>
                 { characters.map(character => (
                   <CharacterSummary
-                    key={ character.id }
-                    character={ character }
-                    open={ () => setFocus(character) }
-                    highlight={ focus.id === character.id }
+                    key={character.id}
+                    character={character}
+                    open={() => setFocus(character)}
+                    highlight={focus.id === character.id}
                   />
                 )) }
               </SideContainer>
             </SideBar>
             <SideBarToggle>
-              <Fab color='secondary' onClick={ () => setSidebar(!sidebar) }>
-                <i className='material-icons'>{ sidebar ? "close" : "group" }</i>
+              <Fab color="secondary" onClick={() => setSidebar(!sidebar)}>
+                <i className="material-icons">{ sidebar ? 'close' : 'group' }</i>
               </Fab>
             </SideBarToggle>
           </>
@@ -90,10 +101,14 @@ function PartyView({ location }) {
 }
 
 PartyView.propTypes = {
-  location: PropTypes.object.isRequired
+  location: PropTypes.object.isRequired,
 };
 
 export default PartyView;
+
+const PartyActions = styled.div`
+  margin: 1rem;
+`;
 
 const SideContainer = styled.div`
   margin-bottom: 4em;

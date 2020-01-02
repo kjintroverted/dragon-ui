@@ -17,69 +17,69 @@ const DeathSavingThrows = ({ id }) => {
 
   useEffect(() => {
     // CHECK LOCAL STORAGE FOR SAVE DATA
-    let data = localStorage.getItem(`deathsaves_${ id }`);
+    let data = localStorage.getItem(`deathsaves_${id}`);
     if (!data) return;
     data = JSON.parse(data);
     setChecked(data);
-  }, [id])
+  }, [id]);
 
   const handleChange = (event) => {
     const updatedChecks = { ...checked, [event.target.name]: event.target.checked };
     // UPDATE LOCAL STORAGE
-    localStorage.setItem(`deathsaves_${ id }`, JSON.stringify(updatedChecks));
+    localStorage.setItem(`deathsaves_${id}`, JSON.stringify(updatedChecks));
     setChecked(updatedChecks);
   };
 
   return (
     <Card>
       <SavingThrowsContainer>
-        <h2 style={ { margin: 0 } }>Death Saving Throws</h2>
+        <h2 style={{ margin: 0 }}>Death Saving Throws</h2>
         <Row>
-          <h3 style={ { margin: 0 } }>Success</h3>
+          <h3 style={{ margin: 0 }}>Success</h3>
           <GreenCheckbox
-            checked={ checked.success1 }
-            onChange={ handleChange }
+            checked={checked.success1}
+            onChange={handleChange}
             name="success1"
             value="primary"
-            inputProps={ { 'aria-label': 'primary checkbox' } }
+            inputProps={{ 'aria-label': 'primary checkbox' }}
           />
           <GreenCheckbox
-            checked={ checked.success2 }
-            onChange={ handleChange }
+            checked={checked.success2}
+            onChange={handleChange}
             name="success2"
             value="primary"
-            inputProps={ { 'aria-label': 'primary checkbox' } }
+            inputProps={{ 'aria-label': 'primary checkbox' }}
           />
           <GreenCheckbox
-            checked={ checked.success3 }
-            onChange={ handleChange }
+            checked={checked.success3}
+            onChange={handleChange}
             name="success3"
             value="primary"
-            inputProps={ { 'aria-label': 'primary checkbox' } }
+            inputProps={{ 'aria-label': 'primary checkbox' }}
           />
         </Row>
         <Row>
-          <h3 style={ { margin: 0 } }>Failure</h3>
+          <h3 style={{ margin: 0 }}>Failure</h3>
           <RedCheckbox
-            checked={ checked.failure1 }
-            onChange={ handleChange }
+            checked={checked.failure1}
+            onChange={handleChange}
             name="failure1"
             value="primary"
-            inputProps={ { 'aria-label': 'primary checkbox' } }
+            inputProps={{ 'aria-label': 'primary checkbox' }}
           />
           <RedCheckbox
-            checked={ checked.failure2 }
-            onChange={ handleChange }
+            checked={checked.failure2}
+            onChange={handleChange}
             name="failure2"
             value="primary"
-            inputProps={ { 'aria-label': 'primary checkbox' } }
+            inputProps={{ 'aria-label': 'primary checkbox' }}
           />
           <RedCheckbox
-            checked={ checked.failure3 }
-            onChange={ handleChange }
+            checked={checked.failure3}
+            onChange={handleChange}
             name="failure3"
             value="primary"
-            inputProps={ { 'aria-label': 'primary checkbox' } }
+            inputProps={{ 'aria-label': 'primary checkbox' }}
           />
         </Row>
       </SavingThrowsContainer>
@@ -103,7 +103,7 @@ const GreenCheckbox = withStyles({
     },
   },
   checked: {},
-})(props => <Checkbox color="default" { ...props } />);
+})(props => <Checkbox color="default" {...props} />);
 
 const RedCheckbox = withStyles({
   root: {
@@ -112,4 +112,4 @@ const RedCheckbox = withStyles({
     },
   },
   checked: {},
-})(props => <Checkbox color="default" { ...props } />);
+})(props => <Checkbox color="default" {...props} />);
