@@ -13,7 +13,7 @@ import {
 import CharacterSummary from '../components/CharacterSummary';
 import CharacterSheet from './CharacterSheet';
 
-function PartyView({ location, name = '' }) {
+function PartyView({ location, name }) {
   const [sidebar, setSidebar] = useState(false);
   const [idList, setIDList] = useState([]);
   const [characters, setCharacters] = useState([]);
@@ -22,6 +22,8 @@ function PartyView({ location, name = '' }) {
 
   function clearInitiative() {
     const { email } = firebase.auth().currentUser;
+    const updated = localStorage.getItem('parties');
+    console.dir(JSON.parse(updated));
     characters
       .forEach(async (character) => {
         const { authorized } = await DungeonService.checkUserAuth(character.id, email);
@@ -29,9 +31,13 @@ function PartyView({ location, name = '' }) {
       });
   }
 
-  function saveParty(event) {
+  async function saveParty(event) {
     event.preventDefault();
-    localStorage.setItem(partyName, characters);
+    const parties = localStorage.getItem('parties');
+    console.dir(parties);
+    console.dir(partyName);
+    console.dir(characters);
+    await localStorage.setItem('parties', JSON.stringify({ ...parties, [partyName]: characters }));
   }
 
   useEffect(() => {
@@ -71,10 +77,13 @@ function PartyView({ location, name = '' }) {
           <>
             <SideBar className={sidebar ? 'open' : ''}>
               <PartyActions>
-                <form onSubmit={saveParty}>
-                  <TextField onChange={(event) => { setPartyName(event.target.value); }} label="PartyName" />
-                  <Button color="primary" variant="contained" type="submit">Save Party</Button>
-                </form>
+                {
+                  name ? <h2>{name}</h2>
+                    : <form onSubmit={saveParty}>
+                        <TextField onChange={(event) => { setPartyName(event.target.value); }} label="PartyName" />
+                        <Button color="primary" variant="contained" type="submit">Save Party</Button>
+                      </form>
+                }
                 <Button color="secondary" onClick={clearInitiative}>Clear Initiative</Button>
               </PartyActions>
               <SideContainer>

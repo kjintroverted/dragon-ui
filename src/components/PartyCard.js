@@ -3,10 +3,10 @@ import {
   Card,
 } from './CustomStyled';
 
-function PartyCard() {
+function PartyCard({ name, party }) {
   return (
         <Card>
-            <div>HELLOOOOOOOOOOO</div>
+            <div>{name}</div>
         </Card>
   );
 }
