@@ -16,7 +16,7 @@ import PartyCard from '../components/PartyCard';
 
 function OwnerView({ owner }) {
   const [characters, updateCharacters] = useState([]);
-  const [parties, updateParties] = useState([]);
+  const [parties, updateParties] = useState({});
   const [classes, setClasses] = useState([]);
   const [races, setRaces] = useState([]);
   const [party, updateParty] = useState([]);
@@ -83,10 +83,13 @@ function OwnerView({ owner }) {
       />
     ));
 
-  const ownerParties = parties
-    .map((ownerParty, index) => (
-        <PartyCard name={index} party={ownerParty} />
-    ));
+  const ownerParties = parties && Object.keys(parties).map((key) => {
+    if (key) {
+      return (
+        <PartyCard key={key} name={key} party={parties[key]} />
+      );
+    }
+  });
 
   return (
     <Column>
@@ -107,9 +110,9 @@ function OwnerView({ owner }) {
         ) }
       </Grid>
       <Grid>
-        { ownerParties.length && (
-          { ownerParties }
-        ) }
+        { ownerParties
+           && ownerParties
+         }
       </Grid>
       { !!otherCharacters.length && (
         <>
@@ -119,6 +122,7 @@ function OwnerView({ owner }) {
       ) }
       { !!party.length && (
         <BottomAnchor>
+          {console.log(party)}
           <Link to={`/character?id=${party.join()}`} style={{ zIndex: 10 }}>
             <Fab color="secondary">
               <i className="material-icons">group</i>

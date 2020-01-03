@@ -13,12 +13,12 @@ import {
 import CharacterSummary from '../components/CharacterSummary';
 import CharacterSheet from './CharacterSheet';
 
-function PartyView({ location, name }) {
+function PartyView({ location }) {
   const [sidebar, setSidebar] = useState(false);
   const [idList, setIDList] = useState([]);
   const [characters, setCharacters] = useState([]);
   const [focus, setFocus] = useState(null);
-  const [partyName, setPartyName] = useState(name);
+  const [partyName, setPartyName] = useState('');
 
   function clearInitiative() {
     const { email } = firebase.auth().currentUser;
@@ -32,7 +32,12 @@ function PartyView({ location, name }) {
   async function saveParty(event) {
     event.preventDefault();
     const parties = localStorage.getItem('parties');
-    await localStorage.setItem('parties', JSON.stringify({ ...parties, [partyName]: characters }));
+    const characterIds = [];
+    characters.map((character) => {
+      characterIds.push(character.id);
+    });
+    console.log(characterIds);
+    await localStorage.setItem('parties', JSON.stringify({ ...parties, [partyName]: characterIds }));
   }
 
   useEffect(() => {
@@ -73,11 +78,10 @@ function PartyView({ location, name }) {
             <SideBar className={sidebar ? 'open' : ''}>
               <PartyActions>
                 {
-                  name ? <h2>{name}</h2>
-                    : <form onSubmit={saveParty}>
+                    <form onSubmit={saveParty}>
                         <TextField onChange={(event) => { setPartyName(event.target.value); }} label="PartyName" />
                         <Button color="primary" variant="contained" type="submit">Save Party</Button>
-                      </form>
+                    </form>
                 }
                 <Button color="secondary" onClick={clearInitiative}>Clear Initiative</Button>
               </PartyActions>

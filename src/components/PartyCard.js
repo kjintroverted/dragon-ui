@@ -1,12 +1,17 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import {
   Card,
 } from './CustomStyled';
 
+
 function PartyCard({ name, party }) {
+  console.log(party, 'AHHHHHHH');
   return (
         <Card>
-            <div>{name}</div>
+            <Link to={`/character?id=${party.join()}`}>
+                <div>{name}</div>
+            </Link>
         </Card>
   );
 }
