@@ -51,7 +51,11 @@ function OwnerView({ owner }) {
       const characterList = await DungeonService.getCharactersByOwner(owner);
       updateCharacters(characterList || []);
     }());
-    updateParties(JSON.parse(localStorage.getItem('parties')));
+    console.log(JSON.parse(localStorage.getItem('parties')));
+    const storedProperties = JSON.parse(localStorage.getItem('parties'));
+    if (storedProperties) {
+      updateParties(storedProperties);
+    }
   }, [owner]);
 
   useEffect(() => {
@@ -83,13 +87,9 @@ function OwnerView({ owner }) {
       />
     ));
 
-  const ownerParties = parties && Object.keys(parties).map((key) => {
-    if (key) {
-      return (
+  const ownerParties = Object.keys(parties).map(key => (
         <PartyCard key={key} name={key} party={parties[key]} />
-      );
-    }
-  });
+  ));
 
   return (
     <Column>

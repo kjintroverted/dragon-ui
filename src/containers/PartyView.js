@@ -31,13 +31,15 @@ function PartyView({ location }) {
 
   async function saveParty(event) {
     event.preventDefault();
-    const parties = localStorage.getItem('parties');
+    let parties = localStorage.getItem('parties');
+    parties = parties ? JSON.parse(parties) : {};
     const characterIds = [];
     characters.map((character) => {
       characterIds.push(character.id);
     });
-    console.log(characterIds);
-    await localStorage.setItem('parties', JSON.stringify({ ...parties, [partyName]: characterIds }));
+    console.log(characterIds, 'CHARACTER IDS ');
+    parties[partyName] = characterIds;
+    await localStorage.setItem('parties', JSON.stringify(parties));
   }
 
   useEffect(() => {
