@@ -31,6 +31,7 @@ function PartyView({ location }) {
 
   async function saveParty(event) {
     event.preventDefault();
+    console.log('Touching local Storage', localStorage.length);
     let parties = localStorage.getItem('parties');
     parties = parties ? JSON.parse(parties) : {};
     const characterIds = [];
@@ -73,6 +74,7 @@ function PartyView({ location }) {
     <ContentWithSideBar>
       <Content>
         <RowCenter>
+          {console.log('Local Storage', localStorage.length)}
           <CharacterSheet characterData={focus} />
         </RowCenter>
         { characters.length > 1 && (
