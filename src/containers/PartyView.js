@@ -31,21 +31,29 @@ function PartyView({ location }) {
 
   async function saveParty(event) {
     event.preventDefault();
-    console.log('Touching local Storage', localStorage.length);
     let parties = localStorage.getItem('parties');
     parties = parties ? JSON.parse(parties) : {};
     const characterIds = [];
     characters.map((character) => {
       characterIds.push(character.id);
     });
-    console.log(characterIds, 'CHARACTER IDS ');
     parties[partyName] = characterIds;
     await localStorage.setItem('parties', JSON.stringify(parties));
   }
 
+  // function isExistingParty(urlIds) {
+  //   // let knownParty = false;
+  //   const parties = JSON.parse(localStorage.getItem('parties'));
+  //   Object.keys(parties).map((key)=>{
+  //     if()
+  //   })
+  // }
+
   useEffect(() => {
     const ids = location.search.split('id=')[1].split(',');
     setIDList(ids);
+
+    // setUnknownParty(isExistingParty(ids));
     const socket = DungeonService.watchCharacters(ids);
     socket.onmessage = (event) => {
       const updatedCharacters = JSON.parse(event.data).sort((a, b) => {
@@ -74,7 +82,6 @@ function PartyView({ location }) {
     <ContentWithSideBar>
       <Content>
         <RowCenter>
-          {console.log('Local Storage', localStorage.length)}
           <CharacterSheet characterData={focus} />
         </RowCenter>
         { characters.length > 1 && (
@@ -82,10 +89,10 @@ function PartyView({ location }) {
             <SideBar className={sidebar ? 'open' : ''}>
               <PartyActions>
                 {
-                    <form onSubmit={saveParty}>
-                        <TextField onChange={(event) => { setPartyName(event.target.value); }} label="PartyName" />
-                        <Button color="primary" variant="contained" type="submit">Save Party</Button>
-                    </form>
+                  <form onSubmit={saveParty}>
+                    <TextField onChange={(event) => { setPartyName(event.target.value); }} label="PartyName" />
+                    <Button color="primary" variant="contained" type="submit">Save Party</Button>
+                  </form>
                 }
                 <Button color="secondary" onClick={clearInitiative}>Clear Initiative</Button>
               </PartyActions>

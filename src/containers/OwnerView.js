@@ -92,7 +92,6 @@ function OwnerView({ owner }) {
 
   return (
     <Column>
-    {console.log(parties, 'owner')}
       <TopAnchor>
         <Fab
           size="small"
@@ -121,7 +120,6 @@ function OwnerView({ owner }) {
       ) }
       { !!party.length && (
         <BottomAnchor>
-          {console.log(party)}
           <Link to={`/character?id=${party.join()}`} style={{ zIndex: 10 }}>
             <Fab color="secondary">
               <i className="material-icons">group</i>
