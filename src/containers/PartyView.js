@@ -36,6 +36,8 @@ function PartyView({ location }) {
     const characterIds = [];
     characters.map((character) => {
       characterIds.push(character.id);
+      // Heroku build fails for some reason without this
+      return null;
     });
     parties[partyName] = characterIds;
     await localStorage.setItem('parties', JSON.stringify(parties));
