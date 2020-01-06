@@ -33,12 +33,7 @@ function PartyView({ location }) {
     event.preventDefault();
     let parties = localStorage.getItem('parties');
     parties = parties ? JSON.parse(parties) : {};
-    const characterIds = [];
-    characters.map((character) => {
-      characterIds.push(character.id);
-      // Heroku build fails for some reason without this
-      return null;
-    });
+    const characterIds = characters.map(character => character.id);
     parties[partyName] = characterIds;
     await localStorage.setItem('parties', JSON.stringify(parties));
   }
@@ -47,7 +42,6 @@ function PartyView({ location }) {
     const ids = location.search.split('id=')[1].split(',');
     setIDList(ids);
 
-    // setUnknownParty(isExistingParty(ids));
     const socket = DungeonService.watchCharacters(ids);
     socket.onmessage = (event) => {
       const updatedCharacters = JSON.parse(event.data).sort((a, b) => {
