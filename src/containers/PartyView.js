@@ -32,9 +32,11 @@ function PartyView({ location }) {
   async function saveParty(event) {
     event.preventDefault();
     let parties = localStorage.getItem('parties');
-    parties = parties ? JSON.parse(parties) : {};
+    parties = parties ? JSON.parse(parties) : [];
     const characterIds = characters.map(character => character.id);
-    parties[partyName] = characterIds;
+    // Party Name will always be the first element in the array
+    characterIds.unshift(partyName);
+    parties.push(characterIds);
     await localStorage.setItem('parties', JSON.stringify(parties));
   }
 

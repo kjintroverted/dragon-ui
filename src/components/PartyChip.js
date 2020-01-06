@@ -7,7 +7,9 @@ function PartyChip({ name, party }) {
   function removeParty(e) {
     e.preventDefault();
     const parties = JSON.parse(localStorage.getItem('parties'));
-    delete parties[name];
+    parties.map(() => {
+
+    });
     localStorage.setItem('parties', JSON.stringify(parties));
     setDisplay(false);
   }

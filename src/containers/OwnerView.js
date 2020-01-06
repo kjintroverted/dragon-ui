@@ -18,7 +18,7 @@ import PartyChip from '../components/PartyChip';
 
 function OwnerView({ owner }) {
   const [characters, updateCharacters] = useState([]);
-  const [parties, updateParties] = useState({});
+  const [parties, updateParties] = useState([]);
   const [classes, setClasses] = useState([]);
   const [races, setRaces] = useState([]);
   const [party, updateParty] = useState([]);
@@ -88,9 +88,9 @@ function OwnerView({ owner }) {
       />
     ));
 
-  const ownerParties = Object.keys(parties).length > 0 ? Object.keys(parties).map(key => (
-        <PartyChip key={key} name={key} party={parties[key]} />
-  )) : null;
+  const ownerParties = parties.map(savedParty => (
+        <PartyChip key={savedParty[0]} name={savedParty[0]} party={savedParty} />
+  ));
 
   return (
     <Column>
@@ -103,7 +103,7 @@ function OwnerView({ owner }) {
           <i className="material-icons">{ !isAdding ? 'add' : 'close' }</i>
         </Fab>
       </TopAnchor>
-      {ownerParties && ownerParties
+      {!!ownerParties.length
       && <Card>
           <Row>
             <h3>Parties: </h3>
