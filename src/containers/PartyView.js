@@ -36,7 +36,6 @@ function PartyView({ location }) {
     const characterIds = [];
     characters.map((character) => {
       characterIds.push(character.id);
-      return null;
     });
     parties[partyName] = characterIds;
     await localStorage.setItem('parties', JSON.stringify(parties));
