@@ -11,8 +11,10 @@ import {
   BottomAnchor,
   TopAnchor,
   Column,
+  Row,
+  Card,
 } from '../components/CustomStyled';
-import PartyCard from '../components/PartyCard';
+import PartyChip from '../components/PartyChip';
 
 function OwnerView({ owner }) {
   const [characters, updateCharacters] = useState([]);
@@ -86,9 +88,9 @@ function OwnerView({ owner }) {
       />
     ));
 
-  const ownerParties = Object.keys(parties).map(key => (
-        <PartyCard key={key} name={key} party={parties[key]} />
-  ));
+  const ownerParties = Object.keys(parties).length > 0 ? Object.keys(parties).map(key => (
+        <PartyChip key={key} name={key} party={parties[key]} />
+  )) : null;
 
   return (
     <Column>
@@ -101,16 +103,19 @@ function OwnerView({ owner }) {
           <i className="material-icons">{ !isAdding ? 'add' : 'close' }</i>
         </Fab>
       </TopAnchor>
+      {ownerParties && ownerParties
+      && <Card>
+          <Row>
+            <h3>Parties: </h3>
+            {ownerParties}
+          </Row>
+         </Card>
+      }
       <Grid>
         { ownCharacters }
         { isAdding && (
           <CharacterForm races={races} classes={classes} save={addCharacter} />
         ) }
-      </Grid>
-      <Grid>
-        { ownerParties
-           && ownerParties
-         }
       </Grid>
       { !!otherCharacters.length && (
         <>
