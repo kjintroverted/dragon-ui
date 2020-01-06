@@ -32,6 +32,6 @@
         "react/jsx-indent":0,
         "react/jsx-one-expression-per-line": 0,
         "radix":"off",
-        "array-callback-return":"off",
+        "array-callback-return":"off"
     }
 }
