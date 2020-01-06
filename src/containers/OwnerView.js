@@ -53,9 +53,9 @@ function OwnerView({ owner }) {
       const characterList = await DungeonService.getCharactersByOwner(owner);
       updateCharacters(characterList || []);
     }());
-    const storedProperties = JSON.parse(localStorage.getItem('parties'));
-    if (storedProperties) {
-      updateParties(storedProperties);
+    const storedParties = JSON.parse(localStorage.getItem('parties'));
+    if (storedParties) {
+      updateParties(storedParties);
     }
   }, [owner]);
 
