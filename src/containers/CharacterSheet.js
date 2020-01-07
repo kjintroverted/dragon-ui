@@ -122,7 +122,8 @@ const CharacterSheet = ({ characterData }) => {
         />
         { character.hp <= 0
           ? <DeathSavingThrows id={character.id} />
-          : localStorage.clear(`deathsaves_${character.id}`)
+          // Switching to removeItem, clear was clearing the entire storage
+          : localStorage.removeItem(`deathsaves_${character.id}`)
         }
       </ProfileArea>
       <StatsArea>

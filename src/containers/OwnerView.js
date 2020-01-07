@@ -11,10 +11,14 @@ import {
   BottomAnchor,
   TopAnchor,
   Column,
+  Row,
+  Card,
 } from '../components/CustomStyled';
+import PartyChip from '../components/PartyChip';
 
 function OwnerView({ owner }) {
   const [characters, updateCharacters] = useState([]);
+  const [parties, updateParties] = useState([]);
   const [classes, setClasses] = useState([]);
   const [races, setRaces] = useState([]);
   const [party, updateParty] = useState([]);
@@ -48,7 +52,11 @@ function OwnerView({ owner }) {
     (async function getCharacters() {
       const characterList = await DungeonService.getCharactersByOwner(owner);
       updateCharacters(characterList || []);
-    })()
+    }());
+    const storedParties = JSON.parse(localStorage.getItem('parties'));
+    if (storedParties) {
+      updateParties(storedParties);
+    }
   }, [owner]);
 
   useEffect(() => {
@@ -60,11 +68,11 @@ function OwnerView({ owner }) {
     .filter(character => character.owner === owner)
     .map(character => (
       <CharacterSummary
-        key={ character.id }
-        character={ character }
-        highlight={ party.indexOf(character.id) !== -1 }
-        add={ () => toggleCharacter(character.id) }
-        linkTo={ `/character?id=${ character.id }` }
+        key={character.id}
+        character={character}
+        highlight={party.indexOf(character.id) !== -1}
+        add={() => toggleCharacter(character.id)}
+        linkTo={`/character?id=${character.id}`}
       />
     ));
 
@@ -72,13 +80,17 @@ function OwnerView({ owner }) {
     .filter(character => character.owner !== owner)
     .map(character => (
       <CharacterSummary
-        key={ character.id }
-        character={ character }
-        highlight={ party.indexOf(character.id) !== -1 }
-        add={ () => toggleCharacter(character.id) }
-        linkTo={ `/character?id=${ character.id }` }
+        key={character.id}
+        character={character}
+        highlight={party.indexOf(character.id) !== -1}
+        add={() => toggleCharacter(character.id)}
+        linkTo={`/character?id=${character.id}`}
       />
     ));
+
+  const ownerParties = parties.map(savedParty => (
+        <PartyChip key={savedParty.name} name={savedParty.name} members={savedParty.members} />
+  ));
 
   return (
     <Column>
@@ -86,15 +98,23 @@ function OwnerView({ owner }) {
         <Fab
           size="small"
           color="secondary"
-          onClick={ () => setAdding(!isAdding) }
+          onClick={() => setAdding(!isAdding)}
         >
           <i className="material-icons">{ !isAdding ? 'add' : 'close' }</i>
         </Fab>
       </TopAnchor>
+      {!!ownerParties.length
+      && <Card>
+          <Row>
+            <h3>Parties: </h3>
+            {ownerParties}
+          </Row>
+         </Card>
+      }
       <Grid>
         { ownCharacters }
         { isAdding && (
-          <CharacterForm races={ races } classes={ classes } save={ addCharacter } />
+          <CharacterForm races={races} classes={classes} save={addCharacter} />
         ) }
       </Grid>
       { !!otherCharacters.length && (
@@ -105,7 +125,7 @@ function OwnerView({ owner }) {
       ) }
       { !!party.length && (
         <BottomAnchor>
-          <Link to={ `/character?id=${ party.join() }` } style={ { zIndex: 10 } }>
+          <Link onClick={() => { localStorage.removeItem('selected'); }} to={`/character?id=${party.join()}`} style={{ zIndex: 10 }}>
             <Fab color="secondary">
               <i className="material-icons">group</i>
             </Fab>
