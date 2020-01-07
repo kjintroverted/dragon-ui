@@ -89,7 +89,7 @@ function OwnerView({ owner }) {
     ));
 
   const ownerParties = parties.map(savedParty => (
-        <PartyChip key={savedParty[0]} name={savedParty[0]} party={savedParty} />
+        <PartyChip key={savedParty.name} name={savedParty.name} members={savedParty.members} />
   ));
 
   return (

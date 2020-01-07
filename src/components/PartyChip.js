@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Chip } from '@material-ui/core';
 import PropTypes from 'prop-types';
 
-function PartyChip({ name, party }) {
+function PartyChip({ name, members }) {
   const [display, setDisplay] = useState(true);
 
   function removeParty(e) {
@@ -10,7 +10,7 @@ function PartyChip({ name, party }) {
     const parties = JSON.parse(localStorage.getItem('parties'));
     // Grab index of the existing party
     let index = -1;
-    index = parties.findIndex(savedParty => savedParty[0] === name);
+    index = parties.findIndex(savedParty => savedParty.name === name);
     // Should always come back but just in case
     if (index !== -1) {
       parties.splice(index, 1);
@@ -27,7 +27,7 @@ function PartyChip({ name, party }) {
             variant="contained"
             component="a"
             color="secondary"
-            href={`/character?id=${party.slice(1, party.length).join()}`}
+            href={`/character?id=${members.join()}`}
             clickable
             onClick={() => { localStorage.setItem('selected', name); }}
             onDelete={removeParty}
@@ -39,7 +39,7 @@ function PartyChip({ name, party }) {
 
 PartyChip.propTypes = {
   name: PropTypes.string.isRequired,
-  party: PropTypes.array.isRequired,
+  members: PropTypes.array.isRequired,
 };
 
 export default PartyChip;

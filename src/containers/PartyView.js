@@ -19,7 +19,7 @@ function PartyView({ location }) {
   const [characters, setCharacters] = useState([]);
   const [focus, setFocus] = useState(null);
   const [partyName, setPartyName] = useState(null); // Controls the Naming of a new Party
-  const [existingParty, setExistingParty] = useState(false); // Toggles form or display of existing party
+  const [existingParty, setExistingParty] = useState(false); // Toggles form or display of existing
 
   function clearInitiative() {
     const { email } = firebase.auth().currentUser;
@@ -35,9 +35,11 @@ function PartyView({ location }) {
     let parties = localStorage.getItem('parties');
     parties = parties ? JSON.parse(parties) : [];
     const characterIds = characters.map(character => character.id);
-    // Party Name will always be the first element in the array
-    characterIds.unshift(partyName);
-    parties.push(characterIds);
+    const party = {
+      name: partyName,
+      members: characterIds,
+    };
+    parties.push(party);
     await localStorage.setItem('parties', JSON.stringify(parties));
     setExistingParty(true);
   }
