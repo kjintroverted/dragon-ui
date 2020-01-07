@@ -2,13 +2,16 @@ import React, { useState, useEffect } from 'react';
 import firebase from 'firebase';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { Fab, Button, TextField } from '@material-ui/core';
+import {
+  Fab, Button, TextField, Card,
+} from '@material-ui/core';
 import DungeonService from '../services/dungeonService';
 import {
   SideBar,
   SideBarToggle,
   ContentWithSideBar,
   RowCenter,
+  Row,
 } from '../components/CustomStyled';
 import CharacterSummary from '../components/CharacterSummary';
 import CharacterSheet from './CharacterSheet';
@@ -27,6 +30,15 @@ function PartyView({ location }) {
       .forEach(async (character) => {
         const { authorized } = await DungeonService.checkUserAuth(character.id, email);
         if (authorized) DungeonService.saveCharacter({ ...character, initiative: null });
+      });
+  }
+
+  function longRest() {
+    const { email } = firebase.auth().currentUser;
+    characters
+      .forEach(async (character) => {
+        const { authorized } = await DungeonService.checkUserAuth(character.id, email);
+        if (authorized) DungeonService.saveCharacter({ ...character, hp: character.maxHP });
       });
   }
 
@@ -85,15 +97,20 @@ function PartyView({ location }) {
         { characters.length > 1 && (
           <>
             <SideBar className={sidebar ? 'open' : ''}>
-              <PartyActions>
-              {existingParty ? <h2>{partyName}</h2>
-                : <form onSubmit={saveParty}>
-                        <TextField onChange={(event) => { setPartyName(event.target.value); }} label="PartyName" />
-                        <Button color="primary" variant="contained" type="submit">Save Party</Button>
-                  </form>
-                  }
-                  <Button color="secondary" onClick={clearInitiative}>Clear Initiative</Button>
-              </PartyActions>
+              <Card style={{ margin: '1rem' }}>
+                <PartyActions>
+                {existingParty ? <h2>{partyName}</h2>
+                  : <form onSubmit={saveParty}>
+                          <TextField onChange={(event) => { setPartyName(event.target.value); }} label="PartyName" />
+                          <Button color="primary" variant="contained" type="submit">Save Party</Button>
+                    </form>
+                    }
+                    <Row style={{ justifyContent: 'space-between', margin: 0 }}>
+                      <Button variant="contained" color="primary" onClick={longRest}>Long Rest</Button>
+                      <Button variant="contained" color="secondary" onClick={clearInitiative}>Clear Initiative</Button>
+                    </Row>
+                </PartyActions>
+              </Card>
               <SideContainer>
                 { characters.map(character => (
                   <CharacterSummary
