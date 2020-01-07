@@ -125,7 +125,7 @@ function OwnerView({ owner }) {
       ) }
       { !!party.length && (
         <BottomAnchor>
-          <Link to={`/character?id=${party.join()}`} style={{ zIndex: 10 }}>
+          <Link onClick={() => { localStorage.removeItem('selected'); }} to={`/character?id=${party.join()}`} style={{ zIndex: 10 }}>
             <Fab color="secondary">
               <i className="material-icons">group</i>
             </Fab>

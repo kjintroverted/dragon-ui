@@ -18,7 +18,8 @@ function PartyView({ location }) {
   const [idList, setIDList] = useState([]);
   const [characters, setCharacters] = useState([]);
   const [focus, setFocus] = useState(null);
-  const [partyName, setPartyName] = useState('');
+  const [partyName, setPartyName] = useState(null); // Controls the Naming of a new Party
+  const [existingParty, setExistingParty] = useState(false); // Toggles form or display of existing party
 
   function clearInitiative() {
     const { email } = firebase.auth().currentUser;
@@ -38,12 +39,17 @@ function PartyView({ location }) {
     characterIds.unshift(partyName);
     parties.push(characterIds);
     await localStorage.setItem('parties', JSON.stringify(parties));
+    setExistingParty(true);
   }
 
   useEffect(() => {
     const ids = location.search.split('id=')[1].split(',');
     setIDList(ids);
-
+    const selected = localStorage.getItem('selected');
+    if (selected) {
+      setPartyName(selected);
+      setExistingParty(true);
+    }
     const socket = DungeonService.watchCharacters(ids);
     socket.onmessage = (event) => {
       const updatedCharacters = JSON.parse(event.data).sort((a, b) => {
@@ -78,13 +84,13 @@ function PartyView({ location }) {
           <>
             <SideBar className={sidebar ? 'open' : ''}>
               <PartyActions>
-                {
-                  <form onSubmit={saveParty}>
-                    <TextField onChange={(event) => { setPartyName(event.target.value); }} label="PartyName" />
-                    <Button color="primary" variant="contained" type="submit">Save Party</Button>
+              {existingParty ? <h2>{partyName}</h2>
+                : <form onSubmit={saveParty}>
+                        <TextField onChange={(event) => { setPartyName(event.target.value); }} label="PartyName" />
+                        <Button color="primary" variant="contained" type="submit">Save Party</Button>
                   </form>
-                }
-                <Button color="secondary" onClick={clearInitiative}>Clear Initiative</Button>
+                  }
+                  <Button color="secondary" onClick={clearInitiative}>Clear Initiative</Button>
               </PartyActions>
               <SideContainer>
                 { characters.map(character => (
