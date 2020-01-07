@@ -9,9 +9,7 @@ function PartyChip({ name, members }) {
     e.preventDefault();
     const parties = JSON.parse(localStorage.getItem('parties'));
     // Grab index of the existing party
-    let index = -1;
-    index = parties.findIndex(savedParty => savedParty.name === name);
-    // Should always come back but just in case
+    const index = parties.findIndex(savedParty => savedParty.name === name);
     if (index !== -1) {
       parties.splice(index, 1);
     }
