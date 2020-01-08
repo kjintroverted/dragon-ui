@@ -112,8 +112,8 @@ function PartyView({ location }) {
                           <TextField onChange={(event) => { setPartyName(event.target.value); }} label="PartyName" />
                           <Spacer />
                           {partyName.length > 0
-                          && <IconButton color="primary">
-                            <i className="material-icons" onClick={saveParty}>save</i>
+                          && <IconButton onClick={saveParty} color="primary">
+                            <i className="material-icons">save</i>
                              </IconButton>
                             }
                       </Row>
