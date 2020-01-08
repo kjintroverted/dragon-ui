@@ -3,7 +3,7 @@ import firebase from 'firebase';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import {
-  Fab, Button, TextField, Card, CircularProgress,
+  Fab, Button, TextField, Card, CircularProgress, IconButton,
 } from '@material-ui/core';
 import DungeonService from '../services/dungeonService';
 import {
@@ -13,6 +13,7 @@ import {
   RowCenter,
   Row,
   ProgressContainer,
+  Spacer,
 } from '../components/CustomStyled';
 import CharacterSummary from '../components/CharacterSummary';
 import CharacterSheet from './CharacterSheet';
@@ -22,7 +23,7 @@ function PartyView({ location }) {
   const [idList, setIDList] = useState([]);
   const [characters, setCharacters] = useState([]);
   const [focus, setFocus] = useState(null);
-  const [partyName, setPartyName] = useState(null); // Controls the Naming of a new Party
+  const [partyName, setPartyName] = useState(''); // Controls the Naming of a new Party
   const [existingParty, setExistingParty] = useState(false); // Toggles form or display of existing
 
   function clearInitiative() {
@@ -103,15 +104,22 @@ function PartyView({ location }) {
         { characters.length > 1 && (
           <>
             <SideBar className={sidebar ? 'open' : ''}>
-              <Card style={{ margin: '1rem' }}>
+              <Card style={{ margin: '.25rem', marginTop: '2rem' }}>
                 <PartyActions>
                 {existingParty ? <h2>{partyName}</h2>
-                  : <form onSubmit={saveParty}>
+                  : <form>
+                      <Row>
                           <TextField onChange={(event) => { setPartyName(event.target.value); }} label="PartyName" />
-                          <Button color="primary" variant="contained" type="submit">Save Party</Button>
+                          <Spacer />
+                          {partyName.length > 0
+                          && <IconButton onClick={saveParty} color="primary">
+                            <i className="material-icons">save</i>
+                             </IconButton>
+                            }
+                      </Row>
                     </form>
                     }
-                    <Row style={{ justifyContent: 'space-between', margin: 0 }}>
+                    <Row style={{ justifyContent: 'space-between', marginTop: '0.5rem' }}>
                       <Button variant="contained" color="primary" onClick={longRest}>Long Rest</Button>
                       <Button variant="contained" color="secondary" onClick={clearInitiative}>Clear Initiative</Button>
                     </Row>

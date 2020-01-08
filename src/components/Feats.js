@@ -7,29 +7,33 @@ import {
   IconButton,
   TextField,
   Button,
-  ExpansionPanelActions
+  ExpansionPanelActions,
 } from '@material-ui/core';
-import { Card, HeaderBar, Spacer, ActionBar, Row, Column } from './CustomStyled';
+import {
+  Card, HeaderBar, Spacer, ActionBar, Row, Column,
+} from './CustomStyled';
 import dungeonService from '../services/dungeonService';
 
-const Feats = ({ featIDs, traits, update, disabled }) => {
+const Feats = ({
+  featIDs, traits, update, disabled,
+}) => {
   const [feats, setFeats] = useState([]);
   const [featSearchArr, setSearchArr] = useState([]);
-  const [searchQuery, setQuery] = useState("");
+  const [searchQuery, setQuery] = useState('');
   const [featSearchResults, setSearchResults] = useState([]);
   const [adding, setIsAdding] = useState(false);
 
   function updateSearchResults() {
-    setSearchResults(featSearchArr.filter(feat => feat.name.toLowerCase().indexOf(searchQuery) !== -1))
+    setSearchResults(featSearchArr.filter(feat => feat.name.toLowerCase().indexOf(searchQuery) !== -1));
   }
 
   function add(url) {
     const parsed = url.split('/');
-    update([...featIDs, +parsed[parsed.length - 1]])
+    update([...featIDs, +parsed[parsed.length - 1]]);
   }
 
   function remove(i) {
-    update([...featIDs.slice(0, i), ...featIDs.slice(i + 1)])
+    update([...featIDs.slice(0, i), ...featIDs.slice(i + 1)]);
   }
 
   async function loadFeats(ids) {
@@ -38,20 +42,21 @@ const Feats = ({ featIDs, traits, update, disabled }) => {
   }
 
   useEffect(() => {
-    if (featIDs && featIDs.length) loadFeats(featIDs)
-    else setFeats([])
+    if (featIDs && featIDs.length) loadFeats(featIDs);
+    else setFeats([]);
   }, [featIDs]);
 
   useEffect(() => {
     if (adding) {
-      if (!featSearchArr.length) (async function getAllFeats() {
-        const results = await dungeonService.getFeats();
-        setSearchArr(results);
-      })()
-    }
-    else {
-      setQuery("")
-      setSearchResults([])
+      if (!featSearchArr.length) {
+        (async function getAllFeats() {
+          const results = await dungeonService.getFeats();
+          setSearchArr(results);
+        }());
+      }
+    } else {
+      setQuery('');
+      setSearchResults([]);
     }
   }, [adding, featSearchArr.length]);
 
@@ -61,27 +66,28 @@ const Feats = ({ featIDs, traits, update, disabled }) => {
         <h2>Abilities</h2>
         <Spacer />
         <ActionBar>
-          { !disabled &&
-            <IconButton onClick={ () => setIsAdding(!adding) }>
-              <i className='material-icons'>{ adding ? 'done' : 'add' }</i>
+          { !disabled
+            && <IconButton onClick={ () => setIsAdding(!adding) }>
+              <i className="material-icons">{ adding ? 'done' : 'add' }</i>
             </IconButton>
           }
-          { adding &&
-            <>
+          { adding
+            && <>
               <IconButton disabled={ searchQuery.length < 3 } onClick={ updateSearchResults }>
-                <i className='material-icons'>search</i>
+                <i className="material-icons">search</i>
               </IconButton>
               <TextField
                 label="Search"
                 value={ searchQuery || '' }
-                onChange={ e => setQuery(e.target.value) } />
+                onChange={ e => setQuery(e.target.value) }
+              />
             </>
           }
         </ActionBar>
       </HeaderBar>
       { // ADD NEW FEAT
-        adding && !!featSearchArr.length &&
-        <Column>
+        adding && !!featSearchArr.length
+        && <Column>
           <Row>
             {
               featSearchResults.map(feat => (
@@ -89,7 +95,7 @@ const Feats = ({ featIDs, traits, update, disabled }) => {
                   <Row>
                     <p>{ feat.name }</p>
                     <IconButton color="secondary" onClick={ () => add(feat.url) }>
-                      <i className='material-icons'>add</i>
+                      <i className="material-icons">add</i>
                     </IconButton>
                   </Row>
                 </Card>
@@ -99,7 +105,7 @@ const Feats = ({ featIDs, traits, update, disabled }) => {
         </Column>
       }
       { // DISPLAY TRAITS
-        traits.map((trait) => (
+        traits.map(trait => (
           <ExpansionPanel key={ `trait-${ trait.name.replace(' ', '-') }` }>
             <ExpansionPanelSummary>{ trait.name }</ExpansionPanelSummary>
             <ExpansionPanelDetails>
@@ -108,25 +114,29 @@ const Feats = ({ featIDs, traits, update, disabled }) => {
           </ExpansionPanel>
         ))
       }
-      { // DISPLAY FEATS
-        feats.map((feat, i) => (
+
+      { !!feats.length
+        // DISPLAY FEATS
+        && feats.map((feat, i) => (
           <ExpansionPanel key={ `feat-${ feat.name.replace(' ', '-') }` }>
             <ExpansionPanelSummary>{ feat.name }</ExpansionPanelSummary>
             {
-              feat.desc.map(words => {
-                return (
-                  <ExpansionPanelDetails
-                    key={ `feat-${ feat.name.replace(' ', '-') }-desc.${ words.length }` }>
-                    { words }
-                  </ExpansionPanelDetails>
-                )
-              })
+              feat.desc.map(words => (
+                <ExpansionPanelDetails
+                  key={ `feat-${ feat.name.replace(' ', '-') }-desc.${ words.length }` }
+                >
+                  { words }
+                </ExpansionPanelDetails>
+              ))
             }
-            { !disabled &&
-              <ExpansionPanelActions>
-                <Button onClick={ () => remove(i) }
+            { !disabled
+              && <ExpansionPanelActions>
+                <Button
+                  onClick={ () => remove(i) }
                   variant="contained"
-                  color="secondary">Forget</Button>
+                  color="secondary"
+                >Forget
+                </Button>
               </ExpansionPanelActions>
             }
           </ExpansionPanel>
@@ -142,7 +152,7 @@ Feats.propTypes = {
   featIDs: PropTypes.arrayOf(PropTypes.number).isRequired,
   traits: PropTypes.arrayOf(PropTypes.shape({
     name: PropTypes.string,
-    desc: PropTypes.string
+    desc: PropTypes.string,
   })).isRequired,
   update: PropTypes.func.isRequired,
   disabled: PropTypes.bool.isRequired,
