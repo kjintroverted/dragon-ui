@@ -3,7 +3,7 @@ import firebase from 'firebase';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import {
-  Fab, Button, TextField, Card,
+  Fab, Button, TextField, Card, CircularProgress,
 } from '@material-ui/core';
 import DungeonService from '../services/dungeonService';
 import {
@@ -12,6 +12,7 @@ import {
   ContentWithSideBar,
   RowCenter,
   Row,
+  ProgressContainer,
 } from '../components/CustomStyled';
 import CharacterSummary from '../components/CharacterSummary';
 import CharacterSheet from './CharacterSheet';
@@ -86,8 +87,13 @@ function PartyView({ location }) {
     setFocus(characters.find(c => c.id === id));
   }, [characters, idList, focus]);
 
-  if (!focus) return null;
-
+  if (characters.length === 0 || !focus) {
+    return (
+      <ProgressContainer>
+        <CircularProgress style={{ justifySelf: 'center' }} />
+      </ProgressContainer>
+    );
+  }
   return (
     <ContentWithSideBar>
       <Content>

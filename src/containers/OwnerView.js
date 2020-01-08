@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
-import { Fab, Divider } from '@material-ui/core';
+import { Fab, Divider, CircularProgress } from '@material-ui/core';
 import { Link } from 'react-router-dom';
 import CharacterSummary from '../components/CharacterSummary';
 import CharacterForm from '../components/CharacterForm';
@@ -13,6 +13,7 @@ import {
   Column,
   Row,
   Card,
+  ProgressContainer,
 } from '../components/CustomStyled';
 import PartyChip from '../components/PartyChip';
 
@@ -23,6 +24,7 @@ function OwnerView({ owner }) {
   const [races, setRaces] = useState([]);
   const [party, updateParty] = useState([]);
   const [isAdding, setAdding] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   async function getCharactersByOwner() {
     const characterList = await DungeonService.getCharactersByOwner(owner);
@@ -52,6 +54,7 @@ function OwnerView({ owner }) {
     (async function getCharacters() {
       const characterList = await DungeonService.getCharactersByOwner(owner);
       updateCharacters(characterList || []);
+      setLoading(false);
     }());
     const storedParties = JSON.parse(localStorage.getItem('parties'));
     if (storedParties) {
@@ -91,6 +94,14 @@ function OwnerView({ owner }) {
   const ownerParties = parties.map(savedParty => (
         <PartyChip key={savedParty.name} name={savedParty.name} members={savedParty.members} />
   ));
+
+  if (loading) {
+    return (
+      <ProgressContainer>
+        <CircularProgress style={{ justifySelf: 'center' }} />
+      </ProgressContainer>
+    );
+  }
 
   return (
     <Column>

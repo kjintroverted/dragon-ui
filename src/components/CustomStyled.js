@@ -1,14 +1,16 @@
 import styled from 'styled-components';
 
-export const Spacer = styled.span`
-  flex: 1;
+export const ActionBar = styled.span`
+  display: flex;
+  align-items: center;
+  flex-direction: row-reverse;
 `;
 
-export const TopAnchor = styled.span`
-  position: absolute;
-  top: -0.8em;
-  left: 0em;
-  z-index: 100;
+export const BasicBox = styled.div`
+  width: 4.6875em;
+  height: 4.6875em;
+  margin-left: 0.625em;
+  margin-bottom: 0.625em;
 `;
 
 export const BottomAnchor = styled.span`
@@ -28,20 +30,18 @@ export const Card = styled.div`
   margin: 0.313em;
 `;
 
-export const HeaderBar = styled.div`
+export const Column = styled.div`
+  position: relative;
   display: flex;
-  align-items: center;
-  border-bottom: lightgray solid 1px;
-  margin-bottom: 1em;
-  & h1,
-  h2,
-  h3,
-  h4,
-  p {
-    margin: 0em;
-  }
-  & p {
-    font-size: 0.8em;
+  flex-direction: column;
+`;
+
+export const ContentWithSideBar = styled.div`
+  flex: 1;
+  display: grid;
+  grid-template-columns: 1fr 25em;
+  @media screen and (max-width: 62.5em) {
+    grid-template-columns: 1fr;
   }
 `;
 
@@ -62,10 +62,28 @@ display: flex;
   }
 `;
 
-export const ActionBar = styled.span`
+export const HeaderBar = styled.div`
   display: flex;
   align-items: center;
-  flex-direction: row-reverse;
+  border-bottom: lightgray solid 1px;
+  margin-bottom: 1em;
+  & h1,
+  h2,
+  h3,
+  h4,
+  p {
+    margin: 0em;
+  }
+  & p {
+    font-size: 0.8em;
+  }
+`;
+
+export const ProgressContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  margin: 25%;
 `;
 
 export const Row = styled.div`
@@ -80,19 +98,8 @@ export const RowCenter = styled.div`
   justify-content: center;
 `;
 
-export const Column = styled.div`
-  position: relative;
-  display: flex;
-  flex-direction: column;
-`;
-
-export const ContentWithSideBar = styled.div`
+export const Spacer = styled.span`
   flex: 1;
-  display: grid;
-  grid-template-columns: 1fr 25em;
-  @media screen and (max-width: 62.5em) {
-    grid-template-columns: 1fr;
-  }
 `;
 
 export const SideBar = styled.div`
@@ -130,9 +137,9 @@ export const SideBarToggle = styled.div`
   }
 `;
 
-export const BasicBox = styled.div`
-  width: 4.6875em;
-  height: 4.6875em;
-  margin-left: 0.625em;
-  margin-bottom: 0.625em;
+export const TopAnchor = styled.span`
+  position: absolute;
+  top: -0.8em;
+  left: 0em;
+  z-index: 100;
 `;
