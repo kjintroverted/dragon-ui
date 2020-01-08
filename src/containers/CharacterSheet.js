@@ -13,6 +13,7 @@ import Inventory from '../components/Inventory';
 import SpellBook from './SpellBook';
 import { same, calculateModifier } from '../services/helper';
 import CharacterAdmin from '../components/CharacterAdmin';
+import Feats from '../components/Feats';
 import DeathSavingThrows from '../components/DeathSavingThrows';
 
 const CharacterSheet = ({ characterData }) => {
@@ -22,7 +23,7 @@ const CharacterSheet = ({ characterData }) => {
   const [editMode, setEditMode] = useState(false);
   const [authorized, setAuthorized] = useState(false);
   const [classInfo, setClassInfo] = useState({});
-  // const [raceInfo, setRaceInfo] = useState({});
+  const [raceInfo, setRaceInfo] = useState({});
 
   function update(charUpdates) {
     setDirty(!same(characterBase, charUpdates));
@@ -49,11 +50,11 @@ const CharacterSheet = ({ characterData }) => {
     setClassInfo(result);
   }
 
-  // async function getRaceInfo(race) {
-  //   if (!race) return;
-  //   const result = await dungeonService.getRace(race);
-  //   setRaceInfo(result);
-  // }
+  async function getRaceInfo(race) {
+    if (!race) return;
+    const result = await dungeonService.getRace(race);
+    setRaceInfo(result);
+  }
 
   useEffect(() => {
     updateCharacter(characterData);
@@ -67,7 +68,7 @@ const CharacterSheet = ({ characterData }) => {
       setAuthorized(result.authorized);
     }(firebase.auth().currentUser));
     getClassInfo(characterData.class);
-    // getRaceInfo(characterData.race);
+    getRaceInfo(characterData.race);
     setEditMode(false);
   }, [characterData]);
 
@@ -158,12 +159,12 @@ const CharacterSheet = ({ characterData }) => {
         />
       </EquipmentArea>
       <Misc>
-        {/* <Feats
-          disabled={!authorized}
-          traits={raceInfo.traits || []}
-          featIDs={character.feats || []}
-          update={feats => update({ ...character, feats })}
-        /> */}
+        <Feats
+          disabled={ !authorized }
+          traits={ raceInfo.traits || [] }
+          featIDs={ character.feats || [] }
+          update={ feats => update({ ...character, feats }) }
+        />
         { classInfo && classInfo.spellcasting_ability && (
           <SpellBook
             disabled={ !authorized }
