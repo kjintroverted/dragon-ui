@@ -3,7 +3,7 @@ import firebase from 'firebase';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import {
-  Fab, Button, TextField, Card, CircularProgress,
+  Fab, Button, TextField, Card, CircularProgress, IconButton,
 } from '@material-ui/core';
 import DungeonService from '../services/dungeonService';
 import {
@@ -13,6 +13,7 @@ import {
   RowCenter,
   Row,
   ProgressContainer,
+  Spacer,
 } from '../components/CustomStyled';
 import CharacterSummary from '../components/CharacterSummary';
 import CharacterSheet from './CharacterSheet';
@@ -107,16 +108,15 @@ function PartyView({ location }) {
                 <PartyActions>
                 {existingParty ? <h2>{partyName}</h2>
                   : <form>
+                      <Row>
                           <TextField onChange={(event) => { setPartyName(event.target.value); }} label="PartyName" />
+                          <Spacer />
                           {partyName.length > 0
-                          && <i
-                            className="material-icons"
-                            onClick={saveParty}
-                            style={{
-                              float: 'right', marginTop: '1rem', color: 'darkslateblue', cursor: 'pointer',
-                            }}
-                          >save
-                             </i> }
+                          && <IconButton color="primary">
+                            <i className="material-icons" onClick={saveParty}>save</i>
+                             </IconButton>
+                            }
+                      </Row>
                     </form>
                     }
                     <Row style={{ justifyContent: 'space-between', marginTop: '0.5rem' }}>
