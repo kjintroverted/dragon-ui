@@ -103,7 +103,7 @@ function PartyView({ location }) {
         { characters.length > 1 && (
           <>
             <SideBar className={sidebar ? 'open' : ''}>
-              <Card style={{ margin: '1rem' }}>
+              <Card style={{ margin: '.25rem' }}>
                 <PartyActions>
                 {existingParty ? <h2>{partyName}</h2>
                   : <form onSubmit={saveParty}>
@@ -111,7 +111,7 @@ function PartyView({ location }) {
                           <Button color="primary" variant="contained" type="submit">Save Party</Button>
                     </form>
                     }
-                    <Row style={{ justifyContent: 'space-between', margin: 0 }}>
+                    <Row style={{ justifyContent: 'space-between', marginTop: '0.5rem' }}>
                       <Button variant="contained" color="primary" onClick={longRest}>Long Rest</Button>
                       <Button variant="contained" color="secondary" onClick={clearInitiative}>Clear Initiative</Button>
                     </Row>
