@@ -67,21 +67,21 @@ const Feats = ({
         <Spacer />
         <ActionBar>
           { !disabled
-            && <IconButton onClick={() => setIsAdding(!adding)}>
+            && <IconButton onClick={ () => setIsAdding(!adding) }>
               <i className="material-icons">{ adding ? 'done' : 'add' }</i>
-               </IconButton>
+            </IconButton>
           }
           { adding
             && <>
-              <IconButton disabled={searchQuery.length < 3} onClick={updateSearchResults}>
+              <IconButton disabled={ searchQuery.length < 3 } onClick={ updateSearchResults }>
                 <i className="material-icons">search</i>
               </IconButton>
               <TextField
                 label="Search"
-                value={searchQuery || ''}
-                onChange={e => setQuery(e.target.value)}
+                value={ searchQuery || '' }
+                onChange={ e => setQuery(e.target.value) }
               />
-               </>
+            </>
           }
         </ActionBar>
       </HeaderBar>
@@ -91,10 +91,10 @@ const Feats = ({
           <Row>
             {
               featSearchResults.map(feat => (
-                <Card key={`new-feat-${feat.name.replace(' ', '-')}`}>
+                <Card key={ `new-feat-${ feat.name.replace(' ', '-') }` }>
                   <Row>
                     <p>{ feat.name }</p>
-                    <IconButton color="secondary" onClick={() => add(feat.url)}>
+                    <IconButton color="secondary" onClick={ () => add(feat.url) }>
                       <i className="material-icons">add</i>
                     </IconButton>
                   </Row>
@@ -102,11 +102,11 @@ const Feats = ({
               ))
             }
           </Row>
-           </Column>
+        </Column>
       }
       { // DISPLAY TRAITS
         traits.map(trait => (
-          <ExpansionPanel key={`trait-${trait.name.replace(' ', '-')}`}>
+          <ExpansionPanel key={ `trait-${ trait.name.replace(' ', '-') }` }>
             <ExpansionPanelSummary>{ trait.name }</ExpansionPanelSummary>
             <ExpansionPanelDetails>
               { trait.desc }
@@ -115,34 +115,33 @@ const Feats = ({
         ))
       }
 
-      {/*
-       {
-      // DISPLAY FEATS
+      { !!feats.length
+        // DISPLAY FEATS
         && feats.map((feat, i) => (
-          <ExpansionPanel key={`feat-${feat.name.replace(' ', '-')}`}>
+          <ExpansionPanel key={ `feat-${ feat.name.replace(' ', '-') }` }>
             <ExpansionPanelSummary>{ feat.name }</ExpansionPanelSummary>
             {
               feat.desc.map(words => (
-                  <ExpansionPanelDetails
-                    key={`feat-${feat.name.replace(' ', '-')}-desc.${words.length}`}
-                  >
-                    { words }
-                  </ExpansionPanelDetails>
+                <ExpansionPanelDetails
+                  key={ `feat-${ feat.name.replace(' ', '-') }-desc.${ words.length }` }
+                >
+                  { words }
+                </ExpansionPanelDetails>
               ))
             }
             { !disabled
               && <ExpansionPanelActions>
                 <Button
-                  onClick={() => remove(i)}
+                  onClick={ () => remove(i) }
                   variant="contained"
                   color="secondary"
                 >Forget
                 </Button>
-                 </ExpansionPanelActions>
+              </ExpansionPanelActions>
             }
           </ExpansionPanel>
         ))
-      } */}
+      }
     </Card>
   );
 };
