@@ -24,12 +24,12 @@ const Feats = ({
   const [adding, setIsAdding] = useState(false);
 
   function updateSearchResults() {
-    setSearchResults(featSearchArr.filter(feat => feat.name.toLowerCase().indexOf(searchQuery) !== -1));
+    setSearchResults(featSearchArr.filter(feat => feat.name.toLowerCase().indexOf(searchQuery.toLowerCase()) !== -1));
   }
 
   function add(url) {
     const parsed = url.split('/');
-    update([...featIDs, +parsed[parsed.length - 1]]);
+    update([...featIDs, parsed[parsed.length - 1]]);
   }
 
   function remove(i) {
@@ -115,9 +115,8 @@ const Feats = ({
         ))
       }
 
-      { !!feats.length
-        // DISPLAY FEATS
-        && feats.map((feat, i) => (
+      { // DISPLAY FEATS
+        feats.map((feat, i) => (
           <ExpansionPanel key={ `feat-${ feat.name.replace(' ', '-') }` }>
             <ExpansionPanelSummary>{ feat.name }</ExpansionPanelSummary>
             {
