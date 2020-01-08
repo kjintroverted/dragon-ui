@@ -22,7 +22,7 @@ function PartyView({ location }) {
   const [idList, setIDList] = useState([]);
   const [characters, setCharacters] = useState([]);
   const [focus, setFocus] = useState(null);
-  const [partyName, setPartyName] = useState(null); // Controls the Naming of a new Party
+  const [partyName, setPartyName] = useState(''); // Controls the Naming of a new Party
   const [existingParty, setExistingParty] = useState(false); // Toggles form or display of existing
 
   function clearInitiative() {
@@ -103,12 +103,20 @@ function PartyView({ location }) {
         { characters.length > 1 && (
           <>
             <SideBar className={sidebar ? 'open' : ''}>
-              <Card style={{ margin: '.25rem' }}>
+              <Card style={{ margin: '.25rem', marginTop: '2rem' }}>
                 <PartyActions>
                 {existingParty ? <h2>{partyName}</h2>
-                  : <form onSubmit={saveParty}>
+                  : <form>
                           <TextField onChange={(event) => { setPartyName(event.target.value); }} label="PartyName" />
-                          <Button color="primary" variant="contained" type="submit">Save Party</Button>
+                          {partyName.length > 0
+                          && <i
+                            className="material-icons"
+                            onClick={saveParty}
+                            style={{
+                              float: 'right', marginTop: '1rem', color: 'darkslateblue', cursor: 'pointer',
+                            }}
+                          >save
+                             </i> }
                     </form>
                     }
                     <Row style={{ justifyContent: 'space-between', marginTop: '0.5rem' }}>
