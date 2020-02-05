@@ -6,6 +6,7 @@ import { BrowserRouter as Router, Route } from "react-router-dom";
 import NavBar from "./components/NavBar";
 import OwnerView from "./containers/OwnerView";
 import PartyView from "./containers/PartyView";
+import fetchIntercept from 'fetch-intercept';
 
 import "./App.css";
 
@@ -18,11 +19,27 @@ function App() {
     updateUser({ name: info.displayName, email: info.email, photo: info.photoURL });
   }
 
-  firebase.auth().onAuthStateChanged(function (info) {
+  firebase.auth().onAuthStateChanged(async function (info) {
+    let unregister = function () { console.info("No interceptor registered.") };
     if (info) {
-      if (!user)
+      const token = await firebase.auth().currentUser.getIdToken(/* forceRefresh */ true);
+      unregister = fetchIntercept.register({
+        request: function (url, config) {
+          config = config || {}
+          config = {
+            ...config, headers: {
+              Authorization: `Bearer ${ token }`
+            }
+          }
+          return [url, config];
+        }
+      });
+
+      if (!user) {
         updateUser({ name: info.displayName, email: info.email, photo: info.photoURL });
+      }
     } else {
+      unregister()
       updateUser(null)
       login();
     }
