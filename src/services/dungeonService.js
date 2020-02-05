@@ -37,7 +37,7 @@ const saveCharacter = async (character) => {
 const watchCharacters = characterIds => new WebSocket(`ws://${ serverDomain }/api/characters?id=${ characterIds.join() }&watch=true`);
 
 const getCharactersByOwner = async (owner) => {
-  const result = await fetch(`/api/characters?user=${ owner }`);
+  const result = await fetch(`/api/pc/1`);
   return result.json();
 };
 
