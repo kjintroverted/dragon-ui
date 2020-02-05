@@ -6,6 +6,7 @@
   "dependencies": {
     "@material-ui/core": "^4.0.1",
     "caniuse-lite": "^1.0.30000974",
+    "fetch-intercept": "^2.3.1",
     "firebase": "^6.1.0",
     "firebaseui": "^4.0.0",
     "prop-types": "^15.7.2",
