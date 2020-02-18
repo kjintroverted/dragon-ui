@@ -3,7 +3,6 @@
 # Check https://circleci.com/docs/2.0/language-go/ for more details
 version: 2
 jobs:
-
   build:
     docker:
       - image: kjintroverted/go-node
@@ -17,7 +16,7 @@ jobs:
       - run: cd .. && git clone git@github.com:kjintroverted/dnd-build.git build
       - run: cp ../build/secret_firebase.json src/secret_auth_config.json
       # Add Tests
-      - run: npm run build:heroku
+      - run: npm run build:local
 
   deploy:
     docker:
@@ -28,25 +27,30 @@ jobs:
       - add_ssh_keys:
           fingerprints:
             - "b8:78:e9:fe:e2:dc:58:45:d2:36:b5:5e:a1:4a:be:c0"
-      - run: cd .. && git clone git@github.com:kjintroverted/dungeon.git
       - run: cd .. && git clone git@github.com:kjintroverted/dnd-build.git build
       - run: cp ../build/secret_firebase.json src/secret_auth_config.json
-      - run: cd ../dungeon && go build .
-      - run: cd .. && mv dungeon/dungeon build
       - run: npm i
-      - run: npm run build:heroku
-      - run: rm -r ../build/app
-      - run: cp -r build ../build/app
-      - run: git config --global user.email "wkgreen13@gmail.com"
-      - run: git config --global user.name "CircleCI"
-      - run: cd ../build && git status && git add -A && git commit -m "CI build" && git push
-      
+      - run: npm run build:local
+      - run: rm -rf .git
+      - run: echo "https://dungeon.wkgreen.dev" > ./build/CNAME
+      - run: cd build && git init
+      - run: cd build && git remote add origin git@github.com:kjintroverted/dragon-ui.git
+      - run: cd build && git checkout -b gh-pages
+      - run: cd build && git add .
+      - run: cd build && git config user.email "wkgreen13@gmail.com"
+      - run: cd build && git config user.name "CircleCI"
+      - run: cd build && git commit -m "CI Deploy"
+      - run: cd build && git push -uf origin gh-pages
+
 workflows:
   version: 2
   build-deploy:
     jobs:
-      - build
+      - build:
+        filters:
+          branches:
+            ignore: gh-pages
       - deploy:
           filters:
             branches:
-              only: master
+              only: v2
