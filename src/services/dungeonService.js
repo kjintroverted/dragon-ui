@@ -1,6 +1,6 @@
 
 // WILL NEED TO BE DYNAMIC BY ENV
-const serverDomain = process.env.REACT_APP_API_DOMAIN || 'localhost:4000';
+const serverDomain = process.env.REACT_APP_API_DOMAIN || 'http://localhost:4000';
 
 const getWelcome = async () => {
   const result = await fetch(`${ serverDomain }/api`);
