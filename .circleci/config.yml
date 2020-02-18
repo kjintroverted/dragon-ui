@@ -27,7 +27,6 @@ jobs:
       - add_ssh_keys:
           fingerprints:
             - "b8:78:e9:fe:e2:dc:58:45:d2:36:b5:5e:a1:4a:be:c0"
-            - "d3:20:fd:75:cf:47:ad:45:f1:92:29:51:c8:44:59:88"
       - run: cd .. && git clone git@github.com:kjintroverted/dnd-build.git build
       - run: cp ../build/secret_firebase.json src/secret_auth_config.json
       - run: npm i
