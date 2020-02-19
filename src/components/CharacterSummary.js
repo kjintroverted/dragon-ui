@@ -12,47 +12,48 @@ import { calculateModifier } from '../services/helper';
 function CharacterSummary({
   character, save, add, linkTo, open, highlight,
 }) {
+  console.log(character);
   return (
-    <Card style={ highlight ? { background: 'lightblue' } : {} }>
+    <Card style={highlight ? { background: 'lightblue' } : {}}>
       <HeaderBar>
         <Column>
-          <b>{ character.name }</b>
-          <p>{ character.race } { character.class }</p>
+          <b>{ character.info.name }</b>
+          <p>{ character.race.name } { character.class.name }</p>
         </Column>
         <Spacer />
         <ActionBar>
           { linkTo
-            && <Link to={ linkTo }>
+            && <Link to={linkTo}>
               <IconButton>
                 <i className="material-icons">fullscreen</i>
               </IconButton>
-            </Link>
+               </Link>
           }
           { open
-            && <IconButton onClick={ open }>
+            && <IconButton onClick={open}>
               <i className="material-icons">fullscreen</i>
-            </IconButton>
+               </IconButton>
           }
           { add
-            && <IconButton onClick={ add }>
+            && <IconButton onClick={add}>
               <i className="material-icons">group_add</i>
-            </IconButton>
+               </IconButton>
           }
           { save
-            && <IconButton onClick={ save }>
+            && <IconButton onClick={save}>
               <i className="material-icons">save</i>
-            </IconButton>
+               </IconButton>
           }
         </ActionBar>
       </HeaderBar>
       <InfoRow>
-        <TextField variant="outlined" disabled type="number" label="Level" value={ character.level } />
-        <TextField variant="outlined" disabled type="number" label="Hit Points" value={ character.hp } />
-        <TextField variant="outlined" disabled type="number" label="Initiative" value={ character.initiative || '' } />
+        <TextField variant="outlined" disabled type="number" label="Level" value={character.level.level} />
+        <TextField variant="outlined" disabled type="number" label="Hit Points" value={character.info.hp} />
+        <TextField variant="outlined" disabled type="number" label="Initiative" value={character.info.initiative || ''} />
       </InfoRow>
-      <Perception>Passive Perception: { 10 + parseInt(calculateModifier(character.wis)) }</Perception>
+      <Perception>Passive Perception: { 10 + parseInt(calculateModifier(character.info.stats.wis)) }</Perception>
       <FooterBar>
-        <p>Created by <b>{ character.owner }</b></p>
+        <p>Created by <b>{ character.info.owner }</b></p>
       </FooterBar>
     </Card>
   );

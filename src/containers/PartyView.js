@@ -58,7 +58,7 @@ function PartyView({ location }) {
     setExistingParty(true);
   }
 
-  useEffect(() => {
+  useEffect(async () => {
     const ids = location.search.split('id=')[1].split(',');
     setIDList(ids);
     const selected = localStorage.getItem('selected');
@@ -66,26 +66,34 @@ function PartyView({ location }) {
       setPartyName(selected);
       setExistingParty(true);
     }
-    const socket = DungeonService.watchCharacters(ids);
-    socket.onmessage = (event) => {
-      const updatedCharacters = JSON.parse(event.data).sort((a, b) => {
-        if (!a.initiative) {
-          if (!b.initiative) return 0;
-          return 1;
-        }
-        if (!b.initiative) return -1;
-        return b.initiative - a.initiative;
-      });
-      setCharacters(updatedCharacters);
-    };
+    const owned = await DungeonService.getCharactersByOwner();
+    console.log(owned);
+    setCharacters(owned);
+    // const socket = DungeonService.watchCharacters(ids);
+    // socket.onmessage = (event) => {
+    //   const updatedCharacters = JSON.parse(event.data).sort((a, b) => {
+    //     if (!a.initiative) {
+    //       if (!b.initiative) return 0;
+    //       return 1;
+    //     }
+    //     if (!b.initiative) return -1;
+    //     return b.initiative - a.initiative;
+    //   });
+    //   setCharacters(updatedCharacters);
+    // };
 
-    return () => socket.close();
+    // return () => socket.close();
   }, [location.search]);
 
   useEffect(() => {
-    const id = !focus ? idList[0] : focus.id || idList[0];
+    const id = !focus ? idList[0] : focus.info.id || idList[0];
     if (!id) return;
-    setFocus(characters.find(c => c.id === id));
+    console.log('id', typeof (id));
+    // console.log(characters.length ? characters[0].info.id : null, 'helllpppp');
+    const t = characters.find(c => `${c.info.id}` === id);
+    console.log('t', t);
+    setFocus(characters.find(c => `${c.info.id}` === id));
+    console.log(focus, 'focus');
   }, [characters, idList, focus]);
 
   if (characters.length === 0 || !focus) {

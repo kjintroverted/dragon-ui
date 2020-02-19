@@ -71,11 +71,11 @@ function OwnerView({ owner }) {
     .filter(character => character.owner === owner)
     .map(character => (
       <CharacterSummary
-        key={character.id}
+        key={character.info.id}
         character={character}
-        highlight={party.indexOf(character.id) !== -1}
-        add={() => toggleCharacter(character.id)}
-        linkTo={`/character?id=${character.id}`}
+        highlight={party.indexOf(character.info.id) !== -1}
+        add={() => toggleCharacter(character.info.id)}
+        linkTo={`/character?id=${character.info.id}`}
       />
     ));
 
@@ -83,11 +83,11 @@ function OwnerView({ owner }) {
     .filter(character => character.owner !== owner)
     .map(character => (
       <CharacterSummary
-        key={character.id}
+        key={character.info.id}
         character={character}
-        highlight={party.indexOf(character.id) !== -1}
-        add={() => toggleCharacter(character.id)}
-        linkTo={`/character?id=${character.id}`}
+        highlight={party.indexOf(character.info.id) !== -1}
+        add={() => toggleCharacter(character.info.id)}
+        linkTo={`/character?id=${character.info.id}`}
       />
     ));
 
