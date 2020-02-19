@@ -1,6 +1,5 @@
 
-// WILL NEED TO BE DYNAMIC BY ENV
-const serverDomain = process.env.REACT_APP_API_DOMAIN || 'http://localhost:4000';
+const serverDomain = process.env.REACT_APP_API_DOMAIN || 'http://localhost:80';
 
 const getWelcome = async () => {
   const result = await fetch(`${ serverDomain }/api`);
@@ -8,7 +7,7 @@ const getWelcome = async () => {
 };
 
 const getCharacter = async (characterId = '') => {
-  const result = await fetch(`${ serverDomain }/api/characters/${ characterId }`);
+  const result = await fetch(`${ serverDomain }/api/data/pc/${ characterId }`);
   return result.json();
 };
 
@@ -85,7 +84,7 @@ const getFeats = async (ids) => {
   const query = !ids ? "" : `?id=${ ids.join() }`
   const result = await fetch(`${ serverDomain }/api/feats${ query }`);
   return result.json();
-}
+};
 
 export default {
   getCharacter,
