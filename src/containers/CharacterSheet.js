@@ -67,10 +67,12 @@ const CharacterSheet = ({ characterData }) => {
       );
       setAuthorized(result.authorized);
     }(firebase.auth().currentUser));
-    getClassInfo(characterData.class);
+    getClassInfo(characterData.class.id);
     getRaceInfo(characterData.race);
     setEditMode(false);
   }, [characterData]);
+  console.log(characterData);
+  console.log(classInfo, 'ohhhhhhh');
   return (
     <SheetContainer>
       { authorized && !editMode && (

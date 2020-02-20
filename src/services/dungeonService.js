@@ -55,8 +55,8 @@ const getClasses = async () => {
   return result.json();
 };
 
-const getClass = async (name) => {
-  const result = await fetch(`${ serverDomain }/api/classes?name=${ name }`);
+const getClass = async (id) => {
+  const result = await fetch(`${ serverDomain }/api/classes/${ id }`);
   return result.json();
 };
 
