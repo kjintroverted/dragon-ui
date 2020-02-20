@@ -22,8 +22,6 @@ export function isRangeWeapon(item) {
 }
 
 export function isProWeapon(item, proWeaponDesc) {
-  console.log('PROOO', item);
-  console.log('describe', proWeaponDesc);
   if (!proWeaponDesc) return false;
   const result = proWeaponDesc.find(desc => desc.indexOf(item.name.toLowerCase()));
   if (result) return true;

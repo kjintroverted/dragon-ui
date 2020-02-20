@@ -61,8 +61,8 @@ const getClass = async (id) => {
   return result.json();
 };
 
-const getRace = async (name) => {
-  const result = await fetch(`http://${serverDomain}/api/races?name=${name}`);
+const getRace = async (id) => {
+  const result = await fetch(`http://${serverDomain}/api/races/${id}`);
   return result.json();
 };
 

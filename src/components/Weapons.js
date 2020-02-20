@@ -220,10 +220,8 @@ const Weapons = ({
       }
       { // DISPLAY ALL WEAPONS
         weaponList.map((weapon, i) => {
-          console.log(weapon, 'WEAPON');
           const dexCheck = dexAttack(weapon);
           const proMod = isProWeapon(weapon, proWeapons) ? proBonus : 0;
-          console.log(dex, proMod);
           const atkMod = dexCheck ? calculateModifier(dex, proMod) : calculateModifier(str, proMod);
           const rangeAtk = isRangeWeapon(weapon) ? calculateModifier(dex, proMod) : 0;
           const dmgMod = dexCheck ? calculateModifier(dex) : calculateModifier(str);
