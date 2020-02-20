@@ -24,7 +24,7 @@ const CharacterSheet = ({ characterData }) => {
   const [authorized, setAuthorized] = useState(false);
   const [classInfo, setClassInfo] = useState({});
   const [raceInfo, setRaceInfo] = useState({});
-
+  const { stats } = character.info;
   function update(charUpdates) {
     setDirty(!same(characterBase, charUpdates));
     updateCharacter(charUpdates);
@@ -139,13 +139,14 @@ const CharacterSheet = ({ characterData }) => {
         <Skills character={character} editing={editMode} update={update} />
       </SkillsArea>
       <WeaponsArea>
+        {console.log('goober', character)}
         <Weapons
           disabled={!authorized}
-          proWeapons={classInfo.prof_weapons || ''}
+          proWeapons={classInfo.proWeapon || ''}
           weaponList={character.weapons || []}
-          dex={character.dex}
-          str={character.str}
-          proBonus={character.proBonus}
+          dex={stats.dex}
+          str={stats.str}
+          proBonus={character.level.proBonus}
           update={weapons => update({ ...character, weapons })}
         />
       </WeaponsArea>

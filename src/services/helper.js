@@ -22,11 +22,13 @@ export function isRangeWeapon(item) {
 }
 
 export function isProWeapon(item, proWeaponDesc) {
-  const descArr = proWeaponDesc.split(', ').map(desc => desc.toLowerCase());
-  const result = descArr.find(desc => desc.indexOf(item.name.toLowerCase()));
+  console.log('PROOO', item);
+  console.log('describe', proWeaponDesc);
+  if (!proWeaponDesc) return false;
+  const result = proWeaponDesc.find(desc => desc.indexOf(item.name.toLowerCase()));
   if (result) return true;
   const categoryArr = item.weapon.category.split(' ').map(str => str.toLowerCase());
-  return !!categoryArr.find(category => !!descArr.find(desc => desc.indexOf(category)));
+  return !!categoryArr.find(category => !!proWeaponDesc.find(desc => desc.indexOf(category)));
 }
 
 export function same(obj1, obj2) {
