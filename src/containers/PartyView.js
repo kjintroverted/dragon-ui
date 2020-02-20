@@ -67,7 +67,6 @@ function PartyView({ location }) {
       setExistingParty(true);
     }
     const owned = await DungeonService.getCharactersByOwner();
-    console.log('firstttttt');
     setCharacters(owned);
     // const socket = DungeonService.watchCharacters(ids);
     // socket.onmessage = (event) => {
@@ -89,7 +88,6 @@ function PartyView({ location }) {
     const id = !focus ? idList[0] : focus.info.id || idList[0];
     if (!id || (focus && focus.info.id === id)) return;
     setFocus(characters.find(c => `${c.info.id}` === id));
-    console.log('second');
   }, [characters, idList, focus]);
 
   if (characters.length === 0 || !focus) {

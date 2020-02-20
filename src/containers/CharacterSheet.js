@@ -52,7 +52,7 @@ const CharacterSheet = ({ characterData }) => {
 
   async function getRaceInfo(race) {
     if (!race) return;
-    const result = await dungeonService.getRace(race);
+    const result = await dungeonService.getRace(race.id);
     setRaceInfo(result);
   }
 
@@ -71,8 +71,7 @@ const CharacterSheet = ({ characterData }) => {
     getRaceInfo(characterData.race);
     setEditMode(false);
   }, [characterData]);
-  console.log(characterData);
-  console.log(classInfo, 'ohhhhhhh');
+  console.log(character);
   return (
     <SheetContainer>
       { authorized && !editMode && (
@@ -116,7 +115,7 @@ const CharacterSheet = ({ characterData }) => {
       <ProfileArea>
         <Profile
           character={character}
-          hitDice={classInfo.hit_dice || ''}
+          hitDice={classInfo.hitDice || ''}
           update={update}
           disabled={!authorized}
           editing={editMode}
@@ -139,7 +138,6 @@ const CharacterSheet = ({ characterData }) => {
         <Skills character={character} editing={editMode} update={update} />
       </SkillsArea>
       <WeaponsArea>
-        {console.log('goober', character)}
         <Weapons
           disabled={!authorized}
           proWeapons={classInfo.proWeapon || ''}
@@ -161,10 +159,11 @@ const CharacterSheet = ({ characterData }) => {
         />
       </EquipmentArea>
       <Misc>
+        {console.log(raceInfo, 'racey')}
         <Feats
           disabled={!authorized}
           traits={raceInfo.traits || []}
-          featIDs={character.feats || []}
+          featIDs={character.info.specFeatIDs || []}
           update={feats => update({ ...character, feats })}
         />
         { classInfo && classInfo.spellcasting_ability && (

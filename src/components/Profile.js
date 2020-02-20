@@ -120,7 +120,7 @@ const Profile = ({
             onChange={onChange('speed', true)}
           />
         </BasicBox>
-        <Badge badgeContent={calculateModifier(character.dex)} color="secondary">
+        <Badge badgeContent={calculateModifier(character.info.stats.dex)} color="secondary">
           <BasicBox>
             <TextField
               variant="outlined"
