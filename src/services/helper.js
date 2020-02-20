@@ -1,5 +1,6 @@
 
 export function calculateModifier(x, z) {
+  console.log(x, z);
   let y = Math.floor((x - 10) / 2);
   y = z ? y + z : y;
   return y < 0 ? `${y}` : `+${y}`;
@@ -16,13 +17,9 @@ export function dexAttack(item) {
   // return !!finesse;
 }
 
-export function isRangeWeapon(weapon) {
-  if (!weapon.properties) return false;
-  const ranged = weapon.properties.find((prop) => {
-    const text = prop.toLowerCase();
-    return text.indexOf('range') !== -1;
-  });
-  return !!ranged;
+export function isRangeWeapon(item) {
+  if (item.type.toLowerCase() === 'ranged weapon') return true;
+  return false;
 }
 
 export function isProWeapon(item, proWeaponDesc) {

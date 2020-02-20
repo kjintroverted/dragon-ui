@@ -71,7 +71,6 @@ const CharacterSheet = ({ characterData }) => {
     getRaceInfo(characterData.race);
     setEditMode(false);
   }, [characterData]);
-  console.log('data', characterData);
   return (
     <SheetContainer>
       { authorized && !editMode && (
