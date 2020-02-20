@@ -48,17 +48,17 @@ const Profile = ({
       <Row style={{ alignItems: 'center', justifyContent: 'flex-end' }}>
         <Column>
           { !editing
-            ? <h2 style={{ margin: 0 }}>{ character.name }</h2>
+            ? <h2 style={{ margin: 0 }}>{ character.info.name }</h2>
             : <TextField
               label="Name"
-              value={character.name}
+              value={character.info.name}
               onChange={onChange('name')}
             />
           }
-          <p style={{ margin: 0 }}>{ character.race } { character.class }</p>
+          <p style={{ margin: 0 }}>{ character.race.name } { character.class.name }</p>
         </Column>
         <Spacer />
-        <Badge badgeContent={`+${character.proBonus}`} color="secondary">
+        <Badge badgeContent={`+${character.level.proBonus}`} color="secondary">
           <BasicBox>
             { !editing
               ? <TextField
@@ -66,13 +66,13 @@ const Profile = ({
                 disabled
                 type="number"
                 label="Level"
-                value={character.level}
+                value={character.level.level}
               />
               : <TextField
                 variant="outlined"
                 type="number"
                 label="XP"
-                value={character.xp}
+                value={character.info.xp}
                 onChange={onChange('xp', true)}
               />
             }
@@ -84,8 +84,8 @@ const Profile = ({
               variant="outlined"
               disabled={disabled}
               type="number"
-              label={`HP/${character.maxHP}`}
-              value={character.hp}
+              label={`HP/${character.info.maxHP}`}
+              value={character.info.hp}
               helperText={`${hitDice}`}
               onChange={onChange('hp', true)}
             />
@@ -94,7 +94,7 @@ const Profile = ({
               disabled={disabled}
               type="number"
               label="Max HP"
-              value={character.maxHP}
+              value={character.info.maxHP}
               helperText={`${hitDice}`}
               onChange={onChange('maxHP', true)}
             />
@@ -106,7 +106,7 @@ const Profile = ({
             disabled={!editing}
             type="number"
             label="AC"
-            value={character.armor}
+            value={0}// character.equipment[0].armor}
             onChange={onChange('armor', true)}
           />
         </BasicBox>
@@ -116,7 +116,7 @@ const Profile = ({
             disabled={!editing}
             type="number"
             label="Speed"
-            value={character.speed}
+            value={character.race.speed}
             onChange={onChange('speed', true)}
           />
         </BasicBox>
@@ -127,7 +127,7 @@ const Profile = ({
               disabled={disabled}
               type="number"
               label="Init"
-              value={character.initiative || ''}
+              value={character.info.initiative || ''}
               onChange={onChange('initiative', true)}
             />
           </BasicBox>
@@ -166,7 +166,7 @@ const Profile = ({
           <Column>
             <Info><b>Known Languages:</b> { character.languages && character.languages.length ? character.languages.join() : <i>none</i> }</Info>
             <Info><b>Tools Proficiencies:</b> { character.proTools && character.proTools.length ? character.proTools.join() : <i>none</i> }</Info>
-            <Info><b>Passive Perception:</b> {10 + parseInt(calculateModifier(character.wis))} </Info>
+            <Info><b>Passive Perception:</b> {10 + parseInt(calculateModifier(character.info.stats.wis))} </Info>
 
           </Column>
           </Row>
