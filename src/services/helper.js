@@ -5,14 +5,15 @@ export function calculateModifier(x, z) {
   return y < 0 ? `${y}` : `+${y}`;
 }
 
-export function dexAttack(weapon) {
-  if (weapon.category.toLowerCase().indexOf('range') !== -1) return true;
-  if (!weapon.properties) return false;
-  const finesse = weapon.properties.find((prop) => {
-    const text = prop.toLowerCase();
-    return text.indexOf('finesse') !== -1;
-  });
-  return !!finesse;
+export function dexAttack(item) {
+  if (item.weapon.category.toLowerCase().indexOf('range') !== -1) return true;
+  if (!item.weapon) return false;
+  // TODO: reenable this once i know how
+  // const finesse = weapon.weapon.find((prop) => {
+  //   const text = prop.toLowerCase();
+  //   return text.indexOf('finesse') !== -1;
+  // });
+  // return !!finesse;
 }
 
 export function isRangeWeapon(weapon) {
@@ -24,11 +25,11 @@ export function isRangeWeapon(weapon) {
   return !!ranged;
 }
 
-export function isProWeapon(weapon, proWeaponDesc) {
+export function isProWeapon(item, proWeaponDesc) {
   const descArr = proWeaponDesc.split(', ').map(desc => desc.toLowerCase());
-  const result = descArr.find(desc => desc.indexOf(weapon.name.toLowerCase()));
+  const result = descArr.find(desc => desc.indexOf(item.name.toLowerCase()));
   if (result) return true;
-  const categoryArr = weapon.category.split(' ').map(str => str.toLowerCase());
+  const categoryArr = item.weapon.category.split(' ').map(str => str.toLowerCase());
   return !!categoryArr.find(category => !!descArr.find(desc => desc.indexOf(category)));
 }
 

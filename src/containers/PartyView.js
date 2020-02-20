@@ -67,7 +67,7 @@ function PartyView({ location }) {
       setExistingParty(true);
     }
     const owned = await DungeonService.getCharactersByOwner();
-    console.log(owned);
+    console.log('firstttttt');
     setCharacters(owned);
     // const socket = DungeonService.watchCharacters(ids);
     // socket.onmessage = (event) => {
@@ -87,13 +87,9 @@ function PartyView({ location }) {
 
   useEffect(() => {
     const id = !focus ? idList[0] : focus.info.id || idList[0];
-    if (!id) return;
-    console.log('id', typeof (id));
-    // console.log(characters.length ? characters[0].info.id : null, 'helllpppp');
-    const t = characters.find(c => `${c.info.id}` === id);
-    console.log('t', t);
+    if (!id || (focus && focus.info.id === id)) return;
     setFocus(characters.find(c => `${c.info.id}` === id));
-    console.log(focus, 'focus');
+    console.log('second');
   }, [characters, idList, focus]);
 
   if (characters.length === 0 || !focus) {
@@ -136,10 +132,10 @@ function PartyView({ location }) {
               <SideContainer>
                 { characters.map(character => (
                   <CharacterSummary
-                    key={character.id}
+                    key={character.info.id}
                     character={character}
                     open={() => setFocus(character)}
-                    highlight={focus.id === character.id}
+                    highlight={focus.info.id === character.info.id}
                   />
                 )) }
               </SideContainer>
