@@ -29,7 +29,6 @@ const Skills = ({ character, editing, update }) => {
       : skillsArray.filter(({ label }) => label.toLowerCase().indexOf(lowerQuery) === 0);
     setDisplay(list);
   }, [query]);
-  console.log(character);
   return (
     <Card>
       <HeaderBar>
@@ -41,7 +40,6 @@ const Skills = ({ character, editing, update }) => {
       </HeaderBar>
       { !editing
         ? skillDisplay.map((skill) => {
-          console.log(skill, 'sklllllll');
           const proSkill = proCheck(character.info.proSkills, skill.label);
           return ( // DISPLAY SKILLS
             <div key={skill.label}>

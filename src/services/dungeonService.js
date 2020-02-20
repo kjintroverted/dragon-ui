@@ -8,7 +8,6 @@ const getWelcome = async () => {
 };
 
 const getCharacter = async (characterId = '') => {
-  console.log('here');
   const result = await fetch(`http://${serverDomain}/api/data/pc/${characterId}`);
   return result.json();
 };
@@ -57,8 +56,8 @@ const getClasses = async () => {
   return result.json();
 };
 
-const getClass = async (name) => {
-  const result = await fetch(`http://${serverDomain}/api/classes?name=${name}`);
+const getClass = async (id) => {
+  const result = await fetch(`http://${serverDomain}/api/classes/${id}`);
   return result.json();
 };
 

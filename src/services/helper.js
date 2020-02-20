@@ -1,6 +1,5 @@
 
 export function calculateModifier(x, z) {
-  console.log(x, z);
   let y = Math.floor((x - 10) / 2);
   y = z ? y + z : y;
   return y < 0 ? `${y}` : `+${y}`;
