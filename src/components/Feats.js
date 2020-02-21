@@ -15,7 +15,7 @@ import {
 import dungeonService from '../services/dungeonService';
 
 const Feats = ({
-  featIDs, traits, update, disabled,
+  featIDs, featss, traits, update, disabled,
 }) => {
   const [feats, setFeats] = useState([]);
   const [featSearchArr, setSearchArr] = useState([]);
@@ -40,6 +40,18 @@ const Feats = ({
     const results = await dungeonService.getFeats(ids);
     setFeats(results);
   }
+
+  const displayFeatDetails = (feat) => {
+    console.log('what', feat);
+    return (
+      <ExpansionPanelDetails
+        key={`feat-${feat.name.replace(' ', '-')}-desc.${feat.description.length}`}
+      >
+                  {console.log(feat.description.body, 'i am here')}
+                  { feat.description }
+      </ExpansionPanelDetails>
+    );
+  };
 
   useEffect(() => {
     if (featIDs && featIDs.length) loadFeats(featIDs);
@@ -116,12 +128,25 @@ const Feats = ({
         ))
       }
 
-{ console.log('FOOOTTTS', feats)}
+{ console.log('FOOOTTTS', featss)}
       { // DISPLAY FEATS
-        feats.map((feat, i) => (
+        featss.map((feat, i) => (
           <ExpansionPanel key={`feat-${feat.name.replace(' ', '-')}`}>
+            {console.log(feat.description[0].body, 'describe me')}
             <ExpansionPanelSummary>{ feat.name }</ExpansionPanelSummary>
-            {
+            {/* {displayFeatDetails(feat)} */}
+            {/* {
+             feat.decription && feat.description.forEach(description => (
+
+                <ExpansionPanelDetails
+                  key={`feat-${feat.name.replace(' ', '-')}-desc.${description.length}`}
+                >
+                  {console.log(description.body, 'i am here')}
+                  { description }
+                </ExpansionPanelDetails>
+             ))
+            } */}
+            {/* {
               feat.desc.map(words => (
                 <ExpansionPanelDetails
                   key={`feat-${feat.name.replace(' ', '-')}-desc.${words.length}`}
@@ -129,7 +154,7 @@ const Feats = ({
                   { words }
                 </ExpansionPanelDetails>
               ))
-            }
+            } */}
             { !disabled
               && <ExpansionPanelActions>
                 <Button

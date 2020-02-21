@@ -58,15 +58,7 @@ const CharacterSheet = ({ characterData }) => {
 
   useEffect(() => {
     updateCharacter(characterData);
-    setAuthorized(false);
-    (async function checkAuthorized(user) {
-      if (!characterData) return;
-      const result = await dungeonService.checkUserAuth(
-        characterData.id,
-        user.email,
-      );
-      setAuthorized(result.authorized);
-    }(firebase.auth().currentUser));
+    setAuthorized(characterData.authorized);
     getClassInfo(characterData.class.id);
     getRaceInfo(characterData.race);
     setEditMode(false);
@@ -159,11 +151,12 @@ const CharacterSheet = ({ characterData }) => {
         />
       </EquipmentArea>
       <Misc>
-        {console.log(raceInfo, 'racey')}
+        {console.log(character.features, 'feats')}
         <Feats
           disabled={!authorized}
           traits={raceInfo.traits || []}
-          featIDs={character.info.specFeatIDs || []}
+          featss={character.features || []}
+          // featIDs={character.features || []}
           update={feats => update({ ...character, feats })}
         />
         { classInfo && classInfo.spellcasting_ability && (

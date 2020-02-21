@@ -28,6 +28,7 @@ function OwnerView({ owner }) {
 
   async function getCharactersByOwner() {
     const characterList = await DungeonService.getCharactersByOwner(owner);
+    console.log(characterList);
     updateCharacters(characterList || []);
   }
 
@@ -102,7 +103,7 @@ function OwnerView({ owner }) {
       </ProgressContainer>
     );
   }
-
+  console.log(characters);
   return (
     <Column>
       <TopAnchor>
