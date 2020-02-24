@@ -18,10 +18,21 @@ const Profile = ({
     return e => setValues({ ...values, [field]: e.target.value });
   }
 
-  function onChange(field, numeric) {
+  // function onChange(field, numeric) {
+  //   return (e) => {
+  //     const val = numeric ? +e.target.value : e.target.value;
+  //     update({ ...character, [field]: val });
+  //   };
+  // }
+
+  function onChange(object, field, isNumeric) {
     return (e) => {
-      const val = numeric ? +e.target.value : e.target.value;
-      update({ ...character, [field]: val });
+      const value = isNumeric ? +e.target.value : e.target.value;
+      // console.log('before', character);
+      // character.info.stats[field] = value;
+      // console.log(character.info.stats[field]);
+      // console.log('after', character.info.stats);
+      update({ ...character, [object]: { ...character.info, [field]: value } });
     };
   }
 
@@ -42,17 +53,17 @@ const Profile = ({
       update({ ...character, [field]: array });
     };
   }
-  const { info, stats, race } = character;
+  // const { info, stats, race } = character;
   return (
     <Card>
       <Row style={{ alignItems: 'center', justifyContent: 'flex-end' }}>
         <Column>
           { !editing
-            ? <h2 style={{ margin: 0 }}>{ info.name }</h2>
+            ? <h2 style={{ margin: 0 }}>{ character.info.name }</h2>
             : <TextField
               label="Name"
-              value={info.name}
-              onChange={onChange('name')}
+              value={character.info.name}
+              onChange={onChange('info', 'name')}
             />
           }
           <p style={{ margin: 0 }}>{ character.race.name } { character.class.name }</p>
@@ -72,8 +83,8 @@ const Profile = ({
                 variant="outlined"
                 type="number"
                 label="XP"
-                value={info.xp}
-                onChange={onChange('xp', true)}
+                value={character.info.xp}
+                onChange={onChange('info', 'xp', true)}
               />
             }
           </BasicBox>
@@ -84,19 +95,19 @@ const Profile = ({
               variant="outlined"
               disabled={disabled}
               type="number"
-              label={`HP/${info.maxHP}`}
-              value={info.hp}
+              label={`HP/${character.info.maxHP}`}
+              value={character.info.hp}
               helperText={`${hitDice}`}
-              onChange={onChange('hp', true)}
+              onChange={onChange('info', 'hp', true)}
             />
             : <TextField
               variant="outlined"
               disabled={disabled}
               type="number"
               label="Max HP"
-              value={info.maxHP}
+              value={character.info.maxHP}
               helperText={`${hitDice}`}
-              onChange={onChange('maxHP', true)}
+              onChange={onChange('info', 'maxHP', true)}
             />
           }
         </BasicBox>
@@ -106,7 +117,7 @@ const Profile = ({
             disabled={!editing}
             type="number"
             label="AC"
-            value={0}// character.equipment[0].armor}
+            value={0}
             onChange={onChange('armor', true)}
           />
         </BasicBox>
@@ -117,18 +128,18 @@ const Profile = ({
             type="number"
             label="Speed"
             value={character.race.speed}
-            onChange={onChange('speed', true)}
+            onChange={onChange('race', 'speed', true)}
           />
         </BasicBox>
-        <Badge badgeContent={calculateModifier(info.stats.dex)} color="secondary">
+        <Badge badgeContent={calculateModifier(character.info.stats.dex)} color="secondary">
           <BasicBox>
             <TextField
               variant="outlined"
               disabled={disabled}
               type="number"
               label="Init"
-              value={info.initiative || ''}
-              onChange={onChange('initiative', true)}
+              value={character.info.initiative || ''}
+              onChange={onChange('info', 'initiative', true)}
             />
           </BasicBox>
         </Badge>
@@ -164,10 +175,9 @@ const Profile = ({
         // DISPLAY LANGUAGES/TOOLS AND SAVING THROWS
         : <Row style={{ justifyContent: 'space-between' }}>
           <Column>
-            <Info><b>Known Languages:</b> { info.languages && info.languages.length ? info.languages.join() : <i>none</i> }</Info>
-            <Info><b>Tools Proficiencies:</b> { info.proTools && info.proTools.length ? info.proTools.join() : <i>none</i> }</Info>
-            <Info><b>Passive Perception:</b> {10 + parseInt(calculateModifier(info.stats.wis))} </Info>
-
+            <Info><b>Known Languages:</b> { character.info.languages && character.info.languages.length ? character.info.languages.join() : <i>none</i> }</Info>
+            <Info><b>Tools Proficiencies:</b> { character.info.proTools && character.info.proTools.length ? character.info.proTools.join() : <i>none</i> }</Info>
+            <Info><b>Passive Perception:</b> {10 + parseInt(calculateModifier(character.info.stats.wis))} </Info>
           </Column>
           </Row>
       }

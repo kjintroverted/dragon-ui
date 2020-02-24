@@ -8,7 +8,7 @@ const getWelcome = async () => {
 };
 
 const getCharacter = async (characterId = '') => {
-  const result = await fetch(`http://${serverDomain}/api/data/pc/${characterId}`);
+  const result = await fetch(`http://${serverDomain}/api/data/pc/${characterId}?detail=true`);
   return result.json();
 };
 
@@ -19,10 +19,10 @@ const checkUserAuth = async (characterId, user) => {
 
 const saveCharacter = async (character) => {
   try {
-    await fetch(`http://${serverDomain}/api/characters`,
+    await fetch(`http://${serverDomain}/api/data/pc?uid=${character.info.id}`,
       {
         method: 'POST',
-        body: JSON.stringify(character),
+        body: JSON.stringify(character.info),
         headers: {
           'Content-Type': 'application/json',
         },
@@ -37,7 +37,7 @@ const saveCharacter = async (character) => {
 const watchCharacters = characterIds => new WebSocket(`ws://${serverDomain}/api/characters?id=${characterIds.join()}&watch=true`);
 
 const getCharactersByOwner = async () => {
-  const result = await fetch(`http://${serverDomain}/api/data/pc`);
+  const result = await fetch(`http://${serverDomain}/api/data/pc?detail=true`);
   return result.json();
 };
 
