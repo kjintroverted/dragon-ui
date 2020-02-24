@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { Fab } from '@material-ui/core';
 import Profile from '../components/Profile';
-import Attributes from '../components/Attributes';
+import Stats from '../components/Stats';
 import Skills from '../components/Skills';
 import { TopAnchor } from '../components/CustomStyled';
 import dungeonService from '../services/dungeonService';
@@ -118,7 +118,7 @@ const CharacterSheet = ({ characterData }) => {
         }
       </ProfileArea>
       <StatsArea>
-        <Attributes
+        <Stats
           character={character}
           saves={classInfo.prof_saving_throws || ''}
           update={update}

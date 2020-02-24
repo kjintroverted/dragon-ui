@@ -7,7 +7,7 @@ import { Card, HeaderBar } from './CustomStyled';
 import { calculateModifier } from '../services/helper';
 
 
-function Attributes({
+function Stats({
   character, saves, update, disabled,
 }) {
   const { stats } = character.info;
@@ -99,9 +99,9 @@ function Attributes({
   );
 }
 
-export default Attributes;
+export default Stats;
 
-Attributes.propTypes = {
+Stats.propTypes = {
   character: PropTypes.shape({
     dex: PropTypes.number,
     int: PropTypes.number,
