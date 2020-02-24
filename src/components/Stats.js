@@ -14,8 +14,12 @@ function Stats({
 
   function onChange(field) {
     return (e) => {
-      const val = +e.target.value;
-      update({ ...character, [field]: val });
+      const { info } = character;
+
+      const value = +e.target.value;
+      // to avoid a triple splat inside the update
+      const updatedInfo = { ...info, stats: { ...info.stats, [field]: value } };
+      update({ ...character, info: updatedInfo });
     };
   }
 
