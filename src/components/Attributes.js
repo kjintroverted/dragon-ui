@@ -11,6 +11,7 @@ function Attributes({
   character, saves, update, disabled,
 }) {
   const { stats } = character.info;
+
   function onChange(field) {
     return (e) => {
       const val = +e.target.value;
