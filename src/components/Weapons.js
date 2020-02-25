@@ -14,7 +14,7 @@ import dungeonService from '../services/dungeonService';
 
 
 const Weapons = ({
-  proWeapons, weaponList, dex, str, proBonus, update, disabled,
+  proWeapons, weaponList, weaponIDs, dex, str, proBonus, update, disabled,
 }) => {
   const [isEditing, setEditing] = useState(false);
   const [isAdding, setAdding] = useState(false);
@@ -33,11 +33,12 @@ const Weapons = ({
 
   async function loadWeaponOptions() {
     const weapons = await dungeonService.getWeapons();
+    console.log(weapons);
     const uniqueCategories = new Set();
     const uniqueDamageTypes = new Set();
     weapons.forEach((weapon) => {
-      uniqueCategories.add(weapon.category);
-      uniqueDamageTypes.add(weapon.damage_type.trim());
+      uniqueCategories.add(weapon.weapon.category);
+      uniqueDamageTypes.add(weapon.weapon.damageType.trim());
     });
     setWeaponCategories([...uniqueCategories]);
     setDamageTypes([...uniqueDamageTypes]);
@@ -50,7 +51,8 @@ const Weapons = ({
   }
 
   function addWeapon() {
-    update([...weaponList, selectedWeapon]);
+    // need to also update the weapon list
+    update([...weaponIDs, +selectedWeapon.id]);
     setAdding(false);
     setWeaponSelect({});
   }
@@ -89,7 +91,11 @@ const Weapons = ({
   useEffect(() => {
     if (isAdding && !weaponOptions.length) loadWeaponOptions();
   }, [isAdding, weaponOptions.length]);
-
+  console.log(weaponList, 'weapons');
+  console.log(weaponOptions, 'possible');
+  console.log(weaponCategories, 'categories');
+  console.log(damageTypes, 'damage types');
+  console.log(weaponIDs, 'ids');
   return (
     <Card>
       <HeaderBar>

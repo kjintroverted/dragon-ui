@@ -17,10 +17,10 @@ const Skills = ({ character, editing, update }) => {
   }
 
   function toggleSKill(e) {
-    const arr = character.proSkills || [];
+    const arr = character.info.proSkills || [];
     const i = arr.findIndex(skill => skill === e.target.value);
-    if (i === -1) update({ ...character, proSkills: [...arr, e.target.value] });
-    else update({ ...character, proSkills: [...arr.slice(0, i), ...arr.slice(i + 1)] });
+    if (i === -1) update({ ...character, info: { ...character.info, proSkills: [...arr, e.target.value] } });
+    else update({ ...character, info: { ...character.info, proSkills: [...arr.slice(0, i), ...arr.slice(i + 1)] } });
   }
 
   useEffect(() => {

@@ -65,7 +65,7 @@ const getRace = async (id) => {
 };
 
 const getWeapons = async () => {
-  const result = await fetch(`${serverDomain}/api/weapons`);
+  const result = await fetch(`${serverDomain}/api/items?type=weapon`);
   return result.json();
 };
 
