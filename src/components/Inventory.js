@@ -175,13 +175,7 @@ const Inventory = ({
 export default Inventory;
 
 Inventory.propTypes = {
-  itemList: PropTypes.arrayOf(PropTypes.shape({
-    name: PropTypes.string,
-    category: PropTypes.string,
-    damage_dice: PropTypes.string,
-    damage_type: PropTypes.string,
-    weight: PropTypes.string,
-  })).isRequired,
+  itemList: PropTypes.array.isRequired,
   gold: PropTypes.number.isRequired,
   update: PropTypes.func.isRequired,
   disabled: PropTypes.bool.isRequired,

@@ -213,11 +213,7 @@ const Profile = ({
 export default Profile;
 
 Profile.propTypes = {
-  character: PropTypes.shape({
-    name: PropTypes.string,
-    race: PropTypes.string,
-    class: PropTypes.string,
-  }).isRequired,
+  character: PropTypes.object.isRequired,
   hitDice: PropTypes.string.isRequired,
   update: PropTypes.func.isRequired,
   disabled: PropTypes.bool.isRequired,

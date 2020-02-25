@@ -58,7 +58,7 @@ function PartyView({ location }) {
     setExistingParty(true);
   }
 
-  useEffect(async () => {
+  useEffect(() => {
     const ids = location.search.split('id=')[1].split(',');
     setIDList(ids);
     const selected = localStorage.getItem('selected');
@@ -66,8 +66,11 @@ function PartyView({ location }) {
       setPartyName(selected);
       setExistingParty(true);
     }
-    const owned = await DungeonService.getCharactersByOwner();
-    setCharacters(owned);
+    async function fetchCharactersByOwner() {
+      const owned = await DungeonService.getCharactersByOwner();
+      setCharacters(owned);
+    }
+    fetchCharactersByOwner();
     // const socket = DungeonService.watchCharacters(ids);
     // socket.onmessage = (event) => {
     //   const updatedCharacters = JSON.parse(event.data).sort((a, b) => {

@@ -272,14 +272,8 @@ const InputContainer = styled.div`
 `;
 
 Weapons.propTypes = {
-  proWeapons: PropTypes.string.isRequired,
-  weaponList: PropTypes.arrayOf(PropTypes.shape({
-    name: PropTypes.string,
-    category: PropTypes.string,
-    damage_dice: PropTypes.string,
-    damage_type: PropTypes.string,
-    weight: PropTypes.string,
-  })).isRequired,
+  proWeapons: PropTypes.array.isRequired,
+  weaponList: PropTypes.array.isRequired,
   dex: PropTypes.number.isRequired,
   str: PropTypes.number.isRequired,
   proBonus: PropTypes.number.isRequired,
