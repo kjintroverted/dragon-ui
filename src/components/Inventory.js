@@ -133,6 +133,7 @@ const Inventory = ({
       { // DISPLAY ALL ITEMS
         itemList.map((item, i) => (
           <Column key={`${item.name}`}>
+            {console.log(item)}
             <Row style={{ alignItems: 'center' }}>
               { isEditing
                 && <IconButton color="secondary" onClick={() => remove(i)}>

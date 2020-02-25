@@ -34,8 +34,8 @@ const Profile = ({
 
   function add(field, valueField) {
     return () => {
-      const array = character[field] || [];
-      update({ ...character, [field]: [...array, values[valueField]] });
+      const array = character.info[field] || [];
+      update({ ...character, info: { ...character.info, [field]: [...array, values[valueField]] } });
       setValues({ ...values, [valueField]: '' });
     };
   }
@@ -148,8 +148,8 @@ const Profile = ({
             Known Languages
           </HeaderBar>
           <Row>
-            { character.languages
-              && character.languages.map((lang, i) => (
+            { character.info.languages
+              && character.info.languages.map((lang, i) => (
                 <Chip
                   key={`pro-${lang}`}
                   label={lang}
@@ -185,8 +185,8 @@ const Profile = ({
             Tool Proficiencies
           </HeaderBar>
           <Row>
-            { character.proTools
-              && character.proTools.map((tool, i) => (
+            { character.info.proTools
+              && character.info.proTools.map((tool, i) => (
                 <Chip
                   key={`pro-${tool}`}
                   label={tool}
