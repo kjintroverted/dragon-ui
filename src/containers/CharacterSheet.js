@@ -62,6 +62,7 @@ const CharacterSheet = ({ characterData }) => {
     // getRaceInfo(characterData.race);
     setEditMode(false);
   }, [characterData]);
+  console.log(character);
   return (
     <SheetContainer>
       { authorized && !editMode && (
@@ -142,9 +143,9 @@ const CharacterSheet = ({ characterData }) => {
         <Inventory
           disabled={!authorized}
           itemList={character.inventory || []}
-          gold={character.gold}
+          gold={character.info.gold}
           update={(gold, inventory) =>
-            update({ ...character, gold, inventory })
+            update({ ...character, info: { ...character.info, gold }, inventory })
           }
         />
       </EquipmentArea>

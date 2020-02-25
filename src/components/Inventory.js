@@ -125,7 +125,7 @@ const Inventory = ({
           variant="outlined"
           type="number"
           label="Gold Pieces"
-          value={goldValue || 0}
+          value={gold || 0}
           onChange={changeGold}
         />
       </Row>
