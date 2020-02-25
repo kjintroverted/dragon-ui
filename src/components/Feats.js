@@ -15,7 +15,7 @@ import {
 import dungeonService from '../services/dungeonService';
 
 const Feats = ({
-  featIDs, featss, traits, update, disabled,
+  featIDs, feats, traits, update, disabled,
 }) => {
   const [feats, setFeats] = useState([]);
   const [featSearchArr, setSearchArr] = useState([]);
@@ -41,13 +41,13 @@ const Feats = ({
     setFeats(results);
   }
 
-  const displayFeatDetails = feat => (
-      <ExpansionPanelDetails
-        key={`feat-${feat.name.replace(' ', '-')}-desc.${feat.description.length}`}
-      >
-                  { feat.description }
-      </ExpansionPanelDetails>
-  );
+  // const displayFeatDetails = feat => (
+  //     <ExpansionPanelDetails
+  //       key={`feat-${feat.name.replace(' ', '-')}-desc.${feat.description.length}`}
+  //     >
+  //                 { feat.description }
+  //     </ExpansionPanelDetails>
+  // );
 
   useEffect(() => {
     if (featIDs && featIDs.length) loadFeats(featIDs);
@@ -125,7 +125,7 @@ const Feats = ({
       }
 
       { // DISPLAY FEATS
-        featss.map((feat, i) => (
+        feats.map((feat, i) => (
           <ExpansionPanel key={`feat-${feat.name.replace(' ', '-')}`}>
             <ExpansionPanelSummary>{ feat.name }</ExpansionPanelSummary>
             {/* {displayFeatDetails(feat)} */}

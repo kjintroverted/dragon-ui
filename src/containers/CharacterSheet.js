@@ -12,7 +12,7 @@ import Inventory from '../components/Inventory';
 import SpellBook from './SpellBook';
 import { same, calculateModifier } from '../services/helper';
 import CharacterAdmin from '../components/CharacterAdmin';
-import Feats from '../components/Feats';
+// import Feats from '../components/Feats';
 import DeathSavingThrows from '../components/DeathSavingThrows';
 
 const CharacterSheet = ({ characterData }) => {
@@ -22,7 +22,7 @@ const CharacterSheet = ({ characterData }) => {
   const [editMode, setEditMode] = useState(false);
   const [authorized, setAuthorized] = useState(false);
   const [classInfo, setClassInfo] = useState({});
-  const [raceInfo, setRaceInfo] = useState({});
+  // const [raceInfo, setRaceInfo] = useState({});
   const { stats } = character.info;
   function update(charUpdates) {
     setDirty(!same(characterBase, charUpdates));
@@ -49,17 +49,17 @@ const CharacterSheet = ({ characterData }) => {
     setClassInfo(result);
   }
 
-  async function getRaceInfo(race) {
-    if (!race) return;
-    const result = await dungeonService.getRace(race.id);
-    setRaceInfo(result);
-  }
+  // async function getRaceInfo(race) {
+  //   if (!race) return;
+  //   const result = await dungeonService.getRace(race.id);
+  //   setRaceInfo(result);
+  // }
 
   useEffect(() => {
     updateCharacter(characterData);
     setAuthorized(characterData.authorized);
     getClassInfo(characterData.class.id);
-    getRaceInfo(characterData.race);
+    // getRaceInfo(characterData.race);
     setEditMode(false);
   }, [characterData]);
   return (
@@ -149,13 +149,14 @@ const CharacterSheet = ({ characterData }) => {
         />
       </EquipmentArea>
       <Misc>
-        <Feats
+
+        {/* <Feats
           disabled={!authorized}
           traits={raceInfo.traits || []}
-          featss={character.features || []}
+          feats={character.features || []}
           // featIDs={character.features || []}
           update={feats => update({ ...character, feats })}
-        />
+        /> */}
         { classInfo && classInfo.spellcasting_ability && (
           <SpellBook
             disabled={!authorized}
