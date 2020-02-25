@@ -30,7 +30,6 @@ export function isProWeapon(item, proWeaponDesc) {
 }
 
 export function same(obj1, obj2) {
-  console.log('same same ', JSON.stringify(obj1) === JSON.stringify(obj2));
   return JSON.stringify(obj1) === JSON.stringify(obj2);
 }
 

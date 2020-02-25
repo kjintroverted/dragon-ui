@@ -28,7 +28,6 @@ function OwnerView({ owner }) {
 
   async function getCharactersByOwner() {
     const characterList = await DungeonService.getCharactersByOwner(owner);
-    console.log(characterList, 'hellooooooo');
     updateCharacters(characterList || []);
   }
 
@@ -54,7 +53,6 @@ function OwnerView({ owner }) {
   useEffect(() => {
     (async function getCharacters() {
       const characterList = await DungeonService.getCharactersByOwner(owner);
-      console.log(characterList, 'booger');
       updateCharacters(characterList || []);
       setLoading(false);
     }());
@@ -104,7 +102,6 @@ function OwnerView({ owner }) {
       </ProgressContainer>
     );
   }
-  console.log(characters);
   return (
     <Column>
       <TopAnchor>

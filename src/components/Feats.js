@@ -41,17 +41,13 @@ const Feats = ({
     setFeats(results);
   }
 
-  const displayFeatDetails = (feat) => {
-    console.log('what', feat);
-    return (
+  const displayFeatDetails = feat => (
       <ExpansionPanelDetails
         key={`feat-${feat.name.replace(' ', '-')}-desc.${feat.description.length}`}
       >
-                  {console.log(feat.description.body, 'i am here')}
                   { feat.description }
       </ExpansionPanelDetails>
-    );
-  };
+  );
 
   useEffect(() => {
     if (featIDs && featIDs.length) loadFeats(featIDs);
@@ -116,7 +112,7 @@ const Feats = ({
           </Row>
            </Column>
       }
-      {console.log(traits, 'traaaaiiiitttss')}
+
       { // DISPLAY TRAITS
         traits.map(trait => (
           <ExpansionPanel key={`trait-${trait.title.replace(' ', '-')}`}>
@@ -128,11 +124,9 @@ const Feats = ({
         ))
       }
 
-{ console.log('FOOOTTTS', featss)}
       { // DISPLAY FEATS
         featss.map((feat, i) => (
           <ExpansionPanel key={`feat-${feat.name.replace(' ', '-')}`}>
-            {console.log(feat.description[0].body, 'describe me')}
             <ExpansionPanelSummary>{ feat.name }</ExpansionPanelSummary>
             {/* {displayFeatDetails(feat)} */}
             {/* {
@@ -141,7 +135,6 @@ const Feats = ({
                 <ExpansionPanelDetails
                   key={`feat-${feat.name.replace(' ', '-')}-desc.${description.length}`}
                 >
-                  {console.log(description.body, 'i am here')}
                   { description }
                 </ExpansionPanelDetails>
              ))

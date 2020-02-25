@@ -62,7 +62,6 @@ const CharacterSheet = ({ characterData }) => {
     getRaceInfo(characterData.race);
     setEditMode(false);
   }, [characterData]);
-  console.log(character);
   return (
     <SheetContainer>
       { authorized && !editMode && (
@@ -150,7 +149,6 @@ const CharacterSheet = ({ characterData }) => {
         />
       </EquipmentArea>
       <Misc>
-        {console.log(character.features, 'feats')}
         <Feats
           disabled={!authorized}
           traits={raceInfo.traits || []}

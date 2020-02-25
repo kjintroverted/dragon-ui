@@ -12,7 +12,6 @@ import { calculateModifier } from '../services/helper';
 function CharacterSummary({
   character, save, add, linkTo, open, highlight,
 }) {
-  console.log(character);
   return (
     <Card style={highlight ? { background: 'lightblue' } : {}}>
       <HeaderBar>
@@ -62,11 +61,7 @@ function CharacterSummary({
 export default CharacterSummary;
 
 CharacterSummary.propTypes = {
-  character: PropTypes.shape({
-    name: PropTypes.string,
-    race: PropTypes.string,
-    class: PropTypes.string,
-  }).isRequired,
+  character: PropTypes.object.isRequired,
   save: PropTypes.func,
   add: PropTypes.func,
   open: PropTypes.func,

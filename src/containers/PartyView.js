@@ -89,7 +89,6 @@ function PartyView({ location }) {
     if (!id || (focus && focus.info.id === id)) return;
     setFocus(characters.find(c => `${c.info.id}` === id));
   }, [characters, idList, focus]);
-  console.log(characters, 'hello');
   if (characters.length === 0 || !focus) {
     return (
       <ProgressContainer>

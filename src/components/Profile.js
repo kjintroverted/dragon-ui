@@ -28,10 +28,6 @@ const Profile = ({
   function onChange(object, field, isNumeric) {
     return (e) => {
       const value = isNumeric ? +e.target.value : e.target.value;
-      // console.log('before', character);
-      // character.info.stats[field] = value;
-      // console.log(character.info.stats[field]);
-      // console.log('after', character.info.stats);
       update({ ...character, [object]: { ...character.info, [field]: value } });
     };
   }
