@@ -1,5 +1,3 @@
-
-// WILL NEED TO BE DYNAMIC BY ENV
 const serverDomain = process.env.REACT_APP_API_DOMAIN || 'http://localhost:80';
 
 const getWelcome = async () => {
@@ -8,7 +6,7 @@ const getWelcome = async () => {
 };
 
 const getCharacter = async (characterId = '') => {
-  const result = await fetch(`${serverDomain}/api/pc/${characterId}?detail=true`);
+  const result = await fetch(`${serverDomain}/api/data/pc/${characterId}?detail=true`);
   return result.json();
 };
 
