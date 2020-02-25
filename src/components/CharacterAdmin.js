@@ -12,8 +12,8 @@ const CharacterAdmin = ({ character, update }) => {
 
   function add(field, valueField) {
     return () => {
-      const array = character[field] || [];
-      update({ ...character, [field]: [...array, values[valueField]] });
+      const array = character.info[field] || [];
+      update({ ...character, info: { ...character.info, [field]: [...array, values[valueField]] } });
       setValues({ ...values, [valueField]: '' });
     };
   }
@@ -34,8 +34,8 @@ const CharacterAdmin = ({ character, update }) => {
         <h2>Authorized Users</h2>
       </HeaderBar>
       <Row>
-        {character.authUsers
-          && character.authUsers.map((user, i) => (
+        {character.info.authUsers
+          && character.info.authUsers.map((user, i) => (
             <Chip
               key={`user-${user}`}
               label={user}
@@ -57,8 +57,8 @@ const CharacterAdmin = ({ character, update }) => {
         <h2>Read-Only Users</h2>
       </HeaderBar>
       <Row>
-        {character.visibleTo
-          && character.visibleTo.map((user, i) => (
+        {character.info.visibleTo
+          && character.info.visibleTo.map((user, i) => (
             <Chip
               key={`user-${user}`}
               label={user}
