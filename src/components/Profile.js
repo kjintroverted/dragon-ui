@@ -114,7 +114,7 @@ const Profile = ({
             type="number"
             label="AC"
             value={0}
-            onChange={onChange('armor', true)}
+            // onChange={onChange('armor', true)}
           />
         </BasicBox>
         <BasicBox>
@@ -124,7 +124,7 @@ const Profile = ({
             type="number"
             label="Speed"
             value={character.race.speed}
-            onChange={onChange('race', 'speed', true)}
+            // onChange={onChange('race', 'speed', true)}
           />
         </BasicBox>
         <Badge badgeContent={calculateModifier(character.info.stats.dex)} color="secondary">
