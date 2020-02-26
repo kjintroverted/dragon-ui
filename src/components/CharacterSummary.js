@@ -16,8 +16,8 @@ function CharacterSummary({
     <Card style={ highlight ? { background: 'lightblue' } : {} }>
       <HeaderBar>
         <Column>
-          <b>{ character.name }</b>
-          <p>{ character.race } { character.class }</p>
+          <b>{ character.info.name }</b>
+          <p>{ character.race.name } { character.class.name }</p>
         </Column>
         <Spacer />
         <ActionBar>
@@ -46,13 +46,13 @@ function CharacterSummary({
         </ActionBar>
       </HeaderBar>
       <InfoRow>
-        <TextField variant="outlined" disabled type="number" label="Level" value={ character.level } />
-        <TextField variant="outlined" disabled type="number" label="Hit Points" value={ character.hp } />
-        <TextField variant="outlined" disabled type="number" label="Initiative" value={ character.initiative || '' } />
+        <TextField variant="outlined" disabled type="number" label="Level" value={ character.level.level } />
+        <TextField variant="outlined" disabled type="number" label="Hit Points" value={ character.info.hp } />
+        <TextField variant="outlined" disabled type="number" label="Initiative" value={ character.info.initiative || '' } />
       </InfoRow>
-      <Perception>Passive Perception: { 10 + parseInt(calculateModifier(character.wis)) }</Perception>
+      <Perception>Passive Perception: { 10 + parseInt(calculateModifier(character.info.stats.wis)) }</Perception>
       <FooterBar>
-        <p>Created by <b>{ character.owner }</b></p>
+        <p>Created by <b>{ character.info.owner }</b></p>
       </FooterBar>
     </Card>
   );
@@ -61,11 +61,7 @@ function CharacterSummary({
 export default CharacterSummary;
 
 CharacterSummary.propTypes = {
-  character: PropTypes.shape({
-    name: PropTypes.string,
-    race: PropTypes.string,
-    class: PropTypes.string,
-  }).isRequired,
+  character: PropTypes.object.isRequired,
   save: PropTypes.func,
   add: PropTypes.func,
   open: PropTypes.func,
@@ -86,7 +82,7 @@ const InfoRow = styled.div`
       margin-top: .62em;
     `;
 
-const Perception = styled.text`
+const Perception = styled.p`
       font-size: 12px;
       font-style: italic;
     `;

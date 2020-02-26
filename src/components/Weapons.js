@@ -7,15 +7,18 @@ import styled from 'styled-components';
 import {
   Card, HeaderBar, ActionBar, Row, Spacer, Column, BasicBox,
 } from './CustomStyled';
-import { dexAttack, calculateModifier, isProWeapon, isRangeWeapon } from '../services/helper';
+import {
+  dexAttack, calculateModifier, isProWeapon, isRangeWeapon,
+} from '../services/helper';
 import dungeonService from '../services/dungeonService';
 
 
 const Weapons = ({
-  proWeapons, weaponList, dex, str, proBonus, update, disabled,
+  proWeapons, weaponList, weaponIDs, dex, str, proBonus, update, disabled,
 }) => {
   const [isEditing, setEditing] = useState(false);
   const [isAdding, setAdding] = useState(false);
+  const [ownedWeapons, setOwnedWeapons] = useState(weaponList);
   const [isAddingUnique, setAddingUnique] = useState(false);
   const [weaponOptions, setWeaponOptions] = useState([]);
   const [selectedWeapon, setWeaponSelect] = useState({});
@@ -31,11 +34,12 @@ const Weapons = ({
 
   async function loadWeaponOptions() {
     const weapons = await dungeonService.getWeapons();
+    console.log(weapons);
     const uniqueCategories = new Set();
     const uniqueDamageTypes = new Set();
     weapons.forEach((weapon) => {
-      uniqueCategories.add(weapon.category);
-      uniqueDamageTypes.add(weapon.damage_type.trim());
+      uniqueCategories.add(weapon.weapon.category);
+      uniqueDamageTypes.add(weapon.weapon.damageType.trim());
     });
     setWeaponCategories([...uniqueCategories]);
     setDamageTypes([...uniqueDamageTypes]);
@@ -48,13 +52,15 @@ const Weapons = ({
   }
 
   function addWeapon() {
-    update([...weaponList, selectedWeapon]);
+    update([...weaponIDs, +selectedWeapon.id]);
     setAdding(false);
+    // updates owned weapons list to avoid multiple calls and unnecessary updates of parent object
+    setOwnedWeapons([...ownedWeapons, selectedWeapon]);
     setWeaponSelect({});
   }
 
   function remove(i) {
-    update([...weaponList.slice(0, i), ...weaponList.slice(i + 1)])
+    update([...weaponList.slice(0, i), ...weaponList.slice(i + 1)]);
   }
 
   function handleUniqueSelect(event) {
@@ -87,47 +93,51 @@ const Weapons = ({
   useEffect(() => {
     if (isAdding && !weaponOptions.length) loadWeaponOptions();
   }, [isAdding, weaponOptions.length]);
-
+  console.log(weaponList, 'weapons');
+  console.log(weaponOptions, 'possible');
+  console.log(weaponCategories, 'categories');
+  console.log(damageTypes, 'damage types');
+  console.log(weaponIDs, 'ids');
   return (
     <Card>
       <HeaderBar>
         <h2>Weapons</h2>
         <Spacer />
-        { !disabled &&
-          <ActionBar>
-            <IconButton onClick={ () => { setAdding(!isAdding); setAddingUnique(false); } }>
+        { !disabled
+          && <ActionBar>
+            <IconButton onClick={() => { setAdding(!isAdding); setAddingUnique(false); }}>
               <i className="material-icons">{ isAdding ? 'close' : 'add' }</i>
             </IconButton>
-            <IconButton onClick={ () => setEditing(!isEditing) }>
+            <IconButton onClick={() => setEditing(!isEditing)}>
               <i className="material-icons">{ isEditing ? 'check' : 'edit' }</i>
             </IconButton>
-          </ActionBar>
+             </ActionBar>
         }
       </HeaderBar>
       { // ADD NEW WEAPON
         isAdding && !isAddingUnique
         && <Row>
-          <FormControl variant="outlined" style={ { minWidth: 120 } }>
+          <FormControl variant="outlined" style={{ minWidth: 120 }}>
             <FormLabel htmlFor="class">Weapon Select</FormLabel>
             <Select
-              value={ selectedWeapon.name || '' }
-              onChange={ onWeaponChange }
-              input={ <OutlinedInput id="weapon" /> }
+              value={selectedWeapon.name || ''}
+              onChange={onWeaponChange}
+              input={<OutlinedInput id="weapon" />}
             >
               {
-                weaponOptions.map(val => <MenuItem key={ val.name } value={ val.name }>{ val.name }</MenuItem>)
+                weaponOptions.map(val => <MenuItem key={val.name} value={val.name}>{ val.name }</MenuItem>)
               }
             </Select>
           </FormControl>
           <Spacer />
-          <IconButton onClick={ addWeapon }>
+          <IconButton onClick={addWeapon}>
             <i className="material-icons">done</i>
           </IconButton>
           <Row>
             <h2>Can't find your weapon?</h2>
-            <Button variant="contained" color="primary" onClick={ () => setAddingUnique(true) }>Add Unique Weapon</Button>
+            <Button variant="contained" color="primary" onClick={() => setAddingUnique(true)}>Add Unique Weapon</Button>
           </Row>
-        </Row >
+           </Row>
       }
       {
         isAddingUnique
@@ -140,36 +150,36 @@ const Weapons = ({
             <InputContainer>
               <InputLabel htmlFor="unique-category">Name</InputLabel>
               <TextField
-                style={ { width: '7rem' } }
+                style={{ width: '7rem' }}
                 variant="outlined"
-                onChange={ handleValueChange('name') }
+                onChange={handleValueChange('name')}
               />
             </InputContainer>
             <InputContainer>
               <InputLabel htmlFor="unique-category">Category</InputLabel>
               <Select
-                style={ { width: '7rem' } }
+                style={{ width: '7rem' }}
                 variant="outlined"
-                inputProps={ {
+                inputProps={{
                   name: 'category',
                   id: 'unique-category',
-                } }
-                input={ <OutlinedInput id="weapon" /> }
-                value={ uniqueWeapon.category }
-                onChange={ handleUniqueSelect }
+                }}
+                input={<OutlinedInput id="weapon" />}
+                value={uniqueWeapon.category}
+                onChange={handleUniqueSelect}
               >
                 {
-                  weaponCategories.map(category => <MenuItem key={ category } value={ category }>{ category }</MenuItem>)
+                  weaponCategories.map(category => <MenuItem key={category} value={category}>{ category }</MenuItem>)
                 }
               </Select>
             </InputContainer>
             <InputContainer>
               <InputLabel htmlFor="unique-category">Damage Dice</InputLabel>
               <TextField
-                style={ { width: '7rem' } }
+                style={{ width: '7rem' }}
                 variant="outlined"
                 placeholder="1d4"
-                onChange={ handleValueChange('damage_dice') }
+                onChange={handleValueChange('damage_dice')}
               />
             </InputContainer>
           </Row>
@@ -177,47 +187,47 @@ const Weapons = ({
             <InputContainer>
               <InputLabel htmlFor="unique-damage-type">Damage Type</InputLabel>
               <Select
-                style={ { width: '7rem' } }
+                style={{ width: '7rem' }}
                 variant="outlined"
-                inputProps={ {
+                inputProps={{
                   name: 'damage_type',
                   id: 'unique-damage-type',
-                } }
-                input={ <OutlinedInput id="weapon" /> }
-                value={ uniqueWeapon.damage_type }
-                onChange={ handleUniqueSelect }
+                }}
+                input={<OutlinedInput id="weapon" />}
+                value={uniqueWeapon.damage_type}
+                onChange={handleUniqueSelect}
               >
                 {
-                  damageTypes.map(damageType => <MenuItem key={ damageType } value={ damageType }>{ damageType }</MenuItem>)
+                  damageTypes.map(damageType => <MenuItem key={damageType} value={damageType}>{ damageType }</MenuItem>)
                 }
               </Select>
             </InputContainer>
             <InputContainer>
               <InputLabel htmlFor="unique-category">Weight</InputLabel>
               <TextField
-                style={ { width: '7rem' } }
+                style={{ width: '7rem' }}
                 variant="outlined"
-                onChange={ handleValueChange('weight') }
+                onChange={handleValueChange('weight')}
               />
             </InputContainer>
             <InputContainer>
               <InputLabel htmlFor="unique-category">Properties</InputLabel>
               <TextField
-                style={ { width: '7rem' } }
+                style={{ width: '7rem' }}
                 variant="outlined"
-                onChange={ handleValueChange('properties') }
+                onChange={handleValueChange('properties')}
               />
             </InputContainer>
           </Row>
           <Row>
-            <Button variant="contained" color="primary" className="submit-button" onClick={ submitUniqueWeapon }>
+            <Button variant="contained" color="primary" className="submit-button" onClick={submitUniqueWeapon}>
               Submit Weapon
             </Button>
           </Row>
-        </>
+           </>
       }
       { // DISPLAY ALL WEAPONS
-        weaponList.map((weapon, i) => {
+        ownedWeapons.map((weapon, i) => {
           const dexCheck = dexAttack(weapon);
           const proMod = isProWeapon(weapon, proWeapons) ? proBonus : 0;
           const atkMod = dexCheck ? calculateModifier(dex, proMod) : calculateModifier(str, proMod);
@@ -226,31 +236,40 @@ const Weapons = ({
           const rangeDmg = isRangeWeapon(weapon) ? calculateModifier(dex) : 0;
 
           return (
-            <Row key={ `${ weapon.name }` }>
-              { isEditing &&
-                <IconButton color="secondary" onClick={ () => remove(i) }>
+            <Row key={`${weapon.name}`}>
+              { isEditing
+                && <IconButton color="secondary" onClick={() => remove(i)}>
                   <i className="material-icons">delete</i>
-                </IconButton>
+                   </IconButton>
               }
               <Column>
                 <h3 className="min-margin">{ weapon.name }</h3>
-                <p className="min-margin">{ weapon.damage_type }</p>
+                <p className="min-margin">{ weapon.weapon.damageType }</p>
               </Column>
               <Spacer />
               <BasicBox>
-                <TextField variant="outlined" disabled label="Attack" value={ atkMod }
-                  helperText={ !dexCheck && rangeAtk ? `thrown: ${ rangeAtk }` : '' } />
+                <TextField
+                  variant="outlined"
+                  disabled
+                  label="Attack"
+                  value={atkMod}
+                  helperText={!dexCheck && rangeAtk ? `thrown: ${rangeAtk}` : ''}
+                />
               </BasicBox>
               <BasicBox>
-                <TextField variant="outlined" disabled label="Damage"
-                  value={ `${ weapon.damage_dice } ${ dmgMod }` }
-                  helperText={ !dexCheck && rangeDmg ? `thrown: ${ rangeDmg }` : '' } />
+                <TextField
+                  variant="outlined"
+                  disabled
+                  label="Damage"
+                  value={`${weapon.weapon.damage} ${dmgMod}`}
+                  helperText={!dexCheck && rangeDmg ? `thrown: ${rangeDmg}` : ''}
+                />
               </BasicBox>
             </Row>
           );
         })
       }
-    </Card >
+    </Card>
   );
 };
 
@@ -261,14 +280,8 @@ const InputContainer = styled.div`
 `;
 
 Weapons.propTypes = {
-  proWeapons: PropTypes.string.isRequired,
-  weaponList: PropTypes.arrayOf(PropTypes.shape({
-    name: PropTypes.string,
-    category: PropTypes.string,
-    damage_dice: PropTypes.string,
-    damage_type: PropTypes.string,
-    weight: PropTypes.string,
-  })).isRequired,
+  proWeapons: PropTypes.array.isRequired,
+  weaponList: PropTypes.array.isRequired,
   dex: PropTypes.number.isRequired,
   str: PropTypes.number.isRequired,
   proBonus: PropTypes.number.isRequired,

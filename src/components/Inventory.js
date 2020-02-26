@@ -125,7 +125,7 @@ const Inventory = ({
           variant="outlined"
           type="number"
           label="Gold Pieces"
-          value={goldValue || 0}
+          value={gold || 0}
           onChange={changeGold}
         />
       </Row>
@@ -133,6 +133,7 @@ const Inventory = ({
       { // DISPLAY ALL ITEMS
         itemList.map((item, i) => (
           <Column key={`${item.name}`}>
+            {console.log(item)}
             <Row style={{ alignItems: 'center' }}>
               { isEditing
                 && <IconButton color="secondary" onClick={() => remove(i)}>
@@ -175,13 +176,7 @@ const Inventory = ({
 export default Inventory;
 
 Inventory.propTypes = {
-  itemList: PropTypes.arrayOf(PropTypes.shape({
-    name: PropTypes.string,
-    category: PropTypes.string,
-    damage_dice: PropTypes.string,
-    damage_type: PropTypes.string,
-    weight: PropTypes.string,
-  })).isRequired,
+  itemList: PropTypes.array.isRequired,
   gold: PropTypes.number.isRequired,
   update: PropTypes.func.isRequired,
   disabled: PropTypes.bool.isRequired,

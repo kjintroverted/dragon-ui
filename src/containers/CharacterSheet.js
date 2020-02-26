@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import firebase from 'firebase';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { Fab } from '@material-ui/core';
 import Profile from '../components/Profile';
-import Attributes from '../components/Attributes';
+import Stats from '../components/Stats';
 import Skills from '../components/Skills';
 import { TopAnchor } from '../components/CustomStyled';
 import dungeonService from '../services/dungeonService';
@@ -13,7 +12,7 @@ import Inventory from '../components/Inventory';
 import SpellBook from './SpellBook';
 import { same, calculateModifier } from '../services/helper';
 import CharacterAdmin from '../components/CharacterAdmin';
-import Feats from '../components/Feats';
+// import Feats from '../components/Feats';
 import DeathSavingThrows from '../components/DeathSavingThrows';
 
 const CharacterSheet = ({ characterData }) => {
@@ -23,8 +22,8 @@ const CharacterSheet = ({ characterData }) => {
   const [editMode, setEditMode] = useState(false);
   const [authorized, setAuthorized] = useState(false);
   const [classInfo, setClassInfo] = useState({});
-  const [raceInfo, setRaceInfo] = useState({});
-
+  // const [raceInfo, setRaceInfo] = useState({});
+  const { stats } = character.info;
   function update(charUpdates) {
     setDirty(!same(characterBase, charUpdates));
     updateCharacter(charUpdates);
@@ -50,28 +49,20 @@ const CharacterSheet = ({ characterData }) => {
     setClassInfo(result);
   }
 
-  async function getRaceInfo(race) {
-    if (!race) return;
-    const result = await dungeonService.getRace(race);
-    setRaceInfo(result);
-  }
+  // async function getRaceInfo(race) {
+  //   if (!race) return;
+  //   const result = await dungeonService.getRace(race.id);
+  //   setRaceInfo(result);
+  // }
 
   useEffect(() => {
     updateCharacter(characterData);
-    setAuthorized(false);
-    (async function checkAuthorized(user) {
-      if (!characterData) return;
-      const result = await dungeonService.checkUserAuth(
-        characterData.id,
-        user.email,
-      );
-      setAuthorized(result.authorized);
-    }(firebase.auth().currentUser));
-    getClassInfo(characterData.class);
-    getRaceInfo(characterData.race);
+    setAuthorized(characterData.authorized);
+    getClassInfo(characterData.class.id);
+    // getRaceInfo(characterData.race);
     setEditMode(false);
   }, [characterData]);
-
+  console.log(character);
   return (
     <SheetContainer>
       { authorized && !editMode && (
@@ -80,103 +71,106 @@ const CharacterSheet = ({ characterData }) => {
             <Fab
               color="secondary"
               size="small"
-              onClick={ () => setEditMode(true) }
+              onClick={() => setEditMode(true)}
             >
               <i className="material-icons">edit</i>
             </Fab>
           ) : (
               <SaveBar>
-                <Fab color="secondary" size="small" style={ { marginRight: '1rem' } } onClick={ cancel }>
+                <Fab color="secondary" size="small" style={{ marginRight: '1rem' }} onClick={cancel}>
                   <i className="material-icons">clear</i>
                 </Fab>
-                <Fab color="secondary" size="small" onClick={ save }>
+                <Fab color="secondary" size="small" onClick={save}>
                   <i className="material-icons">save</i>
                 </Fab>
               </SaveBar>
-            ) }
+          ) }
         </TopAnchor>
       ) }
       { editMode && (
         <>
           <SaveBar>
-            <Fab color="secondary" size="small" style={ { marginRight: '1rem' } } onClick={ cancel }>
+            <Fab color="secondary" size="small" style={{ marginRight: '1rem' }} onClick={cancel}>
               <i className="material-icons">clear</i>
             </Fab>
             <div />
-            <Fab color="secondary" size="small" onClick={ save }>
+            <Fab color="secondary" size="small" onClick={save}>
               <i className="material-icons">save</i>
             </Fab>
           </SaveBar>
           <Admin>
-            <CharacterAdmin character={ character } update={ update } />
+            <CharacterAdmin character={character} update={update} />
           </Admin>
         </>
       ) }
       <ProfileArea>
         <Profile
-          character={ character }
-          hitDice={ classInfo.hit_dice || '' }
-          update={ update }
-          disabled={ !authorized }
-          editing={ editMode }
+          character={character}
+          hitDice={classInfo.hitDice || ''}
+          update={update}
+          disabled={!authorized}
+          editing={editMode}
         />
         { character.hp <= 0
-          ? <DeathSavingThrows id={ character.id } />
+          ? <DeathSavingThrows id={character.id} />
           // Switching to removeItem, clear was clearing the entire storage
-          : localStorage.removeItem(`deathsaves_${ character.id }`)
+          : localStorage.removeItem(`deathsaves_${character.id}`)
         }
       </ProfileArea>
       <StatsArea>
-        <Attributes
-          character={ character }
-          saves={ classInfo.prof_saving_throws || '' }
-          update={ update }
-          disabled={ !authorized || !editMode }
+        <Stats
+          character={character}
+          saves={classInfo.prof_saving_throws || ''}
+          update={update}
+          disabled={!authorized || !editMode}
         />
       </StatsArea>
       <SkillsArea>
-        <Skills character={ character } editing={ editMode } update={ update } />
+        <Skills character={character} editing={editMode} update={update} />
       </SkillsArea>
       <WeaponsArea>
         <Weapons
-          disabled={ !authorized }
-          proWeapons={ classInfo.prof_weapons || '' }
-          weaponList={ character.weapons || [] }
-          dex={ character.dex }
-          str={ character.str }
-          proBonus={ character.proBonus }
-          update={ weapons => update({ ...character, weapons }) }
+          disabled={!authorized}
+          proWeapons={classInfo.proWeapon || ''}
+          weaponList={character.weapons || []}
+          weaponIDs={character.info.weaponIDs}
+          dex={stats.dex}
+          str={stats.str}
+          proBonus={character.level.proBonus}
+          update={weaponIDs => update({ ...character, info: { ...character.info, weaponIDs } })}
         />
       </WeaponsArea>
       <EquipmentArea>
         <Inventory
-          disabled={ !authorized }
-          itemList={ character.inventory || [] }
-          gold={ character.gold }
-          update={ (gold, inventory) =>
-            update({ ...character, gold, inventory })
+          disabled={!authorized}
+          itemList={character.inventory || []}
+          gold={character.info.gold}
+          update={(gold, inventory) =>
+            update({ ...character, info: { ...character.info, gold }, inventory })
           }
         />
       </EquipmentArea>
       <Misc>
-        <Feats
-          disabled={ !authorized }
-          traits={ raceInfo.traits || [] }
-          featIDs={ character.feats || [] }
-          update={ feats => update({ ...character, feats }) }
-        />
+
+        {/* <Feats
+          disabled={!authorized}
+          traits={raceInfo.traits || []}
+          feats={character.features || []}
+          // featIDs={character.features || []}
+          update={feats => update({ ...character, feats })}
+        /> */}
         { classInfo && classInfo.spellcasting_ability && (
           <SpellBook
-            disabled={ !authorized }
-            classInfo={ classInfo }
-            level={ character.level }
-            spells={ character.spells || [] }
-            update={ spells => update({ ...character, spells }) }
-            mod={ calculateModifier(
+            disabled={!authorized}
+            classInfo={classInfo}
+            level={character.level}
+            spells={character.spells || []}
+            update={spells => update({ ...character, spells })}
+            mod={calculateModifier(
               character[
-              classInfo.spellcasting_ability.toLowerCase().substring(0, 3)
+                classInfo.spellcasting_ability.toLowerCase().substring(0, 3)
               ], character.proBonus,
-            ) }
+            )}
           />
         ) }
       </Misc>

@@ -18,17 +18,24 @@ const Profile = ({
     return e => setValues({ ...values, [field]: e.target.value });
   }
 
-  function onChange(field, numeric) {
+  // function onChange(field, numeric) {
+  //   return (e) => {
+  //     const val = numeric ? +e.target.value : e.target.value;
+  //     update({ ...character, [field]: val });
+  //   };
+  // }
+
+  function onChange(object, field, isNumeric) {
     return (e) => {
-      const val = numeric ? +e.target.value : e.target.value;
-      update({ ...character, [field]: val });
+      const value = isNumeric ? +e.target.value : e.target.value;
+      update({ ...character, [object]: { ...character.info, [field]: value } });
     };
   }
 
   function add(field, valueField) {
     return () => {
-      const array = character[field] || [];
-      update({ ...character, [field]: [...array, values[valueField]] });
+      const array = character.info[field] || [];
+      update({ ...character, info: { ...character.info, [field]: [...array, values[valueField]] } });
       setValues({ ...values, [valueField]: '' });
     };
   }
@@ -36,29 +43,29 @@ const Profile = ({
   function remove(field, i) {
     return () => {
       const array = [
-        ...character[field].slice(0, i),
-        ...character[field].slice(i + 1),
+        ...character.info[field].slice(0, i),
+        ...character.info[field].slice(i + 1),
       ];
-      update({ ...character, [field]: array });
+      update({ ...character, info: { ...character.info, [field]: array } });
     };
   }
-
+  // const { info, stats, race } = character;
   return (
     <Card>
       <Row style={{ alignItems: 'center', justifyContent: 'flex-end' }}>
         <Column>
           { !editing
-            ? <h2 style={{ margin: 0 }}>{ character.name }</h2>
+            ? <h2 style={{ margin: 0 }}>{ character.info.name }</h2>
             : <TextField
               label="Name"
-              value={character.name}
-              onChange={onChange('name')}
+              value={character.info.name}
+              onChange={onChange('info', 'name')}
             />
           }
-          <p style={{ margin: 0 }}>{ character.race } { character.class }</p>
+          <p style={{ margin: 0 }}>{ character.race.name } { character.class.name }</p>
         </Column>
         <Spacer />
-        <Badge badgeContent={`+${character.proBonus}`} color="secondary">
+        <Badge badgeContent={`+${character.level.proBonus}`} color="secondary">
           <BasicBox>
             { !editing
               ? <TextField
@@ -66,14 +73,14 @@ const Profile = ({
                 disabled
                 type="number"
                 label="Level"
-                value={character.level}
+                value={character.level.level}
               />
               : <TextField
                 variant="outlined"
                 type="number"
                 label="XP"
-                value={character.xp}
-                onChange={onChange('xp', true)}
+                value={character.info.xp}
+                onChange={onChange('info', 'xp', true)}
               />
             }
           </BasicBox>
@@ -84,19 +91,19 @@ const Profile = ({
               variant="outlined"
               disabled={disabled}
               type="number"
-              label={`HP/${character.maxHP}`}
-              value={character.hp}
+              label={`HP/${character.info.maxHP}`}
+              value={character.info.hp}
               helperText={`${hitDice}`}
-              onChange={onChange('hp', true)}
+              onChange={onChange('info', 'hp', true)}
             />
             : <TextField
               variant="outlined"
               disabled={disabled}
               type="number"
               label="Max HP"
-              value={character.maxHP}
+              value={character.info.maxHP}
               helperText={`${hitDice}`}
-              onChange={onChange('maxHP', true)}
+              onChange={onChange('info', 'maxHP', true)}
             />
           }
         </BasicBox>
@@ -106,8 +113,8 @@ const Profile = ({
             disabled={!editing}
             type="number"
             label="AC"
-            value={character.armor}
-            onChange={onChange('armor', true)}
+            value={0}
+            // onChange={onChange('armor', true)}
           />
         </BasicBox>
         <BasicBox>
@@ -116,19 +123,19 @@ const Profile = ({
             disabled={!editing}
             type="number"
             label="Speed"
-            value={character.speed}
-            onChange={onChange('speed', true)}
+            value={character.race.speed}
+            // onChange={onChange('race', 'speed', true)}
           />
         </BasicBox>
-        <Badge badgeContent={calculateModifier(character.dex)} color="secondary">
+        <Badge badgeContent={calculateModifier(character.info.stats.dex)} color="secondary">
           <BasicBox>
             <TextField
               variant="outlined"
               disabled={disabled}
               type="number"
               label="Init"
-              value={character.initiative || ''}
-              onChange={onChange('initiative', true)}
+              value={character.info.initiative || ''}
+              onChange={onChange('info', 'initiative', true)}
             />
           </BasicBox>
         </Badge>
@@ -141,8 +148,8 @@ const Profile = ({
             Known Languages
           </HeaderBar>
           <Row>
-            { character.languages
-              && character.languages.map((lang, i) => (
+            { character.info.languages
+              && character.info.languages.map((lang, i) => (
                 <Chip
                   key={`pro-${lang}`}
                   label={lang}
@@ -164,10 +171,9 @@ const Profile = ({
         // DISPLAY LANGUAGES/TOOLS AND SAVING THROWS
         : <Row style={{ justifyContent: 'space-between' }}>
           <Column>
-            <Info><b>Known Languages:</b> { character.languages && character.languages.length ? character.languages.join() : <i>none</i> }</Info>
-            <Info><b>Tools Proficiencies:</b> { character.proTools && character.proTools.length ? character.proTools.join() : <i>none</i> }</Info>
-            <Info><b>Passive Perception:</b> {10 + parseInt(calculateModifier(character.wis))} </Info>
-
+            <Info><b>Known Languages:</b> { character.info.languages && character.info.languages.length ? character.info.languages.join() : <i>none</i> }</Info>
+            <Info><b>Tools Proficiencies:</b> { character.info.proTools && character.info.proTools.length ? character.info.proTools.join() : <i>none</i> }</Info>
+            <Info><b>Passive Perception:</b> {10 + parseInt(calculateModifier(character.info.stats.wis))} </Info>
           </Column>
           </Row>
       }
@@ -179,8 +185,8 @@ const Profile = ({
             Tool Proficiencies
           </HeaderBar>
           <Row>
-            { character.proTools
-              && character.proTools.map((tool, i) => (
+            { character.info.proTools
+              && character.info.proTools.map((tool, i) => (
                 <Chip
                   key={`pro-${tool}`}
                   label={tool}
@@ -207,11 +213,7 @@ const Profile = ({
 export default Profile;
 
 Profile.propTypes = {
-  character: PropTypes.shape({
-    name: PropTypes.string,
-    race: PropTypes.string,
-    class: PropTypes.string,
-  }).isRequired,
+  character: PropTypes.object.isRequired,
   hitDice: PropTypes.string.isRequired,
   update: PropTypes.func.isRequired,
   disabled: PropTypes.bool.isRequired,

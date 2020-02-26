@@ -66,28 +66,32 @@ function PartyView({ location }) {
       setPartyName(selected);
       setExistingParty(true);
     }
-    const socket = DungeonService.watchCharacters(ids);
-    socket.onmessage = (event) => {
-      const updatedCharacters = JSON.parse(event.data).sort((a, b) => {
-        if (!a.initiative) {
-          if (!b.initiative) return 0;
-          return 1;
-        }
-        if (!b.initiative) return -1;
-        return b.initiative - a.initiative;
-      });
-      setCharacters(updatedCharacters);
-    };
+    async function fetchCharactersByOwner() {
+      const owned = await DungeonService.getCharactersByOwner();
+      setCharacters(owned);
+    }
+    fetchCharactersByOwner();
+    // const socket = DungeonService.watchCharacters(ids);
+    // socket.onmessage = (event) => {
+    //   const updatedCharacters = JSON.parse(event.data).sort((a, b) => {
+    //     if (!a.initiative) {
+    //       if (!b.initiative) return 0;
+    //       return 1;
+    //     }
+    //     if (!b.initiative) return -1;
+    //     return b.initiative - a.initiative;
+    //   });
+    //   setCharacters(updatedCharacters);
+    // };
 
-    return () => socket.close();
+    // return () => socket.close();
   }, [location.search]);
 
   useEffect(() => {
-    const id = !focus ? idList[0] : focus.id || idList[0];
-    if (!id) return;
-    setFocus(characters.find(c => c.id === id));
+    const id = !focus ? idList[0] : focus.info.id || idList[0];
+    if (!id || (focus && focus.info.id === id)) return;
+    setFocus(characters.find(c => `${c.info.id}` === id));
   }, [characters, idList, focus]);
-
   if (characters.length === 0 || !focus) {
     return (
       <ProgressContainer>
@@ -128,10 +132,10 @@ function PartyView({ location }) {
               <SideContainer>
                 { characters.map(character => (
                   <CharacterSummary
-                    key={character.id}
+                    key={character.info.id}
                     character={character}
                     open={() => setFocus(character)}
-                    highlight={focus.id === character.id}
+                    highlight={focus.info.id === character.info.id}
                   />
                 )) }
               </SideContainer>
