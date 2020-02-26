@@ -34,7 +34,6 @@ const Weapons = ({
 
   async function loadWeaponOptions() {
     const weapons = await dungeonService.getWeapons();
-    console.log(weapons);
     const uniqueCategories = new Set();
     const uniqueDamageTypes = new Set();
     weapons.forEach((weapon) => {
@@ -59,8 +58,12 @@ const Weapons = ({
     setWeaponSelect({});
   }
 
-  function remove(i) {
-    update([...weaponList.slice(0, i), ...weaponList.slice(i + 1)]);
+  function remove(id) {
+    // updates owned weapons list to avoid multiple calls and unnecessary updates of parent object
+    const removedWeaponList = ownedWeapons.filter(weapon => weapon.id !== `${id}`);
+    setOwnedWeapons(removedWeaponList);
+    const index = weaponIDs.indexOf(id);
+    update([...weaponIDs.slice(0, index), ...weaponIDs.slice(index + 1)]);
   }
 
   function handleUniqueSelect(event) {
@@ -93,11 +96,6 @@ const Weapons = ({
   useEffect(() => {
     if (isAdding && !weaponOptions.length) loadWeaponOptions();
   }, [isAdding, weaponOptions.length]);
-  console.log(weaponList, 'weapons');
-  console.log(weaponOptions, 'possible');
-  console.log(weaponCategories, 'categories');
-  console.log(damageTypes, 'damage types');
-  console.log(weaponIDs, 'ids');
   return (
     <Card>
       <HeaderBar>
@@ -135,7 +133,7 @@ const Weapons = ({
           </IconButton>
           <Row>
             <h2>Can't find your weapon?</h2>
-            <Button variant="contained" color="primary" onClick={() => setAddingUnique(true)}>Add Unique Weapon</Button>
+            {/* <Button variant="contained" color="primary" onClick={() => setAddingUnique(true)}>Add Unique Weapon</Button> */}
           </Row>
            </Row>
       }
@@ -238,7 +236,7 @@ const Weapons = ({
           return (
             <Row key={`${weapon.name}`}>
               { isEditing
-                && <IconButton color="secondary" onClick={() => remove(i)}>
+                && <IconButton color="secondary" onClick={() => remove(+weapon.id)}>
                   <i className="material-icons">delete</i>
                    </IconButton>
               }
@@ -280,11 +278,12 @@ const InputContainer = styled.div`
 `;
 
 Weapons.propTypes = {
-  proWeapons: PropTypes.array.isRequired,
-  weaponList: PropTypes.array.isRequired,
   dex: PropTypes.number.isRequired,
-  str: PropTypes.number.isRequired,
-  proBonus: PropTypes.number.isRequired,
-  update: PropTypes.func.isRequired,
   disabled: PropTypes.bool.isRequired,
+  proBonus: PropTypes.number.isRequired,
+  proWeapons: PropTypes.array.isRequired,
+  str: PropTypes.number.isRequired,
+  update: PropTypes.func.isRequired,
+  weaponIDs: PropTypes.array.isRequired,
+  weaponList: PropTypes.array.isRequired,
 };
