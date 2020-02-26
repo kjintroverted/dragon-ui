@@ -13,7 +13,7 @@ function CharacterSummary({
   character, save, add, linkTo, open, highlight,
 }) {
   return (
-    <Card style={highlight ? { background: 'lightblue' } : {}}>
+    <Card style={ highlight ? { background: 'lightblue' } : {} }>
       <HeaderBar>
         <Column>
           <b>{ character.info.name }</b>
@@ -22,33 +22,33 @@ function CharacterSummary({
         <Spacer />
         <ActionBar>
           { linkTo
-            && <Link to={linkTo}>
+            && <Link to={ linkTo }>
               <IconButton>
                 <i className="material-icons">fullscreen</i>
               </IconButton>
-               </Link>
+            </Link>
           }
           { open
-            && <IconButton onClick={open}>
+            && <IconButton onClick={ open }>
               <i className="material-icons">fullscreen</i>
-               </IconButton>
+            </IconButton>
           }
           { add
-            && <IconButton onClick={add}>
+            && <IconButton onClick={ add }>
               <i className="material-icons">group_add</i>
-               </IconButton>
+            </IconButton>
           }
           { save
-            && <IconButton onClick={save}>
+            && <IconButton onClick={ save }>
               <i className="material-icons">save</i>
-               </IconButton>
+            </IconButton>
           }
         </ActionBar>
       </HeaderBar>
       <InfoRow>
-        <TextField variant="outlined" disabled type="number" label="Level" value={character.level.level} />
-        <TextField variant="outlined" disabled type="number" label="Hit Points" value={character.info.hp} />
-        <TextField variant="outlined" disabled type="number" label="Initiative" value={character.info.initiative || ''} />
+        <TextField variant="outlined" disabled type="number" label="Level" value={ character.level.level } />
+        <TextField variant="outlined" disabled type="number" label="Hit Points" value={ character.info.hp } />
+        <TextField variant="outlined" disabled type="number" label="Initiative" value={ character.info.initiative || '' } />
       </InfoRow>
       <Perception>Passive Perception: { 10 + parseInt(calculateModifier(character.info.stats.wis)) }</Perception>
       <FooterBar>
@@ -82,7 +82,7 @@ const InfoRow = styled.div`
       margin-top: .62em;
     `;
 
-const Perception = styled.text`
+const Perception = styled.p`
       font-size: 12px;
       font-style: italic;
     `;
