@@ -18,6 +18,7 @@ const Weapons = ({
 }) => {
   const [isEditing, setEditing] = useState(false);
   const [isAdding, setAdding] = useState(false);
+  const [ownedWeapons, setOwnedWeapons] = useState(weaponList);
   const [isAddingUnique, setAddingUnique] = useState(false);
   const [weaponOptions, setWeaponOptions] = useState([]);
   const [selectedWeapon, setWeaponSelect] = useState({});
@@ -51,9 +52,10 @@ const Weapons = ({
   }
 
   function addWeapon() {
-    // need to also update the weapon list
     update([...weaponIDs, +selectedWeapon.id]);
     setAdding(false);
+    // updates owned weapons list to avoid multiple calls and unnecessary updates of parent object
+    setOwnedWeapons([...ownedWeapons, selectedWeapon]);
     setWeaponSelect({});
   }
 
@@ -225,7 +227,7 @@ const Weapons = ({
            </>
       }
       { // DISPLAY ALL WEAPONS
-        weaponList.map((weapon, i) => {
+        ownedWeapons.map((weapon, i) => {
           const dexCheck = dexAttack(weapon);
           const proMod = isProWeapon(weapon, proWeapons) ? proBonus : 0;
           const atkMod = dexCheck ? calculateModifier(dex, proMod) : calculateModifier(str, proMod);
