@@ -32,12 +32,13 @@ const CharacterBuilder = () => {
   return (
     <Builder>
       <Column>
+        {/* RACE SELECT  */ }
         <ExpansionPanel>
           <ExpansionPanelSummary>
             <Row>
               <b>{ character.race ? character.race.name : 'No Race Selected...' }</b>
               <Spacer />
-              <p>{ character.race ? character.race.ability.map(bonus => `${ bonus.name }+${ bonus.mod } `) : '' }</p>
+              <p>{ character.race ? character.race.ability.reduce((acc, bonus) => acc + `${ bonus.name }+${ bonus.mod } `, 'Boost: ') : '' }</p>
             </Row>
           </ExpansionPanelSummary>
           <ExpansionPanelDetails>
@@ -63,15 +64,45 @@ const CharacterBuilder = () => {
             </Column>
           </ExpansionPanelDetails>
         </ExpansionPanel>
+        {/* CLASS SELECT */ }
         <ExpansionPanel>
-          <ExpansionPanelSummary>{ character.class ? character.class.name : 'No Class Selected...' }</ExpansionPanelSummary>
+          <ExpansionPanelSummary>
+            <Row>
+              <b>{ character.class ? character.class.name : 'No Class Selected...' }</b>
+              <Spacer />
+              <p>{ character.class ? character.class.proSave.reduce((acc, bonus) => acc + `${ bonus } `, 'Saves: ') : '' }</p>
+            </Row>
+          </ExpansionPanelSummary>
           <ExpansionPanelDetails>
-            <FormSelect onChange={ handleBackGround('class', 'classID', classes) }>
-              <option>Select Class</option>
+            <Column>
               {
-                classes.map(r => <option key={ `class-${ r.id }` } value={ r.id }>{ r.name }</option>)
+                character.class &&
+                <>
+                  <Body><b>Hit Dice.</b> { character.class.hitDice }</Body>
+                  <Body><b>Armor Proficiencies.</b> <Capital>{ character.class.proArmor ? character.class.proArmor.join(", ") : "None." }</Capital></Body>
+                  <Body><b>Weapon Proficiencies.</b> <Capital>{ character.class.proWeapon ? character.class.proWeapon.join(", ") : "None." }</Capital></Body>
+                  <Body><b>Tool Proficiencies.</b> <Capital>{ character.class.proTool ? character.class.proTool : "None." }</Capital></Body>
+                  <hr />
+                  {
+                    character.class.description.map(section => (
+                      <>
+                        <Body><b>{ section.title }</b></Body>
+                        {
+                          section.body.map(text => <Body>{ text }</Body>)
+                        }
+                        <br />
+                      </>
+                    ))
+                  }
+                </>
               }
-            </FormSelect>
+              <FormSelect onChange={ handleBackGround('class', 'classID', classes) }>
+                <option>Select Class</option>
+                {
+                  classes.map(r => <option key={ `class-${ r.id }` } value={ r.id }>{ r.name }</option>)
+                }
+              </FormSelect>
+            </Column>
           </ExpansionPanelDetails>
         </ExpansionPanel>
       </Column>
@@ -96,4 +127,8 @@ const Builder = styled.div`
 
 const Body = styled.p`
   margin: 0em 0em .5em 0em;
+`
+
+const Capital = styled.span`
+  text-transform: capitalize;
 `
