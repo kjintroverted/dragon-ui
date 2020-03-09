@@ -78,5 +78,6 @@ export default App;
 
 const Content = styled.div`
   display: flex;
+  flex-direction: column;
   margin-top: 5em;
 `;
