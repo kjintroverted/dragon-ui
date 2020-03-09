@@ -9,6 +9,7 @@ import PartyView from "./containers/PartyView";
 import fetchIntercept from 'fetch-intercept';
 
 import "./App.css";
+import CharacterBuilder from "./containers/CharacterBuilder";
 
 function App() {
   const [user, updateUser] = useState();
@@ -60,6 +61,11 @@ function App() {
               path='/character'
               exact
               component={ props => <PartyView { ...props } /> }
+            />
+            <Route
+              path='/build'
+              exact
+              component={ props => <CharacterBuilder { ...props } /> }
             />
           </Content>
         ) }

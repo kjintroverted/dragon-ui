@@ -5,7 +5,6 @@ import styled from 'styled-components';
 import { Fab, Divider, CircularProgress } from '@material-ui/core';
 import { Link } from 'react-router-dom';
 import CharacterSummary from '../components/CharacterSummary';
-import CharacterForm from '../components/CharacterForm';
 import DungeonService from '../services/dungeonService';
 import {
   BottomAnchor,
@@ -20,34 +19,13 @@ import PartyChip from '../components/PartyChip';
 function OwnerView({ owner }) {
   const [characters, updateCharacters] = useState([]);
   const [parties, updateParties] = useState([]);
-  const [classes, setClasses] = useState([]);
-  const [races, setRaces] = useState([]);
   const [party, updateParty] = useState([]);
-  const [isAdding, setAdding] = useState(false);
   const [loading, setLoading] = useState(true);
-
-  async function getCharactersByOwner() {
-    const characterList = await DungeonService.getCharactersByOwner(owner);
-    updateCharacters(characterList || []);
-  }
 
   function toggleCharacter(id) {
     const i = party.indexOf(id);
     if (i !== -1) updateParty([...party.slice(0, i), ...party.slice(i + 1)]);
     else updateParty([...party, id]);
-  }
-
-  async function loadBackgroundOptions() {
-    const raceList = await DungeonService.getRaces();
-    setRaces(raceList);
-    const classList = await DungeonService.getClasses();
-    setClasses(classList);
-  }
-
-  async function addCharacter(data) {
-    await DungeonService.saveCharacter({ ...data, owner });
-    setAdding(false);
-    getCharactersByOwner();
   }
 
   useEffect(() => {
@@ -62,80 +40,57 @@ function OwnerView({ owner }) {
     }
   }, [owner]);
 
-  useEffect(() => {
-    if (!isAdding || races.length || classes.length) return;
-    loadBackgroundOptions();
-  }, [isAdding, classes.length, races.length]);
-
-  const ownCharacters = characters
-    .filter(character => character.owner === owner)
+  const cards = characters
     .map(character => (
       <CharacterSummary
-        key={character.info.id}
-        character={character}
-        highlight={party.indexOf(character.info.id) !== -1}
-        add={() => toggleCharacter(character.info.id)}
-        linkTo={`/character?id=${character.info.id}`}
-      />
-    ));
-
-  const otherCharacters = characters
-    .filter(character => character.owner !== owner)
-    .map(character => (
-      <CharacterSummary
-        key={character.info.id}
-        character={character}
-        highlight={party.indexOf(character.info.id) !== -1}
-        add={() => toggleCharacter(character.info.id)}
-        linkTo={`/character?id=${character.info.id}`}
+        key={ character.info.id }
+        character={ character }
+        highlight={ party.indexOf(character.info.id) !== -1 }
+        add={ () => toggleCharacter(character.info.id) }
+        linkTo={ `/character?id=${ character.info.id }` }
       />
     ));
 
   const ownerParties = parties.map(savedParty => (
-        <PartyChip key={savedParty.name} name={savedParty.name} members={savedParty.members} />
+    <PartyChip key={ savedParty.name } name={ savedParty.name } members={ savedParty.members } />
   ));
 
   if (loading) {
     return (
       <ProgressContainer>
-        <CircularProgress style={{ justifySelf: 'center' }} />
+        <CircularProgress style={ { justifySelf: 'center' } } />
       </ProgressContainer>
     );
   }
   return (
     <Column>
       <TopAnchor>
-        <Fab
-          size="small"
-          color="secondary"
-          onClick={() => setAdding(!isAdding)}
-        >
-          <i className="material-icons">{ !isAdding ? 'add' : 'close' }</i>
-        </Fab>
+        <Link to={ `/build` } style={ { zIndex: 10 } }>
+          <Fab
+            size="small"
+            color="secondary"
+          >
+            <i className="material-icons">add</i>
+          </Fab>
+        </Link>
       </TopAnchor>
-      {!!ownerParties.length
-      && <Card>
+      { !!ownerParties.length
+        && <Card>
           <Row>
             <h3>Parties: </h3>
-            {ownerParties}
+            { ownerParties }
           </Row>
-         </Card>
+        </Card>
       }
-      <Grid>
-        { ownCharacters }
-        { isAdding && (
-          <CharacterForm races={races} classes={classes} save={addCharacter} />
-        ) }
-      </Grid>
-      { !!otherCharacters.length && (
+      { !!cards.length && (
         <>
           <Divider />
-          <Grid>{ otherCharacters }</Grid>
+          <Grid>{ cards }</Grid>
         </>
       ) }
       { !!party.length && (
         <BottomAnchor>
-          <Link onClick={() => { localStorage.removeItem('selected'); }} to={`/character?id=${party.join()}`} style={{ zIndex: 10 }}>
+          <Link onClick={ () => { localStorage.removeItem('selected'); } } to={ `/character?id=${ party.join() }` } style={ { zIndex: 10 } }>
             <Fab color="secondary">
               <i className="material-icons">group</i>
             </Fab>
