@@ -83,9 +83,8 @@ export default CharacterBuilder;
 
 const FormSelect = styled.select`
   margin: 5px;
-  border: none;
-  background: none;
-  border-bottom: black solid;
+  background-image: linear-gradient(to bottom, white, whitesmoke);
+  border-color: whitesmoke;
   font-size: 1em;
   height: 2em;
 `
