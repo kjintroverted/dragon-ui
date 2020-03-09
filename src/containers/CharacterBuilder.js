@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import dungeonService from '../services/dungeonService'
 import { ExpansionPanel, ExpansionPanelSummary, ExpansionPanelDetails } from '@material-ui/core'
 import styled from 'styled-components'
-import { Column, Row, RowCenter, Spacer } from '../components/CustomStyled'
+import { Column, Row, Spacer } from '../components/CustomStyled'
 
 const CharacterBuilder = () => {
 
