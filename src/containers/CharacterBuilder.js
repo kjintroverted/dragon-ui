@@ -140,7 +140,7 @@ const CharacterBuilder = () => {
                   {
                     !!character.background.specialOpts &&
                     <>
-                      <Body><b>Additional Insights:</b></Body>
+                      <Body><b>Additional Insights (choose one for notes):</b></Body>
                       <ul>
                         { character.background.specialOpts.map((option, i) => <li key={ i }>{ option }</li>) }
                       </ul>
