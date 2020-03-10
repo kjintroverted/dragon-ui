@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import dungeonService from '../services/dungeonService'
-import { ExpansionPanel, ExpansionPanelSummary, ExpansionPanelDetails } from '@material-ui/core'
+import { ExpansionPanel, ExpansionPanelSummary, ExpansionPanelDetails, TextField } from '@material-ui/core'
 import styled from 'styled-components'
 import { Column, Row, Spacer } from '../components/CustomStyled'
 
@@ -9,6 +9,13 @@ const CharacterBuilder = () => {
   const [races, setRaces] = useState([])
   const [classes, setClasses] = useState([])
   const [character, updateCharacter] = useState({})
+
+  function handleInfo(field) {
+    return (e) => {
+      let info = { ...character.info, [field]: e.target.value }
+      updateCharacter({ ...character, info })
+    }
+  }
 
   function handleBackGround(field, infoField, opts) {
     return (e) => {
@@ -32,6 +39,11 @@ const CharacterBuilder = () => {
   return (
     <Builder>
       <Column>
+        <TextField
+          variant="outlined"
+          label="Name"
+          onChange={ handleInfo('name') }
+        />
         {/* RACE SELECT  */ }
         <ExpansionPanel>
           <ExpansionPanelSummary>
