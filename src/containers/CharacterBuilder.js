@@ -8,6 +8,7 @@ const CharacterBuilder = () => {
 
   const [races, setRaces] = useState([])
   const [classes, setClasses] = useState([])
+  const [bgList, setBGList] = useState([])
   const [character, updateCharacter] = useState({})
 
   function handleInfo(field) {
@@ -33,6 +34,10 @@ const CharacterBuilder = () => {
     (async function loadClasses() {
       let data = await dungeonService.getClasses()
       setClasses(data)
+    })();
+    (async function loadBackgrounds() {
+      let data = await dungeonService.getBackgrounds()
+      setBGList(data.sort((a, b) => a.name.localeCompare(b.name)))
     })();
   }, [])
 
@@ -115,6 +120,41 @@ const CharacterBuilder = () => {
                 <option>{ character.class ? 'Change Class' : 'Select Class' }</option>
                 {
                   classes.map(r => <option key={ `class-${ r.id }` } value={ r.id }>{ r.name }</option>)
+                }
+              </FormSelect>
+            </Column>
+          </ExpansionPanelDetails>
+        </ExpansionPanel>
+        {/* BACKGROUND SELECT */ }
+        <ExpansionPanel>
+          <ExpansionPanelSummary>
+            <Row>
+              <b>{ character.background ? character.background.name : 'No Background Selected...' }</b>
+            </Row>
+          </ExpansionPanelSummary>
+          <ExpansionPanelDetails>
+            <Column>
+              {
+                character.background &&
+                <>
+                  {
+                    !!character.background.specialOpts &&
+                    <>
+                      <Body><b>Additional Insights:</b></Body>
+                      <ul>
+                        { character.background.specialOpts.map((option, i) => <li key={ i }>{ option }</li>) }
+                      </ul>
+                    </>
+                  }
+                </>
+              }
+              <FormSelect
+                value=""
+                onChange={ handleBackGround('background', 'backgroundID', bgList) }
+              >
+                <option>{ character.background ? 'Change Background' : 'Select Background' }</option>
+                {
+                  bgList.map(bg => <option key={ `bg-${ bg.id }` } value={ bg.id }>{ bg.name }</option>)
                 }
               </FormSelect>
             </Column>
