@@ -3,6 +3,7 @@ import dungeonService from '../services/dungeonService'
 import { ExpansionPanel, ExpansionPanelSummary, ExpansionPanelDetails, TextField } from '@material-ui/core'
 import styled from 'styled-components'
 import { Column, Row, Spacer } from '../components/CustomStyled'
+import StatGrid from '../components/StatGrid'
 
 const CharacterBuilder = () => {
 
@@ -158,6 +159,17 @@ const CharacterBuilder = () => {
                 }
               </FormSelect>
             </Column>
+          </ExpansionPanelDetails>
+        </ExpansionPanel>
+        <ExpansionPanel>
+          <ExpansionPanelSummary>
+            <Row>
+              <b>Stats</b>
+              <Spacer />
+            </Row>
+          </ExpansionPanelSummary>
+          <ExpansionPanelDetails>
+            <StatGrid race={ character.race } />
           </ExpansionPanelDetails>
         </ExpansionPanel>
       </Column>
