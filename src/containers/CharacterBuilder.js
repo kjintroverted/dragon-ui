@@ -80,6 +80,7 @@ const CharacterBuilder = () => {
           />
           <TextField
             style={ { maxWidth: 100 } }
+            disabled={ true }
             type="number"
             variant="outlined"
             label="HP"
@@ -139,11 +140,11 @@ const CharacterBuilder = () => {
                   <Body><b>Tool Proficiencies.</b> <Capital>{ character.class.proTool ? character.class.proTool : "None." }</Capital></Body>
                   <hr />
                   {
-                    character.class.description.map(section => (
+                    character.class.description.map((section, i) => (
                       <>
-                        <Body><b>{ section.title }</b></Body>
+                        <Body key={ `section-${ i }` }><b>{ section.title }</b></Body>
                         {
-                          section.body.map(text => <Body>{ text }</Body>)
+                          section.body.map((text, j) => <Body key={ `desc-${ i }-${ j }` }>{ text }</Body>)
                         }
                         <br />
                       </>
