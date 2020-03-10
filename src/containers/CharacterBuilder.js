@@ -189,6 +189,7 @@ const FormSelect = styled.select`
 
 const Builder = styled.div`
   width: 90vw;
+  max-width: 800px;
   align-self: center;
 `
 
