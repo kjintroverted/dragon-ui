@@ -51,9 +51,18 @@ const CharacterBuilder = () => {
     })();
   }, [])
 
+  useEffect(() => {
+    if (character.class) {
+      let hd = +character.class.hitDice.split("d")[1];
+      let hp = hd * character.level;
+      updateCharacter({ ...character, info: { ...character.info, maxHP: hp, hp } })
+    }
+  }, [character])
+
   return (
     <Builder>
       <Column>
+        {/* NAME LEVEL HP */ }
         <Row>
           <TextField
             style={ { flex: 1 } }
@@ -74,6 +83,7 @@ const CharacterBuilder = () => {
             type="number"
             variant="outlined"
             label="HP"
+            value={ character.info ? character.info.maxHP || 0 : 0 }
             onChange={ handleInfo('maxHP', true) }
           />
         </Row>
