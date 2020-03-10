@@ -169,7 +169,9 @@ const CharacterBuilder = () => {
             </Row>
           </ExpansionPanelSummary>
           <ExpansionPanelDetails>
-            <StatGrid race={ character.race } />
+            <StatGrid
+              race={ character.race }
+              update={ stats => updateCharacter({ ...character, info: { ...character.info, stats } }) } />
           </ExpansionPanelDetails>
         </ExpansionPanel>
       </Column>

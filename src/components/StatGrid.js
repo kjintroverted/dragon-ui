@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { Spacer, Row } from './CustomStyled';
 import { TextField } from '@material-ui/core';
 import { calculateModifier } from '../services/helper';
 
-const StatGrid = ({ race }) => {
+const StatGrid = ({ race, update }) => {
 
   const pointAllowance = 27; // STANDARD FANTASY
 
@@ -16,6 +16,15 @@ const StatGrid = ({ race }) => {
     wis: 8,
     cha: 8
   })
+
+  useEffect(() => update({
+    'str': stats.str + getBonus('str'),
+    'dex': stats.dex + getBonus('dex'),
+    'con': stats.con + getBonus('con'),
+    'int': stats.int + getBonus('int'),
+    'wis': stats.wis + getBonus('wis'),
+    'cha': stats.cha + getBonus('cha')
+  }), [stats])
 
   function onChange(field) {
     return (e) => {
@@ -37,11 +46,16 @@ const StatGrid = ({ race }) => {
     return bonus ? bonus.mod : 0;
   }
 
+  let points = pointAllowance - calculatePoints();
+  const Ticker = styled.b`
+    color: ${points > 10 ? 'green' : points > 0 ? 'orange' : 'red' };  
+  `
+
   return (
     <Container>
       <Row>
         <Spacer />
-        <p>{ pointAllowance - calculatePoints() } points left</p>
+        <Ticker>{ points } points left</Ticker>
       </Row>
       <Grid>
 
@@ -98,20 +112,20 @@ const StatGrid = ({ race }) => {
         <p>+{ getBonus('cha') }</p>
 
         {/* FINAL */ }
-        <p>{ stats.str + getBonus('str') }</p>
-        <p>{ stats.dex + getBonus('dex') }</p>
-        <p>{ stats.con + getBonus('con') }</p>
-        <p>{ stats.int + getBonus('int') }</p>
-        <p>{ stats.wis + getBonus('wis') }</p>
-        <p>{ stats.cha + getBonus('cha') }</p>
+        <h2>{ stats.str + getBonus('str') }</h2>
+        <h2>{ stats.dex + getBonus('dex') }</h2>
+        <h2>{ stats.con + getBonus('con') }</h2>
+        <h2>{ stats.int + getBonus('int') }</h2>
+        <h2>{ stats.wis + getBonus('wis') }</h2>
+        <h2>{ stats.cha + getBonus('cha') }</h2>
 
         {/* MOD */ }
-        <p>{ calculateModifier(stats.str + getBonus('str')) }</p>
-        <p>{ calculateModifier(stats.dex + getBonus('dex')) }</p>
-        <p>{ calculateModifier(stats.con + getBonus('con')) }</p>
-        <p>{ calculateModifier(stats.int + getBonus('int')) }</p>
-        <p>{ calculateModifier(stats.wis + getBonus('wis')) }</p>
-        <p>{ calculateModifier(stats.cha + getBonus('cha')) }</p>
+        <p>({ calculateModifier(stats.str + getBonus('str')) })</p>
+        <p>({ calculateModifier(stats.dex + getBonus('dex')) })</p>
+        <p>({ calculateModifier(stats.con + getBonus('con')) })</p>
+        <p>({ calculateModifier(stats.int + getBonus('int')) })</p>
+        <p>({ calculateModifier(stats.wis + getBonus('wis')) })</p>
+        <p>({ calculateModifier(stats.cha + getBonus('cha')) })</p>
       </Grid>
     </Container>
   )
@@ -131,7 +145,7 @@ const Container = styled.div`
 
 const Grid = styled.div`
   display: grid;
-  grid-template-rows: 1fr 2fr repeat(3, 1fr);
+  grid-template-rows: 2fr repeat(3, 1fr);
   grid-template-columns: repeat(6, 1fr);
   align-items: center;
   justify-items: center;
