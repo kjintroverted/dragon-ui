@@ -65,10 +65,10 @@ const CharacterBuilder = () => {
                 </>
               }
               <FormSelect
-                value="Select Race"
+                value=""
                 onChange={ handleBackGround('race', 'raceID', races) }
               >
-                <option>Select Race</option>
+                <option>{ character.race ? 'Change Race' : 'Select Race' }</option>
                 {
                   races.map(r => <option key={ `race-${ r.id }` } value={ r.id }>{ r.name }</option>)
                 }
@@ -108,8 +108,11 @@ const CharacterBuilder = () => {
                   }
                 </>
               }
-              <FormSelect onChange={ handleBackGround('class', 'classID', classes) }>
-                <option>Select Class</option>
+              <FormSelect
+                value=""
+                onChange={ handleBackGround('class', 'classID', classes) }
+              >
+                <option>{ character.class ? 'Change Class' : 'Select Class' }</option>
                 {
                   classes.map(r => <option key={ `class-${ r.id }` } value={ r.id }>{ r.name }</option>)
                 }
