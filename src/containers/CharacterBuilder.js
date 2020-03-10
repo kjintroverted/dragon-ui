@@ -4,19 +4,28 @@ import { ExpansionPanel, ExpansionPanelSummary, ExpansionPanelDetails, TextField
 import styled from 'styled-components'
 import { Column, Row, Spacer } from '../components/CustomStyled'
 import StatGrid from '../components/StatGrid'
+import { advancement } from '../services/helper'
 
 const CharacterBuilder = () => {
 
   const [races, setRaces] = useState([])
   const [classes, setClasses] = useState([])
   const [bgList, setBGList] = useState([])
-  const [character, updateCharacter] = useState({})
+  const [character, updateCharacter] = useState({ level: 1 })
 
-  function handleInfo(field) {
+  function handleInfo(field, numeric) {
     return (e) => {
-      let info = { ...character.info, [field]: e.target.value }
+      let value = numeric ? +e.target.value : e.target.value;
+      let info = { ...character.info, [field]: value }
       updateCharacter({ ...character, info })
     }
+  }
+
+  function updateLevel({ target }) {
+    let level = +target.value;
+    if (level < 1) level = 1;
+    if (level > 20) level = 20;
+    updateCharacter({ ...character, level, info: { ...character.info, xp: advancement[level - 1].xp } })
   }
 
   function handleBackGround(field, infoField, opts) {
@@ -45,11 +54,29 @@ const CharacterBuilder = () => {
   return (
     <Builder>
       <Column>
-        <TextField
-          variant="outlined"
-          label="Name"
-          onChange={ handleInfo('name') }
-        />
+        <Row>
+          <TextField
+            style={ { flex: 1 } }
+            variant="outlined"
+            label="Name"
+            onChange={ handleInfo('name') }
+          />
+          <TextField
+            style={ { maxWidth: 100 } }
+            type="number"
+            variant="outlined"
+            label="Level"
+            value={ character.level }
+            onChange={ updateLevel }
+          />
+          <TextField
+            style={ { maxWidth: 100 } }
+            type="number"
+            variant="outlined"
+            label="HP"
+            onChange={ handleInfo('maxHP', true) }
+          />
+        </Row>
         {/* RACE SELECT  */ }
         <ExpansionPanel>
           <ExpansionPanelSummary>
@@ -171,6 +198,7 @@ const CharacterBuilder = () => {
           <ExpansionPanelDetails>
             <StatGrid
               race={ character.race }
+              levelPoints={ advancement[character.level - 1].points }
               update={ stats => updateCharacter({ ...character, info: { ...character.info, stats } }) } />
           </ExpansionPanelDetails>
         </ExpansionPanel>

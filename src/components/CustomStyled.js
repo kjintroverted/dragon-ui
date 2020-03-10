@@ -90,7 +90,6 @@ export const Row = styled.div`
   display: flex;
   width: 100%;
   flex-wrap: wrap;
-  margin: .5rem;
   align-items: center;
 `;
 

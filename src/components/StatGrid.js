@@ -4,9 +4,9 @@ import { Spacer, Row } from './CustomStyled';
 import { TextField } from '@material-ui/core';
 import { calculateModifier } from '../services/helper';
 
-const StatGrid = ({ race, update }) => {
+const StatGrid = ({ race, levelPoints, update }) => {
 
-  const pointAllowance = 27; // STANDARD FANTASY
+  const pointAllowance = 27 + levelPoints; // STANDARD FANTASY
 
   const [stats, updateStats] = useState({
     str: 8,
@@ -18,13 +18,13 @@ const StatGrid = ({ race, update }) => {
   })
 
   useEffect(() => update({
-    'str': stats.str + getBonus('str'),
-    'dex': stats.dex + getBonus('dex'),
-    'con': stats.con + getBonus('con'),
-    'int': stats.int + getBonus('int'),
-    'wis': stats.wis + getBonus('wis'),
-    'cha': stats.cha + getBonus('cha')
-  }), [stats])
+    'str': stats.str + getBonus('str', race),
+    'dex': stats.dex + getBonus('dex', race),
+    'con': stats.con + getBonus('con', race),
+    'int': stats.int + getBonus('int', race),
+    'wis': stats.wis + getBonus('wis', race),
+    'cha': stats.cha + getBonus('cha', race)
+  }), [stats, update, race])
 
   function onChange(field) {
     return (e) => {
@@ -38,12 +38,6 @@ const StatGrid = ({ race, update }) => {
       if (value <= 13) return acc + value - 8;
       else return acc + value - 8 + (value - 13);
     }, 0)
-  }
-
-  function getBonus(s) {
-    if (!race || !race.ability) return 0;
-    let bonus = race.ability.find(a => a.name === s.toUpperCase())
-    return bonus ? bonus.mod : 0;
   }
 
   let points = pointAllowance - calculatePoints();
@@ -104,34 +98,40 @@ const StatGrid = ({ race, update }) => {
         />
 
         {/* BONUS */ }
-        <p>+{ getBonus('str') }</p>
-        <p>+{ getBonus('dex') }</p>
-        <p>+{ getBonus('con') }</p>
-        <p>+{ getBonus('int') }</p>
-        <p>+{ getBonus('wis') }</p>
-        <p>+{ getBonus('cha') }</p>
+        <p>+{ getBonus('str', race) }</p>
+        <p>+{ getBonus('dex', race) }</p>
+        <p>+{ getBonus('con', race) }</p>
+        <p>+{ getBonus('int', race) }</p>
+        <p>+{ getBonus('wis', race) }</p>
+        <p>+{ getBonus('cha', race) }</p>
 
         {/* FINAL */ }
-        <h2>{ stats.str + getBonus('str') }</h2>
-        <h2>{ stats.dex + getBonus('dex') }</h2>
-        <h2>{ stats.con + getBonus('con') }</h2>
-        <h2>{ stats.int + getBonus('int') }</h2>
-        <h2>{ stats.wis + getBonus('wis') }</h2>
-        <h2>{ stats.cha + getBonus('cha') }</h2>
+        <h2>{ stats.str + getBonus('str', race) }</h2>
+        <h2>{ stats.dex + getBonus('dex', race) }</h2>
+        <h2>{ stats.con + getBonus('con', race) }</h2>
+        <h2>{ stats.int + getBonus('int', race) }</h2>
+        <h2>{ stats.wis + getBonus('wis', race) }</h2>
+        <h2>{ stats.cha + getBonus('cha', race) }</h2>
 
         {/* MOD */ }
-        <p>({ calculateModifier(stats.str + getBonus('str')) })</p>
-        <p>({ calculateModifier(stats.dex + getBonus('dex')) })</p>
-        <p>({ calculateModifier(stats.con + getBonus('con')) })</p>
-        <p>({ calculateModifier(stats.int + getBonus('int')) })</p>
-        <p>({ calculateModifier(stats.wis + getBonus('wis')) })</p>
-        <p>({ calculateModifier(stats.cha + getBonus('cha')) })</p>
+        <p>({ calculateModifier(stats.str + getBonus('str', race)) })</p>
+        <p>({ calculateModifier(stats.dex + getBonus('dex', race)) })</p>
+        <p>({ calculateModifier(stats.con + getBonus('con', race)) })</p>
+        <p>({ calculateModifier(stats.int + getBonus('int', race)) })</p>
+        <p>({ calculateModifier(stats.wis + getBonus('wis', race)) })</p>
+        <p>({ calculateModifier(stats.cha + getBonus('cha', race)) })</p>
       </Grid>
     </Container>
   )
 }
 
 export default StatGrid;
+
+function getBonus(s, race) {
+  if (!race || !race.ability) return 0;
+  let bonus = race.ability.find(a => a.name === s.toUpperCase())
+  return bonus ? bonus.mod : 0;
+}
 
 const Container = styled.div`
   display: flex;
