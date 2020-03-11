@@ -36,6 +36,10 @@ const CharacterBuilder = () => {
     }
   }
 
+  function stopPropagation(e) {
+    e.stopPropagation()
+  }
+
   useEffect(() => {
     (async function loadRaces() {
       let data = await dungeonService.getRaces()
@@ -90,9 +94,18 @@ const CharacterBuilder = () => {
         </Row>
         {/* RACE SELECT  */ }
         <ExpansionPanel>
-          <ExpansionPanelSummary>
+          <ExpansionPanelSummary expandIcon={ <i className="material-icons">keyboard_arrow_down</i> }>
             <Row>
-              <b>{ character.race ? character.race.name : 'No Race Selected...' }</b>
+              <FormSelect
+                onClick={ stopPropagation }
+                onFocus={ stopPropagation }
+                onChange={ handleBackGround('race', 'raceID', races) }
+              >
+                <option>{ character.race ? 'Change Race' : 'Select Race' }</option>
+                {
+                  races.map(r => <option key={ `race-${ r.id }` } value={ r.id }>{ r.name }</option>)
+                }
+              </FormSelect>
               <Spacer />
               <p>{ character.race ? character.race.ability.reduce((acc, bonus) => acc + `${ bonus.name }+${ bonus.mod } `, 'Boost: ') : '' }</p>
             </Row>
@@ -108,23 +121,23 @@ const CharacterBuilder = () => {
                   <Body><b>Alignment.</b> { character.race.align }</Body>
                 </>
               }
-              <FormSelect
-                value=""
-                onChange={ handleBackGround('race', 'raceID', races) }
-              >
-                <option>{ character.race ? 'Change Race' : 'Select Race' }</option>
-                {
-                  races.map(r => <option key={ `race-${ r.id }` } value={ r.id }>{ r.name }</option>)
-                }
-              </FormSelect>
             </Column>
           </ExpansionPanelDetails>
         </ExpansionPanel>
         {/* CLASS SELECT */ }
         <ExpansionPanel>
-          <ExpansionPanelSummary>
+          <ExpansionPanelSummary expandIcon={ <i className="material-icons">keyboard_arrow_down</i> }>
             <Row>
-              <b>{ character.class ? character.class.name : 'No Class Selected...' }</b>
+              <FormSelect
+                onClick={ stopPropagation }
+                onFocus={ stopPropagation }
+                onChange={ handleBackGround('class', 'classID', classes) }
+              >
+                <option>{ character.class ? 'Change Class' : 'Select Class' }</option>
+                {
+                  classes.map(r => <option key={ `class-${ r.id }` } value={ r.id }>{ r.name }</option>)
+                }
+              </FormSelect>
               <Spacer />
               <p>{ character.class ? character.class.proSave.reduce((acc, bonus) => acc + `${ bonus } `, 'Saves: ') : '' }</p>
             </Row>
@@ -152,23 +165,23 @@ const CharacterBuilder = () => {
                   }
                 </>
               }
-              <FormSelect
-                value=""
-                onChange={ handleBackGround('class', 'classID', classes) }
-              >
-                <option>{ character.class ? 'Change Class' : 'Select Class' }</option>
-                {
-                  classes.map(r => <option key={ `class-${ r.id }` } value={ r.id }>{ r.name }</option>)
-                }
-              </FormSelect>
             </Column>
           </ExpansionPanelDetails>
         </ExpansionPanel>
         {/* BACKGROUND SELECT */ }
         <ExpansionPanel>
-          <ExpansionPanelSummary>
+          <ExpansionPanelSummary expandIcon={ <i className="material-icons">keyboard_arrow_down</i> }>
             <Row>
-              <b>{ character.background ? character.background.name : 'No Background Selected...' }</b>
+              <FormSelect
+                onClick={ stopPropagation }
+                onFocus={ stopPropagation }
+                onChange={ handleBackGround('background', 'backgroundID', bgList) }
+              >
+                <option>{ character.background ? 'Change Background' : 'Select Background' }</option>
+                {
+                  bgList.map(bg => <option key={ `bg-${ bg.id }` } value={ bg.id }>{ bg.name }</option>)
+                }
+              </FormSelect>
             </Row>
           </ExpansionPanelSummary>
           <ExpansionPanelDetails>
@@ -187,21 +200,12 @@ const CharacterBuilder = () => {
                   }
                 </>
               }
-              <FormSelect
-                value=""
-                onChange={ handleBackGround('background', 'backgroundID', bgList) }
-              >
-                <option>{ character.background ? 'Change Background' : 'Select Background' }</option>
-                {
-                  bgList.map(bg => <option key={ `bg-${ bg.id }` } value={ bg.id }>{ bg.name }</option>)
-                }
-              </FormSelect>
             </Column>
           </ExpansionPanelDetails>
         </ExpansionPanel>
         {/* STAT BUY */ }
         <ExpansionPanel>
-          <ExpansionPanelSummary>
+          <ExpansionPanelSummary expandIcon={ <i className="material-icons">keyboard_arrow_down</i> }>
             <Row>
               <b>Stats</b>
               <Spacer />
@@ -214,8 +218,11 @@ const CharacterBuilder = () => {
               update={ stats => updateCharacter({ ...character, info: { ...character.info, stats } }) } />
           </ExpansionPanelDetails>
         </ExpansionPanel>
+        {/* ITEM SELECT */ }
         <ExpansionPanel>
-          <ExpansionPanelSummary><b>Item Select</b></ExpansionPanelSummary>
+          <ExpansionPanelSummary expandIcon={ <i className="material-icons">keyboard_arrow_down</i> }>
+            <b>Item Select</b>
+          </ExpansionPanelSummary>
           <ExpansionPanelDetails>
             <Column>
               { character.class &&
