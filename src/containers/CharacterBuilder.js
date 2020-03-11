@@ -199,6 +199,7 @@ const CharacterBuilder = () => {
             </Column>
           </ExpansionPanelDetails>
         </ExpansionPanel>
+        {/* STAT BUY */ }
         <ExpansionPanel>
           <ExpansionPanelSummary>
             <Row>
@@ -211,6 +212,29 @@ const CharacterBuilder = () => {
               race={ character.race }
               levelPoints={ advancement[character.level - 1].points }
               update={ stats => updateCharacter({ ...character, info: { ...character.info, stats } }) } />
+          </ExpansionPanelDetails>
+        </ExpansionPanel>
+        <ExpansionPanel>
+          <ExpansionPanelSummary><b>Item Select</b></ExpansionPanelSummary>
+          <ExpansionPanelDetails>
+            <Column>
+              { character.class &&
+                <Column>
+                  <b>Class Equipment:</b>
+                  <ul>
+                    { character.class.startEquip.map((txt, i) => <ol key={ `class-equip-${ i }` }>{ txt }</ol>) }
+                  </ul>
+                </Column>
+              }
+              { character.background &&
+                <Column>
+                  <b>Background Equipment:</b>
+                  <ul>
+                    { character.background.equipment.map((txt, i) => <ol key={ `bg-equip-${ i }` }>{ txt }</ol>) }
+                  </ul>
+                </Column>
+              }
+            </Column>
           </ExpansionPanelDetails>
         </ExpansionPanel>
       </Column>
