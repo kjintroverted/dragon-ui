@@ -2,60 +2,92 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import {
   IconButton, TextField, Divider,
+  FormControl, FormLabel,
+  Select, OutlinedInput, MenuItem,
 } from '@material-ui/core';
 import {
   Card, HeaderBar, ActionBar, Row, Spacer, Column, BasicBox,
 } from './CustomStyled';
+import dungeonService from '../services/dungeonService';
 
 const Inventory = ({
-  itemList, gold, update, disabled,
+  characterInfo, ownedItems, update, disabled,
 }) => {
   const [isAdding, setAdding] = useState(false);
   const [isEditing, setEditing] = useState(false);
   const [itemValues, setItemValues] = useState({});
-  const [goldValue, setGold] = useState(gold);
-  const [showDesc, setDescVisible] = useState(itemList.map(() => false));
+  const [selectedItem, setSelectedItem] = useState({});
+  const [itemList, setItemList] = useState([]);
+  const [goldValue, setGold] = useState(characterInfo.gold);
+  const [showDesc, setDescVisible] = useState(ownedItems.map(() => false));
 
-  function handleChange(field, numeric) {
-    return (e) => {
-      setItemValues({ ...itemValues, [field]: numeric ? +e.target.value : e.target.value });
-    };
+  async function loadItems() {
+    const items = await dungeonService.getItems();
+    console.log(items);
+    setItemList(items);
   }
 
-  function addItem() {
-    if (!itemValues.qty) itemValues.qty = 1;
-    update(goldValue, [...itemList, itemValues]);
-    setAdding(false);
-    setItemValues({});
+  // function handleChange(field, numeric) {
+  //   return (e) => {
+  //     setItemValues({ ...itemValues, [field]: numeric ? +e.target.value : e.target.value });
+  //   };
+  // }
+
+  // function addItem() {
+  //   // if (!itemValues.qty) itemValues.qty = 1; TODO: Re-enable after quantity is added again
+  //   update([...ownedItems, itemValues]);
+  //   setAdding(false);
+  //   setItemValues({});
+  // }
+  function onItemChange(e) {
+    const item = itemList.find(i => i.name === e.target.value);
+    setSelectedItem(item);
   }
 
   function changeGold(e) {
     const newGold = +e.target.value;
-    update(newGold, itemList);
+    update({ ...characterInfo, gold: newGold });
     setGold(newGold);
   }
 
   function remove(i) {
-    update(goldValue, [...itemList.slice(0, i), ...itemList.slice(i + 1)]);
+    update(goldValue, [...ownedItems.slice(0, i), ...ownedItems.slice(i + 1)]);
   }
 
   function toggleDesc(i) {
     setDescVisible([...showDesc.slice(0, i), !showDesc[i], ...showDesc.slice(i + 1)]);
   }
 
-  function updateQty(i) {
-    const item = itemList[i];
+  function displayOwnedItems() {
+    ownedItems.map((item) => {
+      const inventoryItem = characterInfo.inventory.filter(inventory => inventory.id === +item.id);
+      item.qty = inventoryItem[0].qty;
+    });
+    setItemList(ownedItems);
+  }
+
+  // Need to fix once quantity gets added.
+  function updateQty(item) {
     return (e) => {
-      const qty = +e.target.value;
-      update(
-        goldValue,
-        [...itemList.slice(0, i), { ...item, qty }, ...itemList.slice(i + 1)],
-      );
+      const value = +e.target.value;
+      const { inventory } = characterInfo;
+      console.log(value, 'value');
+      console.log(inventory, 'inventory');
+      console.log(item, 'item');
+      const found = inventory.find(inv => inv.id === +item.id);
+      found.qty = value;
+      console.log(found, 'found');
+      update({ ...characterInfo, inventory });
     };
   }
 
-  useEffect(() => setGold(gold), [gold]);
+  useEffect(() => {
+    loadItems();
+  }, [isAdding]);
 
+  useEffect(() => {
+    displayOwnedItems();
+  }, [characterInfo]);
   return (
     <Card>
       <HeaderBar>
@@ -78,43 +110,27 @@ const Inventory = ({
         }
       </HeaderBar>
       { // ADD NEW ITEM
-        isAdding
+        isAdding && itemList.length > 0
         && <Column>
           <Row>
-            <TextField
-              style={{ maxWidth: 100 }}
-              variant="outlined"
-              type="number"
-              label="Value (gp)"
-              value={itemValues.goldCost || ''}
-              onChange={handleChange('goldCost', true)}
-            />
-            <TextField
-              style={{ maxWidth: 150 }}
-              variant="outlined"
-              label="Name"
-              value={itemValues.name || ''}
-              onChange={handleChange('name')}
-            />
-            <TextField
-              style={{ maxWidth: 100 }}
-              variant="outlined"
-              type="number"
-              label="Qty"
-              value={itemValues.qty || ''}
-              onChange={handleChange('qty', true)}
-            />
-            <Spacer />
-            <IconButton onClick={addItem}>
-              <i className="material-icons">done</i>
-            </IconButton>
+          <FormControl variant="outlined" style={{ minWidth: 120 }}>
+            <FormLabel htmlFor="class">Item Select</FormLabel>
+            <Select
+              value={selectedItem.name || ''}
+              onChange={onItemChange}
+              input={<OutlinedInput id="item" />}
+            >
+              {
+                itemList.map(val => <MenuItem key={val.name} value={val.name}>{ val.name }</MenuItem>)
+              }
+            </Select>
+          </FormControl>
+          <Spacer />
+          <IconButton>
+            <i className="material-icons">done</i>
+          </IconButton>
           </Row>
-          <TextField
-            variant="outlined"
-            label="Description (optional)"
-            value={itemValues.description || ''}
-            onChange={handleChange('description')}
-          />
+
            </Column>
       }
 
@@ -125,13 +141,13 @@ const Inventory = ({
           variant="outlined"
           type="number"
           label="Gold Pieces"
-          value={gold || 0}
+          value={goldValue || 0}
           onChange={changeGold}
         />
       </Row>
 
       { // DISPLAY ALL ITEMS
-        itemList.map((item, i) => (
+        ownedItems.map((item, i) => (
           <Column key={`${item.name}`}>
             {console.log(item)}
             <Row style={{ alignItems: 'center' }}>
@@ -155,7 +171,7 @@ const Inventory = ({
                   disabled={disabled}
                   label="Qty"
                   value={item.qty}
-                  onChange={updateQty(i)}
+                  onChange={updateQty(item)}
                 />
               </BasicBox>
             </Row>
@@ -176,8 +192,8 @@ const Inventory = ({
 export default Inventory;
 
 Inventory.propTypes = {
-  itemList: PropTypes.array.isRequired,
-  gold: PropTypes.number.isRequired,
+  ownedItems: PropTypes.array.isRequired,
+  // gold: PropTypes.number.isRequired,
   update: PropTypes.func.isRequired,
   disabled: PropTypes.bool.isRequired,
 };

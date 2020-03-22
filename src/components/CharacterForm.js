@@ -18,7 +18,9 @@ import {
 } from './CustomStyled';
 import { skillsArray } from '../services/helper';
 
-const CharacterForm = ({ races, classes, save }) => {
+const CharacterForm = ({
+  backgrounds, classes, races, save,
+}) => {
   const [values, setValues] = useState({});
 
   function handleValueChange(field, numeric) {
@@ -30,8 +32,11 @@ const CharacterForm = ({ races, classes, save }) => {
   }
 
   function raceSelect(e) {
+    console.log(races);
     const race = races.find(r => r.name === e.target.value);
-    setValues({ ...values, race: race.name, speed: race.speed });
+    setValues({
+      ...values, race: race.name, raceID: +race.id, speed: race.speed,
+    });
   }
 
   function toggleSKill(e) {
@@ -97,16 +102,34 @@ const CharacterForm = ({ races, classes, save }) => {
           <FormLabel htmlFor="class">Class</FormLabel>
           <Select
             value={values.class || ''}
-            onChange={handleValueChange('class')}
+            onChange={handleValueChange('classID')}
             input={<OutlinedInput id="class" />}
           >
+            {console.log(classes)}
             {classes.map(val => (
-              <MenuItem key={val.name} value={val.name}>
+              <MenuItem key={val.name} value={+val.id}>
                 {val.name}
               </MenuItem>
             ))}
           </Select>
         </FormControl>
+      </InfoRow>
+      <InfoRow>
+        <FormControl variant="outlined" style={{ minWidth: 120 }}>
+          <FormLabel htmlFor="race">Background</FormLabel>
+          <Select
+            value={values.background || ''}
+            onChange={handleValueChange('backgroundID')}
+            input={<OutlinedInput id="background" />}
+          >
+            {backgrounds.map(val => (
+              <MenuItem key={val.name} value={+val.id}>
+                {val.name}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
+        <Spacer />
       </InfoRow>
       <Divider />
       <HeaderBar>

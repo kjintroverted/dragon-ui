@@ -143,10 +143,10 @@ const CharacterSheet = ({ characterData }) => {
       <EquipmentArea>
         <Inventory
           disabled={!authorized}
-          itemList={character.inventory || []}
-          gold={character.info.gold}
-          update={(gold, inventory) =>
-            update({ ...character, info: { ...character.info, gold }, inventory })
+          ownedItems={character.inventory || []}
+          characterInfo={character.info}
+          update={info =>
+            update({ ...character, info })
           }
         />
       </EquipmentArea>

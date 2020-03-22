@@ -5,6 +5,11 @@ const getWelcome = async () => {
   return result.text();
 };
 
+const getBackgrounds = async () => {
+  const result = await fetch(`${serverDomain}/api/bg`);
+  return result.json();
+};
+
 const getCharacter = async (characterId = '') => {
   const result = await fetch(`${serverDomain}/api/data/pc/${characterId}?detail=true`);
   return result.json();
@@ -16,15 +21,16 @@ const checkUserAuth = async (characterId, user) => {
 };
 
 const saveCharacter = async (character) => {
+  console.log(character);
   try {
-    await fetch(`${serverDomain}/api/data/pc`,
-      {
-        method: 'POST',
-        body: JSON.stringify(character.info),
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
+    // await fetch(`${serverDomain}/api/data/pc`,
+    //   {
+    //     method: 'POST',
+    //     body: JSON.stringify(character.info),
+    //     headers: {
+    //       'Content-Type': 'application/json',
+    //     },
+    //   });
   } catch (err) {
     console.error(err);
     return false;
@@ -69,6 +75,11 @@ const getWeapons = async () => {
   return result.json();
 };
 
+const getItems = async () => {
+  const result = await fetch(`${serverDomain}/api/items`);
+  return result.json();
+};
+
 const getSpells = async (slugs) => {
   const result = await fetch(`${serverDomain}/api/spells?name=${slugs.join()}`);
   return result.json();
@@ -86,19 +97,21 @@ const getFeats = async (ids) => {
 };
 
 export default {
+  checkUserAuth,
+  getBackgrounds,
   getCharacter,
+  getCharactersByOwner,
+  getClass,
+  getClasses,
+  getFeats,
+  getItems,
+  getRaces,
+  getRace,
+  getSpells,
+  getLevelInfo,
+  getSpellsForLevel,
+  getWeapons,
+  getWelcome,
   saveCharacter,
   watchCharacters,
-  getCharactersByOwner,
-  getWelcome,
-  getLevelInfo,
-  checkUserAuth,
-  getRaces,
-  getClasses,
-  getClass,
-  getRace,
-  getWeapons,
-  getSpells,
-  getSpellsForLevel,
-  getFeats,
 };

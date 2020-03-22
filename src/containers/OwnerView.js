@@ -18,13 +18,14 @@ import {
 import PartyChip from '../components/PartyChip';
 
 function OwnerView({ owner }) {
+  const [backgrounds, setBackgrounds] = useState([]);
   const [characters, updateCharacters] = useState([]);
-  const [parties, updateParties] = useState([]);
   const [classes, setClasses] = useState([]);
-  const [races, setRaces] = useState([]);
-  const [party, updateParty] = useState([]);
   const [isAdding, setAdding] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [parties, updateParties] = useState([]);
+  const [party, updateParty] = useState([]);
+  const [races, setRaces] = useState([]);
 
   async function getCharactersByOwner() {
     const characterList = await DungeonService.getCharactersByOwner(owner);
@@ -39,6 +40,8 @@ function OwnerView({ owner }) {
 
   async function loadBackgroundOptions() {
     const raceList = await DungeonService.getRaces();
+    const backgroundList = await DungeonService.getBackgrounds();
+    setBackgrounds(backgroundList);
     setRaces(raceList);
     const classList = await DungeonService.getClasses();
     setClasses(classList);
@@ -94,7 +97,7 @@ function OwnerView({ owner }) {
   const ownerParties = parties.map(savedParty => (
         <PartyChip key={savedParty.name} name={savedParty.name} members={savedParty.members} />
   ));
-
+  console.log(characters);
   if (loading) {
     return (
       <ProgressContainer>
@@ -124,7 +127,7 @@ function OwnerView({ owner }) {
       <Grid>
         { ownCharacters }
         { isAdding && (
-          <CharacterForm races={races} classes={classes} save={addCharacter} />
+          <CharacterForm backgrounds={backgrounds} classes={classes} races={races} save={addCharacter} />
         ) }
       </Grid>
       { !!otherCharacters.length && (
