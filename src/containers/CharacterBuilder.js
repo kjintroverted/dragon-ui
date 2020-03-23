@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import dungeonService from '../services/dungeonService'
-import { ExpansionPanel, ExpansionPanelSummary, ExpansionPanelDetails, TextField } from '@material-ui/core'
+import { ExpansionPanel, ExpansionPanelSummary, ExpansionPanelDetails, TextField, Button, Dialog, DialogTitle, DialogContent, DialogActions } from '@material-ui/core'
 import styled from 'styled-components'
 import { Column, Row, Spacer } from '../components/CustomStyled'
 import StatGrid from '../components/StatGrid'
@@ -12,6 +12,7 @@ const CharacterBuilder = () => {
   const [classes, setClasses] = useState([])
   const [bgList, setBGList] = useState([])
   const [character, updateCharacter] = useState({ level: 1 })
+  const [weaponSelect, setWeaponOpen] = useState(false);
 
   function handleInfo(field, numeric) {
     return (e) => {
@@ -241,6 +242,20 @@ const CharacterBuilder = () => {
                   </ul>
                 </Column>
               }
+              <Row>
+                <Column>
+                  <Button onClick={ () => setWeaponOpen(true) }>Add Weapon</Button>
+                  <Dialog open={ weaponSelect } close={ () => setWeaponOpen(false) }>
+                    <DialogTitle>Select Weapons</DialogTitle>
+                    <DialogContent>
+                      Hello
+                    </DialogContent>
+                    <DialogActions>
+                      <Button onClick={ () => setWeaponOpen(false) }>Done</Button>
+                    </DialogActions>
+                  </Dialog>
+                </Column>
+              </Row>
             </Column>
           </ExpansionPanelDetails>
         </ExpansionPanel>
