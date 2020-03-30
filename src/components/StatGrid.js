@@ -8,7 +8,7 @@ const StatGrid = ({ race, levelPoints, update }) => {
 
   const pointAllowance = 27 + levelPoints; // STANDARD FANTASY
 
-  const [stats, updateStats] = useState({
+  const [rawStats, updateRawStats] = useState({
     str: 8,
     dex: 8,
     con: 8,
@@ -16,24 +16,26 @@ const StatGrid = ({ race, levelPoints, update }) => {
     wis: 8,
     cha: 8
   })
+  const [stats, updateStats] = useState({})
 
-  useEffect(() => update({
-    'str': stats.str + getBonus('str', race),
-    'dex': stats.dex + getBonus('dex', race),
-    'con': stats.con + getBonus('con', race),
-    'int': stats.int + getBonus('int', race),
-    'wis': stats.wis + getBonus('wis', race),
-    'cha': stats.cha + getBonus('cha', race)
-  }), [stats, update, race])
+  useEffect(() => updateStats({
+    'str': rawStats.str + getBonus('str', race),
+    'dex': rawStats.dex + getBonus('dex', race),
+    'con': rawStats.con + getBonus('con', race),
+    'int': rawStats.int + getBonus('int', race),
+    'wis': rawStats.wis + getBonus('wis', race),
+    'cha': rawStats.cha + getBonus('cha', race)
+  }), [rawStats, race])
 
   function onChange(field) {
     return (e) => {
-      updateStats({ ...stats, [field]: +e.target.value })
+      updateRawStats({ ...rawStats, [field]: +e.target.value })
+      update({ ...stats, [field]: +e.target.value + + getBonus(field, race) })
     }
   }
 
   function calculatePoints() {
-    return Object.entries(stats).reduce((acc, [_, value]) => {
+    return Object.entries(rawStats).reduce((acc, [_, value]) => {
       if (value <= 8) return acc;
       if (value <= 13) return acc + value - 8;
       else return acc + value - 8 + (value - 13);
@@ -58,42 +60,42 @@ const StatGrid = ({ race, levelPoints, update }) => {
           type="number"
           variant="outlined"
           label="Strength"
-          value={ stats.str }
+          value={ rawStats.str }
           onChange={ onChange('str') }
         />
         <RawStat
           type="number"
           variant="outlined"
           label="Dexterity"
-          value={ stats.dex }
+          value={ rawStats.dex }
           onChange={ onChange('dex') }
         />
         <RawStat
           type="number"
           variant="outlined"
           label="Constitution"
-          value={ stats.con }
+          value={ rawStats.con }
           onChange={ onChange('con') }
         />
         <RawStat
           type="number"
           variant="outlined"
           label="Intelligence"
-          value={ stats.int }
+          value={ rawStats.int }
           onChange={ onChange('int') }
         />
         <RawStat
           type="number"
           variant="outlined"
           label="Wisdom"
-          value={ stats.wis }
+          value={ rawStats.wis }
           onChange={ onChange('wis') }
         />
         <RawStat
           type="number"
           variant="outlined"
           label="Charisma"
-          value={ stats.cha }
+          value={ rawStats.cha }
           onChange={ onChange('cha') }
         />
 
@@ -106,20 +108,20 @@ const StatGrid = ({ race, levelPoints, update }) => {
         <p>+{ getBonus('cha', race) }</p>
 
         {/* FINAL */ }
-        <h2>{ stats.str + getBonus('str', race) }</h2>
-        <h2>{ stats.dex + getBonus('dex', race) }</h2>
-        <h2>{ stats.con + getBonus('con', race) }</h2>
-        <h2>{ stats.int + getBonus('int', race) }</h2>
-        <h2>{ stats.wis + getBonus('wis', race) }</h2>
-        <h2>{ stats.cha + getBonus('cha', race) }</h2>
+        <h2>{ stats.str }</h2>
+        <h2>{ stats.dex }</h2>
+        <h2>{ stats.con }</h2>
+        <h2>{ stats.int }</h2>
+        <h2>{ stats.wis }</h2>
+        <h2>{ stats.cha }</h2>
 
         {/* MOD */ }
-        <p>({ calculateModifier(stats.str + getBonus('str', race)) })</p>
-        <p>({ calculateModifier(stats.dex + getBonus('dex', race)) })</p>
-        <p>({ calculateModifier(stats.con + getBonus('con', race)) })</p>
-        <p>({ calculateModifier(stats.int + getBonus('int', race)) })</p>
-        <p>({ calculateModifier(stats.wis + getBonus('wis', race)) })</p>
-        <p>({ calculateModifier(stats.cha + getBonus('cha', race)) })</p>
+        <p>({ calculateModifier(stats.str) })</p>
+        <p>({ calculateModifier(stats.dex) })</p>
+        <p>({ calculateModifier(stats.con) })</p>
+        <p>({ calculateModifier(stats.int) })</p>
+        <p>({ calculateModifier(stats.wis) })</p>
+        <p>({ calculateModifier(stats.cha) })</p>
       </Grid>
     </Container>
   )

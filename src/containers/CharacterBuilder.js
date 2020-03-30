@@ -12,7 +12,10 @@ const CharacterBuilder = () => {
   const [classes, setClasses] = useState([])
   const [bgList, setBGList] = useState([])
   const [character, updateCharacter] = useState({ level: 1 })
+  const [weapons, setWeapons] = useState([])
   const [weaponSelect, setWeaponOpen] = useState(false);
+  const [query, setQuery] = useState("");
+
 
   function handleInfo(field, numeric) {
     return (e) => {
@@ -54,13 +57,20 @@ const CharacterBuilder = () => {
       let data = await dungeonService.getBackgrounds()
       setBGList(data.sort((a, b) => a.name.localeCompare(b.name)))
     })();
+    (async function loadWeapons() {
+      let data = await dungeonService.getWeapons()
+      setWeapons(data)
+    })();
   }, [])
 
   useEffect(() => {
     if (character.class) {
       let hd = +character.class.hitDice.split("d")[1];
       let hp = hd * character.level;
-      updateCharacter({ ...character, info: { ...character.info, maxHP: hp, hp } })
+      if (character.info.maxHP !== hp) {
+        console.log("hp update");
+        updateCharacter({ ...character, info: { ...character.info, maxHP: hp, hp } })
+      }
     }
   }, [character])
 
@@ -245,10 +255,18 @@ const CharacterBuilder = () => {
               <Row>
                 <Column>
                   <Button onClick={ () => setWeaponOpen(true) }>Add Weapon</Button>
-                  <Dialog open={ weaponSelect } close={ () => setWeaponOpen(false) }>
+                  <Dialog open={ weaponSelect } onClose={ () => setWeaponOpen(false) }>
                     <DialogTitle>Select Weapons</DialogTitle>
                     <DialogContent>
-                      Hello
+                      <Row>
+                        <TextField placeholder="search" onChange={ e => setQuery(e.target.value) } />
+                      </Row>
+                      <ul>
+                        {
+                          query.length > 3
+                          && weapons.filter(w => w.name.indexOf(query) === 0).map(w => <li>{ w.name }</li>)
+                        }
+                      </ul>
                     </DialogContent>
                     <DialogActions>
                       <Button onClick={ () => setWeaponOpen(false) }>Done</Button>
