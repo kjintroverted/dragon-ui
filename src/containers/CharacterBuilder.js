@@ -263,8 +263,8 @@ const CharacterBuilder = () => {
                       </Row>
                       <ul>
                         {
-                          query.length > 3
-                          && weapons.filter(w => w.name.indexOf(query) === 0).map(w => <li>{ w.name }</li>)
+                          query.length > 2
+                          && weapons.filter(w => w.name.toLowerCase().indexOf(query.toLowerCase()) >= 0).map(w => <li key={ w.id }>{ w.name }</li>)
                         }
                       </ul>
                     </DialogContent>
