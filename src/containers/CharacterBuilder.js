@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import dungeonService from '../services/dungeonService'
-import { ExpansionPanel, ExpansionPanelSummary, ExpansionPanelDetails, TextField, Button, Dialog, DialogTitle, DialogContent, DialogActions } from '@material-ui/core'
+import { ExpansionPanel, ExpansionPanelSummary, ExpansionPanelDetails, TextField, Button, Dialog, DialogTitle, DialogContent, DialogActions, FormControlLabel, Checkbox } from '@material-ui/core'
 import styled from 'styled-components'
 import { Column, Row, Spacer } from '../components/CustomStyled'
 import StatGrid from '../components/StatGrid'
@@ -11,7 +11,10 @@ const CharacterBuilder = () => {
   const [races, setRaces] = useState([])
   const [classes, setClasses] = useState([])
   const [bgList, setBGList] = useState([])
-  const [character, updateCharacter] = useState({ level: 1 })
+  const [character, updateCharacter] = useState({
+    level: 1,
+    info: {}
+  })
   const [weapons, setWeapons] = useState([])
   const [weaponSelect, setWeaponOpen] = useState(false);
   const [query, setQuery] = useState("");
@@ -21,6 +24,20 @@ const CharacterBuilder = () => {
     return (e) => {
       let value = numeric ? +e.target.value : e.target.value;
       let info = { ...character.info, [field]: value }
+      updateCharacter({ ...character, info })
+    }
+  }
+
+  function toggleItem(field, id) {
+    return () => {
+      let arr = character.info[field] || [];
+      let i = arr.indexOf(id);
+      if (i >= 0) {
+        arr = [...arr.slice(0, i), ...arr.slice(i + 1)]
+      } else {
+        arr = [...arr, id]
+      }
+      let info = { ...character.info, [field]: arr }
       updateCharacter({ ...character, info })
     }
   }
@@ -253,7 +270,15 @@ const CharacterBuilder = () => {
                 </Column>
               }
               <Row>
+                {/* WEAPON LIST */ }
                 <Column>
+                  <h3>Weapons</h3>
+                  <ul>
+                    {
+                      !character.info.weaponIDs || !character.info.weaponIDs.length ? "No weapons equipped..."
+                        : character.info.weaponIDs.map(id => <li key={ "item-" + id }>{ weapons.find(w => w.id === id).name }</li>)
+                    }
+                  </ul>
                   <Button onClick={ () => setWeaponOpen(true) }>Add Weapon</Button>
                   <Dialog open={ weaponSelect } onClose={ () => setWeaponOpen(false) }>
                     <DialogTitle>Select Weapons</DialogTitle>
@@ -261,12 +286,25 @@ const CharacterBuilder = () => {
                       <Row>
                         <TextField placeholder="search" onChange={ e => setQuery(e.target.value) } />
                       </Row>
-                      <ul>
+                      <Column>
                         {
                           query.length > 2
-                          && weapons.filter(w => w.name.toLowerCase().indexOf(query.toLowerCase()) >= 0).map(w => <li key={ w.id }>{ w.name }</li>)
+                          && weapons.filter(w => w.name.toLowerCase().indexOf(query.toLowerCase()) >= 0)
+                            .map(w => (
+                              <FormControlLabel
+                                key={ "item-option-" + w.id }
+                                control={
+                                  <Checkbox
+                                    checked={ (character.info.weaponIDs && character.info.weaponIDs.indexOf(w.id) !== -1) || false }
+                                    onChange={ toggleItem("weaponIDs", w.id) }
+                                    color="primary"
+                                  />
+                                }
+                                label={ w.name }
+                              />
+                            ))
                         }
-                      </ul>
+                      </Column>
                     </DialogContent>
                     <DialogActions>
                       <Button onClick={ () => setWeaponOpen(false) }>Done</Button>
