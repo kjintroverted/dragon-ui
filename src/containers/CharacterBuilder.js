@@ -297,7 +297,7 @@ const CharacterBuilder = () => {
                                   <Checkbox
                                     checked={ (character.info.weaponIDs && character.info.weaponIDs.indexOf(w.id) !== -1) || false }
                                     onChange={ toggleItem("weaponIDs", w.id) }
-                                    color="primary"
+                                    color={ w.isHomebrew ? "secondary" : "primary" }
                                   />
                                 }
                                 label={ w.name }
