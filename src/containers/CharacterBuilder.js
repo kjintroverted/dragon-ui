@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react'
 import dungeonService from '../services/dungeonService'
-import { ExpansionPanel, ExpansionPanelSummary, ExpansionPanelDetails, TextField, Button, Dialog, DialogTitle, DialogContent, DialogActions, FormControlLabel, Checkbox } from '@material-ui/core'
+import { ExpansionPanel, ExpansionPanelSummary, ExpansionPanelDetails, TextField, Button } from '@material-ui/core'
 import styled from 'styled-components'
 import { Column, Row, Spacer } from '../components/CustomStyled'
 import StatGrid from '../components/StatGrid'
+import SelectDialogue from '../components/SelectDialogue'
 import { advancement } from '../services/helper'
 
 const CharacterBuilder = () => {
@@ -17,7 +18,6 @@ const CharacterBuilder = () => {
   })
   const [weapons, setWeapons] = useState([])
   const [weaponSelect, setWeaponOpen] = useState(false);
-  const [query, setQuery] = useState("");
 
 
   function handleInfo(field, numeric) {
@@ -28,8 +28,8 @@ const CharacterBuilder = () => {
     }
   }
 
-  function toggleItem(field, id) {
-    return () => {
+  function toggleItem(field) {
+    return (id) => {
       let arr = character.info[field] || [];
       let i = arr.indexOf(id);
       if (i >= 0) {
@@ -90,6 +90,7 @@ const CharacterBuilder = () => {
       }
     }
   }, [character])
+
 
   return (
     <Builder>
@@ -280,37 +281,16 @@ const CharacterBuilder = () => {
                     }
                   </ul>
                   <Button onClick={ () => setWeaponOpen(true) }>Add Weapon</Button>
-                  <Dialog open={ weaponSelect } onClose={ () => setWeaponOpen(false) }>
-                    <DialogTitle>Select Weapons</DialogTitle>
-                    <DialogContent>
-                      <Row>
-                        <TextField placeholder="search" onChange={ e => setQuery(e.target.value) } />
-                      </Row>
-                      <Column>
-                        {
-                          query.length > 2
-                          && weapons.filter(w => w.name.toLowerCase().indexOf(query.toLowerCase()) >= 0)
-                            .map(w => (
-                              <FormControlLabel
-                                key={ "item-option-" + w.id }
-                                control={
-                                  <Checkbox
-                                    checked={ (character.info.weaponIDs && character.info.weaponIDs.indexOf(w.id) !== -1) || false }
-                                    onChange={ toggleItem("weaponIDs", w.id) }
-                                    color={ w.isHomebrew ? "secondary" : "primary" }
-                                  />
-                                }
-                                label={ w.name }
-                              />
-                            ))
-                        }
-                      </Column>
-                    </DialogContent>
-                    <DialogActions>
-                      <Button onClick={ () => setWeaponOpen(false) }>Done</Button>
-                    </DialogActions>
-                  </Dialog>
+                  <SelectDialogue
+                    title="Select Weapons"
+                    open={ weaponSelect }
+                    onClose={ () => setWeaponOpen(false) }
+                    arr={ weapons }
+                    selected={ character.info.weaponIDs || [] }
+                    onSelect={ toggleItem("weaponIDs") }
+                  />
                 </Column>
+                {/* ARMOR LIST */ }
               </Row>
             </Column>
           </ExpansionPanelDetails>
