@@ -2,7 +2,7 @@
 export function calculateModifier(x, z) {
   let y = Math.floor((x - 10) / 2);
   y = z ? y + z : y;
-  return y < 0 ? `${y}` : `+${y}`;
+  return y < 0 ? `${ y }` : `+${ y }`;
 }
 
 export function dexAttack(item) {
@@ -107,3 +107,26 @@ export const skillsArray = [
     check: 'wis',
   },
 ];
+
+export const advancement = [
+  { xp: 0, level: 1, points: 0 },
+  { xp: 300, level: 2, points: 0 },
+  { xp: 900, level: 3, points: 0 },
+  { xp: 2700, level: 4, points: 2 },
+  { xp: 6500, level: 5, points: 2 },
+  { xp: 14000, level: 6, points: 2 },
+  { xp: 23000, level: 7, points: 2 },
+  { xp: 34000, level: 8, points: 4 },
+  { xp: 48000, level: 9, points: 4 },
+  { xp: 64000, level: 10, points: 4 },
+  { xp: 85000, level: 11, points: 4 },
+  { xp: 100000, level: 12, points: 6 },
+  { xp: 120000, level: 13, points: 6 },
+  { xp: 140000, level: 14, points: 6 },
+  { xp: 165000, level: 15, points: 6 },
+  { xp: 195000, level: 16, points: 8 },
+  { xp: 225000, level: 17, points: 8 },
+  { xp: 265000, level: 18, points: 8 },
+  { xp: 305000, level: 19, points: 10 },
+  { xp: 355000, level: 20, points: 10 }
+]
