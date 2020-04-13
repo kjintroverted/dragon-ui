@@ -273,7 +273,7 @@ const CharacterBuilder = () => {
             <b>Item Select</b>
           </ExpansionPanelSummary>
           <ExpansionPanelDetails>
-            <Column>
+            <Column w="100%">
               { character.class &&
                 <Column>
                   <b>Class Equipment:</b>
@@ -290,7 +290,7 @@ const CharacterBuilder = () => {
                   </ul>
                 </Column>
               }
-              <Row>
+              <Row just="space-around">
                 {/* WEAPON LIST */ }
                 <Column>
                   <h3>Weapons</h3>

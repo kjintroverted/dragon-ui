@@ -30,12 +30,6 @@ export const Card = styled.div`
   margin: 0.313em;
 `;
 
-export const Column = styled.div`
-  position: relative;
-  display: flex;
-  flex-direction: column;
-`;
-
 export const ContentWithSideBar = styled.div`
   flex: 1;
   display: grid;
@@ -86,11 +80,19 @@ export const ProgressContainer = styled.div`
   margin: 25%;
 `;
 
+export const Column = styled.div`
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: ${props => props.w }
+`;
+
 export const Row = styled.div`
   display: flex;
   width: 100%;
   flex-wrap: wrap;
-  align-items: center;
+  align-items: ${props => props.align || 'center' };
+  justify-content: ${props => props.just };
 `;
 
 export const RowCenter = styled.div`
