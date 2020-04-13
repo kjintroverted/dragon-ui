@@ -74,6 +74,16 @@ const getWeapons = async () => {
   return result.json();
 };
 
+const getGear = async () => {
+  const result = await fetch(`${ serverDomain }/api/items?type=armor`);
+  return result.json();
+};
+
+const getItems = async () => {
+  const result = await fetch(`${ serverDomain }/api/items`);
+  return result.json();
+};
+
 const getSpells = async (slugs) => {
   const result = await fetch(`${ serverDomain }/api/spells?name=${ slugs.join() }`);
   return result.json();
@@ -104,6 +114,8 @@ export default {
   getClass,
   getRace,
   getWeapons,
+  getGear,
+  getItems,
   getSpells,
   getSpellsForLevel,
   getFeats,

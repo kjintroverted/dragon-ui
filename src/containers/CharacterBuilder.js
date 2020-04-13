@@ -18,6 +18,10 @@ const CharacterBuilder = () => {
   })
   const [weapons, setWeapons] = useState([])
   const [weaponSelect, setWeaponOpen] = useState(false);
+  const [gear, setGear] = useState([])
+  const [gearSelect, setGearOpen] = useState(false);
+  const [items, setItems] = useState([])
+  const [itemSelect, setItemOpen] = useState(false);
 
 
   function handleInfo(field, numeric) {
@@ -28,14 +32,22 @@ const CharacterBuilder = () => {
     }
   }
 
-  function toggleItem(field) {
+  function toggleItem(field, qty) {
     return (id) => {
       let arr = character.info[field] || [];
-      let i = arr.indexOf(id);
+      let i = -1;
+      let x = -1;
+      if (!qty) {
+        i = arr.indexOf(id);
+        x = id;
+      } else {
+        i = arr.findIndex(item => item.id === id);
+        x = { id, qty };
+      }
       if (i >= 0) {
         arr = [...arr.slice(0, i), ...arr.slice(i + 1)]
       } else {
-        arr = [...arr, id]
+        arr = [...arr, x]
       }
       let info = { ...character.info, [field]: arr }
       updateCharacter({ ...character, info })
@@ -77,6 +89,14 @@ const CharacterBuilder = () => {
     (async function loadWeapons() {
       let data = await dungeonService.getWeapons()
       setWeapons(data)
+    })();
+    (async function loadGear() {
+      let data = await dungeonService.getGear()
+      setGear(data)
+    })();
+    (async function loadItems() {
+      let data = await dungeonService.getItems()
+      setItems(data)
     })();
   }, [])
 
@@ -291,6 +311,43 @@ const CharacterBuilder = () => {
                   />
                 </Column>
                 {/* ARMOR LIST */ }
+                <Column>
+                  <h3>Gear</h3>
+                  <ul>
+                    {
+                      !character.info.equipmentIDs || !character.info.equipmentIDs.length ? "No gear equipped..."
+                        : character.info.equipmentIDs.map(id => <li key={ "item-" + id }>{ gear.find(w => w.id === id).name }</li>)
+                    }
+                  </ul>
+                  <Button onClick={ () => setGearOpen(true) }>Add Gear</Button>
+                  <SelectDialogue
+                    title="Select Gear"
+                    open={ gearSelect }
+                    onClose={ () => setGearOpen(false) }
+                    arr={ gear }
+                    selected={ character.info.equipmentIDs || [] }
+                    onSelect={ toggleItem("equipmentIDs") }
+                  />
+                </Column>
+                {/* INVENTORY */ }
+                <Column>
+                  <h3>Inventory</h3>
+                  <ul>
+                    {
+                      !character.info.inventory || !character.info.inventory.length ? "No gear equipped..."
+                        : character.info.inventory.map(({ id }) => <li key={ "item-" + id }>{ items.find(w => w.id === id).name }</li>)
+                    }
+                  </ul>
+                  <Button onClick={ () => setItemOpen(true) }>Add Items</Button>
+                  <SelectDialogue
+                    title="Inventory Select"
+                    open={ itemSelect }
+                    onClose={ () => setItemOpen(false) }
+                    arr={ items }
+                    selected={ character.info.inventory || [] }
+                    onSelect={ toggleItem("inventory", 1) }
+                  />
+                </Column>
               </Row>
             </Column>
           </ExpansionPanelDetails>

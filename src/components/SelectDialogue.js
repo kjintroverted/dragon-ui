@@ -22,7 +22,7 @@ const SelectDialogue = ({ title, arr, selected, onSelect, open, onClose }) => {
                   key={ "item-option-" + item.id }
                   control={
                     <Checkbox
-                      checked={ (selected.indexOf(item.id) !== -1) || false }
+                      checked={ (selected.findIndex(x => x === item.id || x.id === item.id) !== -1) || false }
                       onChange={ () => onSelect(item.id) }
                       color={ item.isHomebrew ? "secondary" : "primary" }
                     />
